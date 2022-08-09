@@ -31,38 +31,48 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_DOCUMENT_INPUT_STREAM		(pluma_document_input_stream_get_type ())
-#define PLUMA_DOCUMENT_INPUT_STREAM(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, PlumaDocumentInputStream))
-#define PLUMA_DOCUMENT_INPUT_STREAM_CONST(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, PlumaDocumentInputStream const))
-#define PLUMA_DOCUMENT_INPUT_STREAM_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, PlumaDocumentInputStreamClass))
-#define PLUMA_IS_DOCUMENT_INPUT_STREAM(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM))
-#define PLUMA_IS_DOCUMENT_INPUT_STREAM_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_DOCUMENT_INPUT_STREAM))
-#define PLUMA_DOCUMENT_INPUT_STREAM_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, PlumaDocumentInputStreamClass))
+#define PLUMA_TYPE_DOCUMENT_INPUT_STREAM \
+  (pluma_document_input_stream_get_type())
+#define PLUMA_DOCUMENT_INPUT_STREAM(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, \
+                              PlumaDocumentInputStream))
+#define PLUMA_DOCUMENT_INPUT_STREAM_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, \
+                              PlumaDocumentInputStream const))
+#define PLUMA_DOCUMENT_INPUT_STREAM_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, \
+                           PlumaDocumentInputStreamClass))
+#define PLUMA_IS_DOCUMENT_INPUT_STREAM(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM))
+#define PLUMA_IS_DOCUMENT_INPUT_STREAM_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_DOCUMENT_INPUT_STREAM))
+#define PLUMA_DOCUMENT_INPUT_STREAM_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_DOCUMENT_INPUT_STREAM, \
+                             PlumaDocumentInputStreamClass))
 
-typedef struct _PlumaDocumentInputStream	PlumaDocumentInputStream;
-typedef struct _PlumaDocumentInputStreamClass	PlumaDocumentInputStreamClass;
-typedef struct _PlumaDocumentInputStreamPrivate	PlumaDocumentInputStreamPrivate;
+typedef struct _PlumaDocumentInputStream PlumaDocumentInputStream;
+typedef struct _PlumaDocumentInputStreamClass PlumaDocumentInputStreamClass;
+typedef struct _PlumaDocumentInputStreamPrivate PlumaDocumentInputStreamPrivate;
 
-struct _PlumaDocumentInputStream
-{
-	GInputStream parent;
+struct _PlumaDocumentInputStream {
+  GInputStream parent;
 
-	PlumaDocumentInputStreamPrivate *priv;
+  PlumaDocumentInputStreamPrivate *priv;
 };
 
-struct _PlumaDocumentInputStreamClass
-{
-	GInputStreamClass parent_class;
+struct _PlumaDocumentInputStreamClass {
+  GInputStreamClass parent_class;
 };
 
-GType				 pluma_document_input_stream_get_type		(void) G_GNUC_CONST;
+GType pluma_document_input_stream_get_type(void) G_GNUC_CONST;
 
-GInputStream			*pluma_document_input_stream_new		(GtkTextBuffer           *buffer,
-										 PlumaDocumentNewlineType type);
+GInputStream *pluma_document_input_stream_new(GtkTextBuffer *buffer,
+                                              PlumaDocumentNewlineType type);
 
-gsize				 pluma_document_input_stream_get_total_size	(PlumaDocumentInputStream *stream);
+gsize pluma_document_input_stream_get_total_size(
+    PlumaDocumentInputStream *stream);
 
-gsize				 pluma_document_input_stream_tell		(PlumaDocumentInputStream *stream);
+gsize pluma_document_input_stream_tell(PlumaDocumentInputStream *stream);
 
 G_END_DECLS
 

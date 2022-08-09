@@ -30,61 +30,52 @@
  * $Id$
  */
 
-#include <string.h>
-#include <gtk/gtk.h>
 #include "pluma-language-manager.h"
-#include "pluma-utils.h"
+
+#include <gtk/gtk.h>
+#include <string.h>
+
 #include "pluma-debug.h"
+#include "pluma-utils.h"
 
 static GtkSourceLanguageManager *language_manager = NULL;
 
-GtkSourceLanguageManager *
-pluma_get_language_manager (void)
-{
-	if (language_manager == NULL)
-	{
-		language_manager = gtk_source_language_manager_new ();
-	}
+GtkSourceLanguageManager *pluma_get_language_manager(void) {
+  if (language_manager == NULL) {
+    language_manager = gtk_source_language_manager_new();
+  }
 
-	return language_manager;
+  return language_manager;
 }
 
-static gint
-language_compare (gconstpointer a, gconstpointer b)
-{
-	GtkSourceLanguage *lang_a = (GtkSourceLanguage *)a;
-	GtkSourceLanguage *lang_b = (GtkSourceLanguage *)b;
-	const gchar *name_a = gtk_source_language_get_name (lang_a);
-	const gchar *name_b = gtk_source_language_get_name (lang_b);
+static gint language_compare(gconstpointer a, gconstpointer b) {
+  GtkSourceLanguage *lang_a = (GtkSourceLanguage *)a;
+  GtkSourceLanguage *lang_b = (GtkSourceLanguage *)b;
+  const gchar *name_a = gtk_source_language_get_name(lang_a);
+  const gchar *name_b = gtk_source_language_get_name(lang_b);
 
-	return g_utf8_collate (name_a, name_b);
+  return g_utf8_collate(name_a, name_b);
 }
 
-GSList *
-pluma_language_manager_list_languages_sorted (GtkSourceLanguageManager *lm,
-					      gboolean                  include_hidden)
-{
-	GSList *languages = NULL;
-	const gchar * const *ids;
+GSList *pluma_language_manager_list_languages_sorted(
+    GtkSourceLanguageManager *lm, gboolean include_hidden) {
+  GSList *languages = NULL;
+  const gchar *const *ids;
 
-	ids = gtk_source_language_manager_get_language_ids (lm);
-	if (ids == NULL)
-		return NULL;
+  ids = gtk_source_language_manager_get_language_ids(lm);
+  if (ids == NULL) return NULL;
 
-	while (*ids != NULL)
-	{
-		GtkSourceLanguage *lang;
+  while (*ids != NULL) {
+    GtkSourceLanguage *lang;
 
-		lang = gtk_source_language_manager_get_language (lm, *ids);
-		g_return_val_if_fail (GTK_SOURCE_IS_LANGUAGE (lang), NULL);
-		++ids;
+    lang = gtk_source_language_manager_get_language(lm, *ids);
+    g_return_val_if_fail(GTK_SOURCE_IS_LANGUAGE(lang), NULL);
+    ++ids;
 
-		if (include_hidden || !gtk_source_language_get_hidden (lang))
-		{
-			languages = g_slist_prepend (languages, lang);
-		}
-	}
+    if (include_hidden || !gtk_source_language_get_hidden(lang)) {
+      languages = g_slist_prepend(languages, lang);
+    }
+  }
 
-	return g_slist_sort (languages, (GCompareFunc)language_compare);
+  return g_slist_sort(languages, (GCompareFunc)language_compare);
 }
-

@@ -38,51 +38,44 @@
 #include <gtk/gtk.h>
 
 #include "pluma-commands.h"
-#include "pluma-window.h"
-#include "pluma-notebook.h"
 #include "pluma-debug.h"
+#include "pluma-notebook.h"
+#include "pluma-window.h"
 
-void
-_pluma_cmd_documents_previous_document (GtkAction   *action,
-				       PlumaWindow *window)
-{
-	GtkNotebook *notebook;
+void _pluma_cmd_documents_previous_document(GtkAction *action,
+                                            PlumaWindow *window) {
+  GtkNotebook *notebook;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	notebook = GTK_NOTEBOOK (_pluma_window_get_notebook (window));
-	gtk_notebook_prev_page (notebook);
+  notebook = GTK_NOTEBOOK(_pluma_window_get_notebook(window));
+  gtk_notebook_prev_page(notebook);
 }
 
-void
-_pluma_cmd_documents_next_document (GtkAction   *action,
-				   PlumaWindow *window)
-{
-	GtkNotebook *notebook;
+void _pluma_cmd_documents_next_document(GtkAction *action,
+                                        PlumaWindow *window) {
+  GtkNotebook *notebook;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	notebook = GTK_NOTEBOOK (_pluma_window_get_notebook (window));
-	gtk_notebook_next_page (notebook);
+  notebook = GTK_NOTEBOOK(_pluma_window_get_notebook(window));
+  gtk_notebook_next_page(notebook);
 }
 
-void
-_pluma_cmd_documents_move_to_new_window (GtkAction   *action,
-					PlumaWindow *window)
-{
-	PlumaNotebook *old_notebook;
-	PlumaTab *tab;
+void _pluma_cmd_documents_move_to_new_window(GtkAction *action,
+                                             PlumaWindow *window) {
+  PlumaNotebook *old_notebook;
+  PlumaTab *tab;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	tab = pluma_window_get_active_tab (window);
+  tab = pluma_window_get_active_tab(window);
 
-	if (tab == NULL)
-		return;
+  if (tab == NULL) return;
 
-	old_notebook = PLUMA_NOTEBOOK (_pluma_window_get_notebook (window));
+  old_notebook = PLUMA_NOTEBOOK(_pluma_window_get_notebook(window));
 
-	g_return_if_fail (gtk_notebook_get_n_pages (GTK_NOTEBOOK (old_notebook)) > 1);
+  g_return_if_fail(gtk_notebook_get_n_pages(GTK_NOTEBOOK(old_notebook)) > 1);
 
-	_pluma_window_move_tab_to_new_window (window, tab);
+  _pluma_window_move_tab_to_new_window(window, tab);
 }

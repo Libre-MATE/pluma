@@ -39,9 +39,9 @@
 
 G_BEGIN_DECLS
 
-void		pluma_session_init 		(void);
-gboolean	pluma_session_is_restored 	(void);
-gboolean 	pluma_session_load 		(void);
+void pluma_session_init(void);
+gboolean pluma_session_is_restored(void);
+gboolean pluma_session_load(void);
 
 G_END_DECLS
 

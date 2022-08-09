@@ -21,7 +21,8 @@
 
 G_BEGIN_DECLS
 
-gchar *pluma_pango_font_description_to_css (const PangoFontDescription *font_desc);
+gchar *pluma_pango_font_description_to_css(
+    const PangoFontDescription *font_desc);
 
 G_END_DECLS
 

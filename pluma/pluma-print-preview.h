@@ -28,7 +28,6 @@
  * $Id: pluma-commands-search.c 5931 2007-09-25 20:05:40Z pborelli $
  */
 
-
 #ifndef __PLUMA_PRINT_PREVIEW_H__
 #define __PLUMA_PRINT_PREVIEW_H__
 
@@ -36,37 +35,42 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_PRINT_PREVIEW            (pluma_print_preview_get_type ())
-#define PLUMA_PRINT_PREVIEW(object)         (G_TYPE_CHECK_INSTANCE_CAST ((object), PLUMA_TYPE_PRINT_PREVIEW, PlumaPrintPreview))
-#define PLUMA_PRINT_PREVIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_PRINT_PREVIEW, PlumaPrintPreviewClass))
-#define PLUMA_IS_PRINT_PREVIEW(object)      (G_TYPE_CHECK_INSTANCE_TYPE ((object), PLUMA_TYPE_PRINT_PREVIEW))
-#define PLUMA_IS_PRINT_PREVIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PRINT_PREVIEW))
-#define PLUMA_PRINT_PREVIEW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_PRINT_PREVIEW, PlumaPrintPreviewClass))
+#define PLUMA_TYPE_PRINT_PREVIEW (pluma_print_preview_get_type())
+#define PLUMA_PRINT_PREVIEW(object)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((object), PLUMA_TYPE_PRINT_PREVIEW, \
+                              PlumaPrintPreview))
+#define PLUMA_PRINT_PREVIEW_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PRINT_PREVIEW, \
+                           PlumaPrintPreviewClass))
+#define PLUMA_IS_PRINT_PREVIEW(object) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((object), PLUMA_TYPE_PRINT_PREVIEW))
+#define PLUMA_IS_PRINT_PREVIEW_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PRINT_PREVIEW))
+#define PLUMA_PRINT_PREVIEW_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PRINT_PREVIEW, \
+                             PlumaPrintPreviewClass))
 
-typedef struct _PlumaPrintPreview        PlumaPrintPreview;
+typedef struct _PlumaPrintPreview PlumaPrintPreview;
 typedef struct _PlumaPrintPreviewPrivate PlumaPrintPreviewPrivate;
-typedef struct _PlumaPrintPreviewClass   PlumaPrintPreviewClass;
+typedef struct _PlumaPrintPreviewClass PlumaPrintPreviewClass;
 
-struct _PlumaPrintPreview
-{
-	GtkBox parent;
+struct _PlumaPrintPreview {
+  GtkBox parent;
 
-	PlumaPrintPreviewPrivate *priv;
+  PlumaPrintPreviewPrivate *priv;
 };
 
-struct _PlumaPrintPreviewClass
-{
-	GtkBoxClass parent_class;
+struct _PlumaPrintPreviewClass {
+  GtkBoxClass parent_class;
 
-	void (* close)		(PlumaPrintPreview          *preview);
+  void (*close)(PlumaPrintPreview *preview);
 };
 
+GType pluma_print_preview_get_type(void) G_GNUC_CONST;
 
-GType		 pluma_print_preview_get_type	(void) G_GNUC_CONST;
-
-GtkWidget	*pluma_print_preview_new	(GtkPrintOperation		*op,
-						 GtkPrintOperationPreview	*gtk_preview,
-						 GtkPrintContext		*context);
+GtkWidget *pluma_print_preview_new(GtkPrintOperation *op,
+                                   GtkPrintOperationPreview *gtk_preview,
+                                   GtkPrintContext *context);
 
 G_END_DECLS
 

@@ -26,60 +26,65 @@
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
-#define PLUMA_TYPE_FILE_BROWSER_VIEW			(pluma_file_browser_view_get_type ())
-#define PLUMA_FILE_BROWSER_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, PlumaFileBrowserView))
-#define PLUMA_FILE_BROWSER_VIEW_CONST(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, PlumaFileBrowserView const))
-#define PLUMA_FILE_BROWSER_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_FILE_BROWSER_VIEW, PlumaFileBrowserViewClass))
-#define PLUMA_IS_FILE_BROWSER_VIEW(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_FILE_BROWSER_VIEW))
-#define PLUMA_IS_FILE_BROWSER_VIEW_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_FILE_BROWSER_VIEW))
-#define PLUMA_FILE_BROWSER_VIEW_GET_CLASS(obj)		(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, PlumaFileBrowserViewClass))
+#define PLUMA_TYPE_FILE_BROWSER_VIEW (pluma_file_browser_view_get_type())
+#define PLUMA_FILE_BROWSER_VIEW(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, \
+                              PlumaFileBrowserView))
+#define PLUMA_FILE_BROWSER_VIEW_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, \
+                              PlumaFileBrowserView const))
+#define PLUMA_FILE_BROWSER_VIEW_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_FILE_BROWSER_VIEW, \
+                           PlumaFileBrowserViewClass))
+#define PLUMA_IS_FILE_BROWSER_VIEW(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_FILE_BROWSER_VIEW))
+#define PLUMA_IS_FILE_BROWSER_VIEW_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_FILE_BROWSER_VIEW))
+#define PLUMA_FILE_BROWSER_VIEW_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_FILE_BROWSER_VIEW, \
+                             PlumaFileBrowserViewClass))
 
-typedef struct _PlumaFileBrowserView        PlumaFileBrowserView;
-typedef struct _PlumaFileBrowserViewClass   PlumaFileBrowserViewClass;
+typedef struct _PlumaFileBrowserView PlumaFileBrowserView;
+typedef struct _PlumaFileBrowserViewClass PlumaFileBrowserViewClass;
 typedef struct _PlumaFileBrowserViewPrivate PlumaFileBrowserViewPrivate;
 
 typedef enum {
-	PLUMA_FILE_BROWSER_VIEW_CLICK_POLICY_DOUBLE,
-	PLUMA_FILE_BROWSER_VIEW_CLICK_POLICY_SINGLE
+  PLUMA_FILE_BROWSER_VIEW_CLICK_POLICY_DOUBLE,
+  PLUMA_FILE_BROWSER_VIEW_CLICK_POLICY_SINGLE
 } PlumaFileBrowserViewClickPolicy;
 
-struct _PlumaFileBrowserView
-{
-	GtkTreeView parent;
+struct _PlumaFileBrowserView {
+  GtkTreeView parent;
 
-	PlumaFileBrowserViewPrivate *priv;
+  PlumaFileBrowserViewPrivate *priv;
 };
 
-struct _PlumaFileBrowserViewClass
-{
-	GtkTreeViewClass parent_class;
+struct _PlumaFileBrowserViewClass {
+  GtkTreeViewClass parent_class;
 
-	/* Signals */
-	void (*error) (PlumaFileBrowserView * filetree,
-	               guint code,
-		       gchar const *message);
-	void (*file_activated) (PlumaFileBrowserView * filetree,
-				    GtkTreeIter *iter);
-	void (*directory_activated) (PlumaFileBrowserView * filetree,
-				    GtkTreeIter *iter);
-	void (*bookmark_activated) (PlumaFileBrowserView * filetree,
-				    GtkTreeIter *iter);
+  /* Signals */
+  void (*error)(PlumaFileBrowserView *filetree, guint code,
+                gchar const *message);
+  void (*file_activated)(PlumaFileBrowserView *filetree, GtkTreeIter *iter);
+  void (*directory_activated)(PlumaFileBrowserView *filetree,
+                              GtkTreeIter *iter);
+  void (*bookmark_activated)(PlumaFileBrowserView *filetree, GtkTreeIter *iter);
 };
 
-GType pluma_file_browser_view_get_type			(void) G_GNUC_CONST;
-void _pluma_file_browser_view_register_type		(GTypeModule 			* module);
+GType pluma_file_browser_view_get_type(void) G_GNUC_CONST;
+void _pluma_file_browser_view_register_type(GTypeModule *module);
 
-GtkWidget *pluma_file_browser_view_new			(void);
-void pluma_file_browser_view_set_model			(PlumaFileBrowserView 		* tree_view,
-							 GtkTreeModel 			* model);
-void pluma_file_browser_view_start_rename		(PlumaFileBrowserView 		* tree_view,
-							 GtkTreeIter 			* iter);
-void pluma_file_browser_view_set_click_policy		(PlumaFileBrowserView 		* tree_view,
-							 PlumaFileBrowserViewClickPolicy  policy);
-void pluma_file_browser_view_set_restore_expand_state	(PlumaFileBrowserView 		* tree_view,
-							 gboolean 			  restore_expand_state);
+GtkWidget *pluma_file_browser_view_new(void);
+void pluma_file_browser_view_set_model(PlumaFileBrowserView *tree_view,
+                                       GtkTreeModel *model);
+void pluma_file_browser_view_start_rename(PlumaFileBrowserView *tree_view,
+                                          GtkTreeIter *iter);
+void pluma_file_browser_view_set_click_policy(
+    PlumaFileBrowserView *tree_view, PlumaFileBrowserViewClickPolicy policy);
+void pluma_file_browser_view_set_restore_expand_state(
+    PlumaFileBrowserView *tree_view, gboolean restore_expand_state);
 
 G_END_DECLS
-#endif				/* __PLUMA_FILE_BROWSER_VIEW_H__ */
+#endif /* __PLUMA_FILE_BROWSER_VIEW_H__ */
 
 // ex:ts=8:noet:

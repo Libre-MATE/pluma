@@ -29,38 +29,44 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_TAB_LABEL		(pluma_tab_label_get_type ())
-#define PLUMA_TAB_LABEL(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabel))
-#define PLUMA_TAB_LABEL_CONST(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabel const))
-#define PLUMA_TAB_LABEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_TAB_LABEL, PlumaTabLabelClass))
-#define PLUMA_IS_TAB_LABEL(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_TAB_LABEL))
-#define PLUMA_IS_TAB_LABEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_TAB_LABEL))
-#define PLUMA_TAB_LABEL_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabelClass))
+#define PLUMA_TYPE_TAB_LABEL (pluma_tab_label_get_type())
+#define PLUMA_TAB_LABEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabel))
+#define PLUMA_TAB_LABEL_CONST(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabel const))
+#define PLUMA_TAB_LABEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_TAB_LABEL, PlumaTabLabelClass))
+#define PLUMA_IS_TAB_LABEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_TAB_LABEL))
+#define PLUMA_IS_TAB_LABEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_TAB_LABEL))
+#define PLUMA_TAB_LABEL_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_TAB_LABEL, PlumaTabLabelClass))
 
-typedef struct _PlumaTabLabel		PlumaTabLabel;
-typedef struct _PlumaTabLabelClass	PlumaTabLabelClass;
-typedef struct _PlumaTabLabelPrivate	PlumaTabLabelPrivate;
+typedef struct _PlumaTabLabel PlumaTabLabel;
+typedef struct _PlumaTabLabelClass PlumaTabLabelClass;
+typedef struct _PlumaTabLabelPrivate PlumaTabLabelPrivate;
 
 struct _PlumaTabLabel {
-	GtkBox parent;
+  GtkBox parent;
 
-	PlumaTabLabelPrivate *priv;
+  PlumaTabLabelPrivate *priv;
 };
 
 struct _PlumaTabLabelClass {
-	GtkBoxClass parent_class;
+  GtkBoxClass parent_class;
 
-	void (* close_clicked)  (PlumaTabLabel *tab_label);
+  void (*close_clicked)(PlumaTabLabel *tab_label);
 };
 
-GType		 pluma_tab_label_get_type (void) G_GNUC_CONST;
+GType pluma_tab_label_get_type(void) G_GNUC_CONST;
 
-GtkWidget 	*pluma_tab_label_new (PlumaTab *tab);
+GtkWidget *pluma_tab_label_new(PlumaTab *tab);
 
-PlumaTab	*pluma_tab_label_get_tab (PlumaTabLabel *tab_label);
+PlumaTab *pluma_tab_label_get_tab(PlumaTabLabel *tab_label);
 
-void		pluma_tab_label_set_close_button_sensitive (PlumaTabLabel *tab_label,
-							    gboolean       sensitive);
+void pluma_tab_label_set_close_button_sensitive(PlumaTabLabel *tab_label,
+                                                gboolean sensitive);
 
 G_END_DECLS
 

@@ -33,7 +33,6 @@
 #define __PLUMA_DOCUMENTS_PANEL_H__
 
 #include <gtk/gtk.h>
-
 #include <pluma/pluma-window.h>
 
 G_BEGIN_DECLS
@@ -41,12 +40,20 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_DOCUMENTS_PANEL              (pluma_documents_panel_get_type())
-#define PLUMA_DOCUMENTS_PANEL(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENTS_PANEL, PlumaDocumentsPanel))
-#define PLUMA_DOCUMENTS_PANEL_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_DOCUMENTS_PANEL, PlumaDocumentsPanelClass))
-#define PLUMA_IS_DOCUMENTS_PANEL(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_DOCUMENTS_PANEL))
-#define PLUMA_IS_DOCUMENTS_PANEL_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_DOCUMENTS_PANEL))
-#define PLUMA_DOCUMENTS_PANEL_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_DOCUMENTS_PANEL, PlumaDocumentsPanelClass))
+#define PLUMA_TYPE_DOCUMENTS_PANEL (pluma_documents_panel_get_type())
+#define PLUMA_DOCUMENTS_PANEL(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENTS_PANEL, \
+                              PlumaDocumentsPanel))
+#define PLUMA_DOCUMENTS_PANEL_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_DOCUMENTS_PANEL, \
+                           PlumaDocumentsPanelClass))
+#define PLUMA_IS_DOCUMENTS_PANEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_DOCUMENTS_PANEL))
+#define PLUMA_IS_DOCUMENTS_PANEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_DOCUMENTS_PANEL))
+#define PLUMA_DOCUMENTS_PANEL_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_DOCUMENTS_PANEL, \
+                             PlumaDocumentsPanelClass))
 
 /* Private structure type */
 typedef struct _PlumaDocumentsPanelPrivate PlumaDocumentsPanelPrivate;
@@ -56,12 +63,11 @@ typedef struct _PlumaDocumentsPanelPrivate PlumaDocumentsPanelPrivate;
  */
 typedef struct _PlumaDocumentsPanel PlumaDocumentsPanel;
 
-struct _PlumaDocumentsPanel
-{
-	GtkBox vbox;
+struct _PlumaDocumentsPanel {
+  GtkBox vbox;
 
-	/*< private > */
-	PlumaDocumentsPanelPrivate *priv;
+  /*< private > */
+  PlumaDocumentsPanelPrivate *priv;
 };
 
 /*
@@ -69,18 +75,17 @@ struct _PlumaDocumentsPanel
  */
 typedef struct _PlumaDocumentsPanelClass PlumaDocumentsPanelClass;
 
-struct _PlumaDocumentsPanelClass
-{
-	GtkBoxClass parent_class;
+struct _PlumaDocumentsPanelClass {
+  GtkBoxClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType 		 pluma_documents_panel_get_type	(void) G_GNUC_CONST;
+GType pluma_documents_panel_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_documents_panel_new 	(PlumaWindow *window);
+GtkWidget *pluma_documents_panel_new(PlumaWindow *window);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_DOCUMENTS_PANEL_H__  */
+#endif /* __PLUMA_DOCUMENTS_PANEL_H__  */

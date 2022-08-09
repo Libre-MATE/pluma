@@ -33,57 +33,60 @@
 #define __PLUMA_FILE_CHOOSER_DIALOG_H__
 
 #include <gtk/gtk.h>
-
+#include <pluma/pluma-document.h>
 #include <pluma/pluma-encodings.h>
 #include <pluma/pluma-enum-types.h>
-#include <pluma/pluma-document.h>
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_FILE_CHOOSER_DIALOG             (pluma_file_chooser_dialog_get_type ())
-#define PLUMA_FILE_CHOOSER_DIALOG(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG, PlumaFileChooserDialog))
-#define PLUMA_FILE_CHOOSER_DIALOG_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_FILE_CHOOSER_DIALOG, PlumaFileChooserDialogClass))
-#define PLUMA_IS_FILE_CHOOSER_DIALOG(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG))
-#define PLUMA_IS_FILE_CHOOSER_DIALOG_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_FILE_CHOOSER_DIALOG))
-#define PLUMA_FILE_CHOOSER_DIALOG_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG, PlumaFileChooserDialogClass))
+#define PLUMA_TYPE_FILE_CHOOSER_DIALOG (pluma_file_chooser_dialog_get_type())
+#define PLUMA_FILE_CHOOSER_DIALOG(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG, \
+                              PlumaFileChooserDialog))
+#define PLUMA_FILE_CHOOSER_DIALOG_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_FILE_CHOOSER_DIALOG, \
+                           PlumaFileChooserDialogClass))
+#define PLUMA_IS_FILE_CHOOSER_DIALOG(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG))
+#define PLUMA_IS_FILE_CHOOSER_DIALOG_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_FILE_CHOOSER_DIALOG))
+#define PLUMA_FILE_CHOOSER_DIALOG_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_FILE_CHOOSER_DIALOG, \
+                             PlumaFileChooserDialogClass))
 
-typedef struct _PlumaFileChooserDialog      PlumaFileChooserDialog;
+typedef struct _PlumaFileChooserDialog PlumaFileChooserDialog;
 typedef struct _PlumaFileChooserDialogClass PlumaFileChooserDialogClass;
 
 typedef struct _PlumaFileChooserDialogPrivate PlumaFileChooserDialogPrivate;
 
-struct _PlumaFileChooserDialogClass
-{
-	GtkFileChooserDialogClass parent_class;
+struct _PlumaFileChooserDialogClass {
+  GtkFileChooserDialogClass parent_class;
 };
 
-struct _PlumaFileChooserDialog
-{
-	GtkFileChooserDialog parent_instance;
+struct _PlumaFileChooserDialog {
+  GtkFileChooserDialog parent_instance;
 
-	PlumaFileChooserDialogPrivate *priv;
+  PlumaFileChooserDialogPrivate *priv;
 };
 
-GType		 pluma_file_chooser_dialog_get_type	(void) G_GNUC_CONST;
+GType pluma_file_chooser_dialog_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_file_chooser_dialog_new		(const gchar            *title,
-							 GtkWindow              *parent,
-							 GtkFileChooserAction    action,
-							 const PlumaEncoding    *encoding,
-							 const gchar            *first_button_text,
-							 ...);
+GtkWidget *pluma_file_chooser_dialog_new(const gchar *title, GtkWindow *parent,
+                                         GtkFileChooserAction action,
+                                         const PlumaEncoding *encoding,
+                                         const gchar *first_button_text, ...);
 
-void		 pluma_file_chooser_dialog_set_encoding (PlumaFileChooserDialog *dialog,
-							 const PlumaEncoding    *encoding);
+void pluma_file_chooser_dialog_set_encoding(PlumaFileChooserDialog *dialog,
+                                            const PlumaEncoding *encoding);
 
-const PlumaEncoding
-		*pluma_file_chooser_dialog_get_encoding (PlumaFileChooserDialog *dialog);
+const PlumaEncoding *pluma_file_chooser_dialog_get_encoding(
+    PlumaFileChooserDialog *dialog);
 
-void		 pluma_file_chooser_dialog_set_newline_type (PlumaFileChooserDialog  *dialog,
-							     PlumaDocumentNewlineType newline_type);
+void pluma_file_chooser_dialog_set_newline_type(
+    PlumaFileChooserDialog *dialog, PlumaDocumentNewlineType newline_type);
 
-PlumaDocumentNewlineType
-		 pluma_file_chooser_dialog_get_newline_type (PlumaFileChooserDialog *dialog);
+PlumaDocumentNewlineType pluma_file_chooser_dialog_get_newline_type(
+    PlumaFileChooserDialog *dialog);
 
 G_END_DECLS
 

@@ -35,16 +35,12 @@
 
 G_BEGIN_DECLS
 
-
 /* This function must be called before exiting pluma */
-void		 pluma_metadata_manager_shutdown 	(void);
+void pluma_metadata_manager_shutdown(void);
 
-
-gchar		*pluma_metadata_manager_get 		(const gchar *uri,
-					     		 const gchar *key);
-void		 pluma_metadata_manager_set		(const gchar *uri,
-							 const gchar *key,
-							 const gchar *value);
+gchar *pluma_metadata_manager_get(const gchar *uri, const gchar *key);
+void pluma_metadata_manager_set(const gchar *uri, const gchar *key,
+                                const gchar *value);
 
 G_END_DECLS
 

@@ -40,14 +40,23 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_PREFERENCES_DIALOG              (pluma_preferences_dialog_get_type())
-#define PLUMA_PREFERENCES_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PREFERENCES_DIALOG, PlumaPreferencesDialog))
-#define PLUMA_PREFERENCES_DIALOG_CONST(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PREFERENCES_DIALOG, PlumaPreferencesDialog const))
-#define PLUMA_PREFERENCES_DIALOG_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PREFERENCES_DIALOG, PlumaPreferencesDialogClass))
-#define PLUMA_IS_PREFERENCES_DIALOG(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PREFERENCES_DIALOG))
-#define PLUMA_IS_PREFERENCES_DIALOG_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PREFERENCES_DIALOG))
-#define PLUMA_PREFERENCES_DIALOG_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PREFERENCES_DIALOG, PlumaPreferencesDialogClass))
-
+#define PLUMA_TYPE_PREFERENCES_DIALOG (pluma_preferences_dialog_get_type())
+#define PLUMA_PREFERENCES_DIALOG(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PREFERENCES_DIALOG, \
+                              PlumaPreferencesDialog))
+#define PLUMA_PREFERENCES_DIALOG_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PREFERENCES_DIALOG, \
+                              PlumaPreferencesDialog const))
+#define PLUMA_PREFERENCES_DIALOG_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PREFERENCES_DIALOG, \
+                           PlumaPreferencesDialogClass))
+#define PLUMA_IS_PREFERENCES_DIALOG(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PREFERENCES_DIALOG))
+#define PLUMA_IS_PREFERENCES_DIALOG_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PREFERENCES_DIALOG))
+#define PLUMA_PREFERENCES_DIALOG_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PREFERENCES_DIALOG, \
+                             PlumaPreferencesDialogClass))
 
 /* Private structure type */
 typedef struct _PlumaPreferencesDialogPrivate PlumaPreferencesDialogPrivate;
@@ -57,12 +66,11 @@ typedef struct _PlumaPreferencesDialogPrivate PlumaPreferencesDialogPrivate;
  */
 typedef struct _PlumaPreferencesDialog PlumaPreferencesDialog;
 
-struct _PlumaPreferencesDialog
-{
-	GtkDialog dialog;
+struct _PlumaPreferencesDialog {
+  GtkDialog dialog;
 
-	/*< private > */
-	PlumaPreferencesDialogPrivate *priv;
+  /*< private > */
+  PlumaPreferencesDialogPrivate *priv;
 };
 
 /*
@@ -70,19 +78,17 @@ struct _PlumaPreferencesDialog
  */
 typedef struct _PlumaPreferencesDialogClass PlumaPreferencesDialogClass;
 
-struct _PlumaPreferencesDialogClass
-{
-	GtkDialogClass parent_class;
+struct _PlumaPreferencesDialogClass {
+  GtkDialogClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType		 pluma_preferences_dialog_get_type	(void) G_GNUC_CONST;
+GType pluma_preferences_dialog_get_type(void) G_GNUC_CONST;
 
-void		 pluma_show_preferences_dialog		(PlumaWindow *parent);
+void pluma_show_preferences_dialog(PlumaWindow *parent);
 
 G_END_DECLS
 
 #endif /* __PLUMA_PREFERENCES_DIALOG_H__ */
-

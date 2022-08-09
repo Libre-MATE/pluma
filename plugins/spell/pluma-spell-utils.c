@@ -21,75 +21,65 @@
  * Boston, MA  02110-1301  USA
  */
 
+#include "pluma-spell-utils.h"
+
+#include <gtksourceview/gtksource.h>
 #include <string.h>
 
-#include "pluma-spell-utils.h"
-#include <gtksourceview/gtksource.h>
+gboolean pluma_spell_utils_is_digit(const char *text, gssize length) {
+  gunichar c;
+  const gchar *p;
+  const gchar *end;
 
-gboolean
-pluma_spell_utils_is_digit (const char *text, gssize length)
-{
-	gunichar c;
-	const gchar *p;
-	const gchar *end;
+  g_return_val_if_fail(text != NULL, FALSE);
 
-	g_return_val_if_fail (text != NULL, FALSE);
+  if (length < 0) length = strlen(text);
 
-	if (length < 0)
-		length = strlen (text);
+  p = text;
+  end = text + length;
 
-	p = text;
-	end = text + length;
+  while (p != end) {
+    const gchar *next;
+    next = g_utf8_next_char(p);
 
-	while (p != end) {
-		const gchar *next;
-		next = g_utf8_next_char (p);
+    c = g_utf8_get_char(p);
 
-		c = g_utf8_get_char (p);
+    if (!g_unichar_isdigit(c) && c != '.' && c != ',') return FALSE;
 
-		if (!g_unichar_isdigit (c) && c != '.' && c != ',')
-			return FALSE;
+    p = next;
+  }
 
-		p = next;
-	}
-
-	return TRUE;
+  return TRUE;
 }
 
-gboolean
-pluma_spell_utils_skip_no_spell_check (GtkTextIter *start,
-                                       GtkTextIter *end)
-{
-	GtkSourceBuffer *buffer = GTK_SOURCE_BUFFER (gtk_text_iter_get_buffer (start));
+gboolean pluma_spell_utils_skip_no_spell_check(GtkTextIter *start,
+                                               GtkTextIter *end) {
+  GtkSourceBuffer *buffer = GTK_SOURCE_BUFFER(gtk_text_iter_get_buffer(start));
 
-	while (gtk_source_buffer_iter_has_context_class (buffer, start, "no-spell-check"))
-	{
-		GtkTextIter last = *start;
+  while (gtk_source_buffer_iter_has_context_class(buffer, start,
+                                                  "no-spell-check")) {
+    GtkTextIter last = *start;
 
-		if (!gtk_source_buffer_iter_forward_to_context_class_toggle (buffer, start, "no-spell-check"))
-		{
-			return FALSE;
-		}
+    if (!gtk_source_buffer_iter_forward_to_context_class_toggle(
+            buffer, start, "no-spell-check")) {
+      return FALSE;
+    }
 
-		if (gtk_text_iter_compare (start, &last) <= 0)
-		{
-			return FALSE;
-		}
+    if (gtk_text_iter_compare(start, &last) <= 0) {
+      return FALSE;
+    }
 
-		gtk_text_iter_forward_word_end (start);
-		gtk_text_iter_backward_word_start (start);
+    gtk_text_iter_forward_word_end(start);
+    gtk_text_iter_backward_word_start(start);
 
-		if (gtk_text_iter_compare (start, &last) <= 0)
-		{
-			return FALSE;
-		}
+    if (gtk_text_iter_compare(start, &last) <= 0) {
+      return FALSE;
+    }
 
-		if (gtk_text_iter_compare (start, end) >= 0)
-		{
-			return FALSE;
-		}
-	}
+    if (gtk_text_iter_compare(start, end) >= 0) {
+      return FALSE;
+    }
+  }
 
-	return TRUE;
+  return TRUE;
 }
-

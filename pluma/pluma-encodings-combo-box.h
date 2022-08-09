@@ -38,42 +38,46 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_ENCODINGS_COMBO_BOX             (pluma_encodings_combo_box_get_type ())
-#define PLUMA_ENCODINGS_COMBO_BOX(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX, PlumaEncodingsComboBox))
-#define PLUMA_ENCODINGS_COMBO_BOX_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_ENCODINGS_COMBO_BOX, PlumaEncodingsComboBoxClass))
-#define PLUMA_IS_ENCODINGS_COMBO_BOX(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX))
-#define PLUMA_IS_ENCODINGS_COMBO_BOX_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_ENCODINGS_COMBO_BOX))
-#define PLUMA_ENCODINGS_COMBO_BOX_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX, PlumaEncodingsComboBoxClass))
+#define PLUMA_TYPE_ENCODINGS_COMBO_BOX (pluma_encodings_combo_box_get_type())
+#define PLUMA_ENCODINGS_COMBO_BOX(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX, \
+                              PlumaEncodingsComboBox))
+#define PLUMA_ENCODINGS_COMBO_BOX_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_ENCODINGS_COMBO_BOX, \
+                           PlumaEncodingsComboBoxClass))
+#define PLUMA_IS_ENCODINGS_COMBO_BOX(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX))
+#define PLUMA_IS_ENCODINGS_COMBO_BOX_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_ENCODINGS_COMBO_BOX))
+#define PLUMA_ENCODINGS_COMBO_BOX_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_ENCODINGS_COMBO_BOX, \
+                             PlumaEncodingsComboBoxClass))
 
+typedef struct _PlumaEncodingsComboBox PlumaEncodingsComboBox;
+typedef struct _PlumaEncodingsComboBoxClass PlumaEncodingsComboBoxClass;
 
-typedef struct _PlumaEncodingsComboBox 	PlumaEncodingsComboBox;
-typedef struct _PlumaEncodingsComboBoxClass 	PlumaEncodingsComboBoxClass;
+typedef struct _PlumaEncodingsComboBoxPrivate PlumaEncodingsComboBoxPrivate;
 
-typedef struct _PlumaEncodingsComboBoxPrivate	PlumaEncodingsComboBoxPrivate;
+struct _PlumaEncodingsComboBox {
+  GtkComboBox parent;
 
-struct _PlumaEncodingsComboBox
-{
-	GtkComboBox			 parent;
-
-	PlumaEncodingsComboBoxPrivate	*priv;
+  PlumaEncodingsComboBoxPrivate *priv;
 };
 
-struct _PlumaEncodingsComboBoxClass
-{
-	GtkComboBoxClass		 parent_class;
+struct _PlumaEncodingsComboBoxClass {
+  GtkComboBoxClass parent_class;
 };
 
-GType		     pluma_encodings_combo_box_get_type		(void) G_GNUC_CONST;
+GType pluma_encodings_combo_box_get_type(void) G_GNUC_CONST;
 
 /* Constructor */
-GtkWidget 	    *pluma_encodings_combo_box_new 			(gboolean save_mode);
+GtkWidget *pluma_encodings_combo_box_new(gboolean save_mode);
 
-const PlumaEncoding *pluma_encodings_combo_box_get_selected_encoding	(PlumaEncodingsComboBox *menu);
-void		     pluma_encodings_combo_box_set_selected_encoding	(PlumaEncodingsComboBox *menu,
-									 const PlumaEncoding      *encoding);
+const PlumaEncoding *pluma_encodings_combo_box_get_selected_encoding(
+    PlumaEncodingsComboBox *menu);
+void pluma_encodings_combo_box_set_selected_encoding(
+    PlumaEncodingsComboBox *menu, const PlumaEncoding *encoding);
 
 G_END_DECLS
 
 #endif /* __PLUMA_ENCODINGS_COMBO_BOX_H__ */
-
-

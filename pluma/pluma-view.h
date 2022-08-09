@@ -33,94 +33,88 @@
 #define __PLUMA_VIEW_H__
 
 #include <gtk/gtk.h>
-
-#include <pluma/pluma-document.h>
 #include <gtksourceview/gtksource.h>
+#include <pluma/pluma-document.h>
 
 G_BEGIN_DECLS
 
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_VIEW            (pluma_view_get_type ())
-#define PLUMA_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_VIEW, PlumaView))
-#define PLUMA_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_VIEW, PlumaViewClass))
-#define PLUMA_IS_VIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_VIEW))
-#define PLUMA_IS_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_VIEW))
-#define PLUMA_VIEW_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_VIEW, PlumaViewClass))
+#define PLUMA_TYPE_VIEW (pluma_view_get_type())
+#define PLUMA_VIEW(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_VIEW, PlumaView))
+#define PLUMA_VIEW_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_VIEW, PlumaViewClass))
+#define PLUMA_IS_VIEW(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_VIEW))
+#define PLUMA_IS_VIEW_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_VIEW))
+#define PLUMA_VIEW_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_VIEW, PlumaViewClass))
 
 /* Private structure type */
-typedef struct _PlumaViewPrivate	PlumaViewPrivate;
+typedef struct _PlumaViewPrivate PlumaViewPrivate;
 
 /*
  * Main object structure
  */
-typedef struct _PlumaView		PlumaView;
+typedef struct _PlumaView PlumaView;
 
-struct _PlumaView
-{
-	GtkSourceView view;
+struct _PlumaView {
+  GtkSourceView view;
 
-	/*< private > */
-	PlumaViewPrivate *priv;
+  /*< private > */
+  PlumaViewPrivate *priv;
 };
 
 /*
  * Class definition
  */
-typedef struct _PlumaViewClass		PlumaViewClass;
+typedef struct _PlumaViewClass PlumaViewClass;
 
-struct _PlumaViewClass
-{
-	GtkSourceViewClass parent_class;
+struct _PlumaViewClass {
+  GtkSourceViewClass parent_class;
 
-	/* FIXME: Do we need placeholders ? */
+  /* FIXME: Do we need placeholders ? */
 
-	/* Key bindings */
-	gboolean (* start_interactive_search)	(PlumaView       *view);
-	gboolean (* start_interactive_goto_line)(PlumaView       *view);
-	gboolean (* reset_searched_text)	(PlumaView       *view);
+  /* Key bindings */
+  gboolean (*start_interactive_search)(PlumaView *view);
+  gboolean (*start_interactive_goto_line)(PlumaView *view);
+  gboolean (*reset_searched_text)(PlumaView *view);
 
-	void	 (* drop_uris)			(PlumaView	 *view,
-						 gchar          **uri_list);
+  void (*drop_uris)(PlumaView *view, gchar **uri_list);
 };
 
 /*
  * Public methods
  */
-GType		 pluma_view_get_type     	(void) G_GNUC_CONST;
+GType pluma_view_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_view_new			(PlumaDocument   *doc);
+GtkWidget *pluma_view_new(PlumaDocument *doc);
 
-void		 pluma_view_cut_clipboard 	(PlumaView       *view);
-void		 pluma_view_copy_clipboard 	(PlumaView       *view);
-void		 pluma_view_paste_clipboard	(PlumaView       *view);
-void		 pluma_view_delete_selection	(PlumaView       *view);
+void pluma_view_cut_clipboard(PlumaView *view);
+void pluma_view_copy_clipboard(PlumaView *view);
+void pluma_view_paste_clipboard(PlumaView *view);
+void pluma_view_delete_selection(PlumaView *view);
 
-void		 pluma_view_upper_case_selection	(PlumaView       *view);
-void		 pluma_view_lower_case_selection	(PlumaView       *view);
-void		 pluma_view_invert_case_selection	(PlumaView       *view);
-void		 pluma_view_title_case_selection	(PlumaView       *view);
+void pluma_view_upper_case_selection(PlumaView *view);
+void pluma_view_lower_case_selection(PlumaView *view);
+void pluma_view_invert_case_selection(PlumaView *view);
+void pluma_view_title_case_selection(PlumaView *view);
 
-void		 pluma_view_select_all		(PlumaView       *view);
+void pluma_view_select_all(PlumaView *view);
 
-void		 pluma_view_scroll_to_cursor 	(PlumaView       *view);
+void pluma_view_scroll_to_cursor(PlumaView *view);
 
-void		 pluma_override_font		(PlumaView            *view,
-						 const gchar          *item,
-						 PangoFontDescription *font);
+void pluma_override_font(PlumaView *view, const gchar *item,
+                         PangoFontDescription *font);
 
-void 		 pluma_view_set_font		(PlumaView       *view,
-						 gboolean         def,
-						 const gchar     *font_name);
+void pluma_view_set_font(PlumaView *view, gboolean def, const gchar *font_name);
 
 #ifdef GTK_SOURCE_VERSION_3_24
-void
-pluma_set_source_space_drawer_by_level (GtkSourceView          *view,
-                                        gint                    level,
-                                        GtkSourceSpaceTypeFlags type);
+void pluma_set_source_space_drawer_by_level(GtkSourceView *view, gint level,
+                                            GtkSourceSpaceTypeFlags type);
 #endif
-
 
 G_END_DECLS
 

@@ -39,117 +39,91 @@
 
 #include "pluma-commands.h"
 #include "pluma-debug.h"
-#include "pluma-window.h"
 #include "pluma-window-private.h"
+#include "pluma-window.h"
 
+void _pluma_cmd_view_show_toolbar(GtkAction *action, PlumaWindow *window) {
+  gboolean visible;
 
-void
-_pluma_cmd_view_show_toolbar (GtkAction   *action,
-			     PlumaWindow *window)
-{
-	gboolean visible;
+  pluma_debug(DEBUG_COMMANDS);
 
-	pluma_debug (DEBUG_COMMANDS);
+  visible = gtk_toggle_action_get_active(GTK_TOGGLE_ACTION(action));
 
-	visible = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
-
-	if (visible)
-		gtk_widget_show (window->priv->toolbar);
-	else
-		gtk_widget_hide (window->priv->toolbar);
+  if (visible)
+    gtk_widget_show(window->priv->toolbar);
+  else
+    gtk_widget_hide(window->priv->toolbar);
 }
 
-void
-_pluma_cmd_view_show_statusbar (GtkAction   *action,
-			       PlumaWindow *window)
-{
-	gboolean visible;
+void _pluma_cmd_view_show_statusbar(GtkAction *action, PlumaWindow *window) {
+  gboolean visible;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	visible = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+  visible = gtk_toggle_action_get_active(GTK_TOGGLE_ACTION(action));
 
-	if (visible)
-		gtk_widget_show (window->priv->statusbar);
-	else
-		gtk_widget_hide (window->priv->statusbar);
+  if (visible)
+    gtk_widget_show(window->priv->statusbar);
+  else
+    gtk_widget_hide(window->priv->statusbar);
 }
 
-void
-_pluma_cmd_view_show_side_pane (GtkAction   *action,
-			       PlumaWindow *window)
-{
-	gboolean visible;
-	PlumaPanel *panel;
+void _pluma_cmd_view_show_side_pane(GtkAction *action, PlumaWindow *window) {
+  gboolean visible;
+  PlumaPanel *panel;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	visible = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+  visible = gtk_toggle_action_get_active(GTK_TOGGLE_ACTION(action));
 
-	panel = pluma_window_get_side_panel (window);
+  panel = pluma_window_get_side_panel(window);
 
-	if (visible)
-	{
-		gtk_widget_show (GTK_WIDGET (panel));
-		gtk_widget_grab_focus (GTK_WIDGET (panel));
-	}
-	else
-	{
-		gtk_widget_hide (GTK_WIDGET (panel));
-	}
+  if (visible) {
+    gtk_widget_show(GTK_WIDGET(panel));
+    gtk_widget_grab_focus(GTK_WIDGET(panel));
+  } else {
+    gtk_widget_hide(GTK_WIDGET(panel));
+  }
 }
 
-void
-_pluma_cmd_view_show_bottom_pane (GtkAction   *action,
-				 PlumaWindow *window)
-{
-	gboolean visible;
-	PlumaPanel *panel;
+void _pluma_cmd_view_show_bottom_pane(GtkAction *action, PlumaWindow *window) {
+  gboolean visible;
+  PlumaPanel *panel;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	visible = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+  visible = gtk_toggle_action_get_active(GTK_TOGGLE_ACTION(action));
 
-	panel = pluma_window_get_bottom_panel (window);
+  panel = pluma_window_get_bottom_panel(window);
 
-	if (visible)
-	{
-		gtk_widget_show (GTK_WIDGET (panel));
-		gtk_widget_grab_focus (GTK_WIDGET (panel));
-	}
-	else
-	{
-		gtk_widget_hide (GTK_WIDGET (panel));
-	}
+  if (visible) {
+    gtk_widget_show(GTK_WIDGET(panel));
+    gtk_widget_grab_focus(GTK_WIDGET(panel));
+  } else {
+    gtk_widget_hide(GTK_WIDGET(panel));
+  }
 }
 
-void
-_pluma_cmd_view_toggle_fullscreen_mode (GtkAction *action,
-					PlumaWindow *window)
-{
-	pluma_debug (DEBUG_COMMANDS);
+void _pluma_cmd_view_toggle_fullscreen_mode(GtkAction *action,
+                                            PlumaWindow *window) {
+  pluma_debug(DEBUG_COMMANDS);
 
-	if (_pluma_window_is_fullscreen (window))
-		_pluma_window_unfullscreen (window);
-	else
-		_pluma_window_fullscreen (window);
+  if (_pluma_window_is_fullscreen(window))
+    _pluma_window_unfullscreen(window);
+  else
+    _pluma_window_fullscreen(window);
 }
 
-void
-_pluma_cmd_view_leave_fullscreen_mode (GtkAction *action,
-				       PlumaWindow *window)
-{
-	GtkAction *view_action;
+void _pluma_cmd_view_leave_fullscreen_mode(GtkAction *action,
+                                           PlumaWindow *window) {
+  GtkAction *view_action;
 
-	view_action = gtk_action_group_get_action (window->priv->always_sensitive_action_group,
-						   "ViewFullscreen");
-	g_signal_handlers_block_by_func
-		(view_action, G_CALLBACK (_pluma_cmd_view_toggle_fullscreen_mode),
-		 window);
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (view_action),
-				      FALSE);
-	_pluma_window_unfullscreen (window);
-	g_signal_handlers_unblock_by_func
-		(view_action, G_CALLBACK (_pluma_cmd_view_toggle_fullscreen_mode),
-		 window);
+  view_action = gtk_action_group_get_action(
+      window->priv->always_sensitive_action_group, "ViewFullscreen");
+  g_signal_handlers_block_by_func(
+      view_action, G_CALLBACK(_pluma_cmd_view_toggle_fullscreen_mode), window);
+  gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(view_action), FALSE);
+  _pluma_window_unfullscreen(window);
+  g_signal_handlers_unblock_by_func(
+      view_action, G_CALLBACK(_pluma_cmd_view_toggle_fullscreen_mode), window);
 }

@@ -20,7 +20,9 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "pluma-app-activatable.h"
 #include "pluma-app.h"
@@ -36,30 +38,24 @@
 
 G_DEFINE_INTERFACE(PlumaAppActivatable, pluma_app_activatable, G_TYPE_OBJECT)
 
-void
-pluma_app_activatable_default_init (PlumaAppActivatableInterface *iface)
-{
-    static gboolean initialized = FALSE;
+void pluma_app_activatable_default_init(PlumaAppActivatableInterface *iface) {
+  static gboolean initialized = FALSE;
 
-    if (!initialized)
-    {
-        /**
-         * PlumaAppActivatable:app:
-         *
-         * The app property contains the pluma app for this
-         * #PlumaAppActivatable instance.
-         */
-        g_object_interface_install_property (iface,
-                                             g_param_spec_object ("app",
-                                                                  "App",
-                                                                  "The pluma app",
-                                                                  PLUMA_TYPE_APP,
-                                                                  G_PARAM_READWRITE |
-                                                                  G_PARAM_CONSTRUCT_ONLY |
-                                                                  G_PARAM_STATIC_STRINGS));
+  if (!initialized) {
+    /**
+     * PlumaAppActivatable:app:
+     *
+     * The app property contains the pluma app for this
+     * #PlumaAppActivatable instance.
+     */
+    g_object_interface_install_property(
+        iface,
+        g_param_spec_object("app", "App", "The pluma app", PLUMA_TYPE_APP,
+                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_STRINGS));
 
-        initialized = TRUE;
-    }
+    initialized = TRUE;
+  }
 }
 
 /**
@@ -68,19 +64,16 @@ pluma_app_activatable_default_init (PlumaAppActivatableInterface *iface)
  *
  * Activates the extension on the application.
  */
-void
-pluma_app_activatable_activate (PlumaAppActivatable *activatable)
-{
-    PlumaAppActivatableInterface *iface;
+void pluma_app_activatable_activate(PlumaAppActivatable *activatable) {
+  PlumaAppActivatableInterface *iface;
 
-    g_return_if_fail (PLUMA_IS_APP_ACTIVATABLE (activatable));
+  g_return_if_fail(PLUMA_IS_APP_ACTIVATABLE(activatable));
 
-    iface = PLUMA_APP_ACTIVATABLE_GET_IFACE (activatable);
+  iface = PLUMA_APP_ACTIVATABLE_GET_IFACE(activatable);
 
-    if (iface->activate != NULL)
-    {
-        iface->activate (activatable);
-    }
+  if (iface->activate != NULL) {
+    iface->activate(activatable);
+  }
 }
 
 /**
@@ -90,17 +83,14 @@ pluma_app_activatable_activate (PlumaAppActivatable *activatable)
  * Deactivates the extension from the application.
  *
  */
-void
-pluma_app_activatable_deactivate (PlumaAppActivatable *activatable)
-{
-    PlumaAppActivatableInterface *iface;
+void pluma_app_activatable_deactivate(PlumaAppActivatable *activatable) {
+  PlumaAppActivatableInterface *iface;
 
-    g_return_if_fail (PLUMA_IS_APP_ACTIVATABLE (activatable));
+  g_return_if_fail(PLUMA_IS_APP_ACTIVATABLE(activatable));
 
-    iface = PLUMA_APP_ACTIVATABLE_GET_IFACE (activatable);
+  iface = PLUMA_APP_ACTIVATABLE_GET_IFACE(activatable);
 
-    if (iface->deactivate != NULL)
-    {
-        iface->deactivate (activatable);
-    }
+  if (iface->deactivate != NULL) {
+    iface->deactivate(activatable);
+  }
 }

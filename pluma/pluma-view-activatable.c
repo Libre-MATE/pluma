@@ -19,7 +19,9 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "pluma-view-activatable.h"
 #include "pluma-view.h"
@@ -34,23 +36,18 @@
  **/
 G_DEFINE_INTERFACE(PlumaViewActivatable, pluma_view_activatable, G_TYPE_OBJECT)
 
-void
-pluma_view_activatable_default_init (PlumaViewActivatableInterface *iface)
-{
-    /**
-     * PlumaViewActivatable:view:
-     *
-     * The window property contains the pluma window for this
-     * #PlumaViewActivatable instance.
-     */
-    g_object_interface_install_property (iface,
-                                         g_param_spec_object ("view",
-                                                              "view",
-                                                              "A pluma view",
-                                                              PLUMA_TYPE_VIEW,
-                                                              G_PARAM_READWRITE |
-                                                              G_PARAM_CONSTRUCT_ONLY |
-                                                              G_PARAM_STATIC_STRINGS));
+void pluma_view_activatable_default_init(PlumaViewActivatableInterface *iface) {
+  /**
+   * PlumaViewActivatable:view:
+   *
+   * The window property contains the pluma window for this
+   * #PlumaViewActivatable instance.
+   */
+  g_object_interface_install_property(
+      iface,
+      g_param_spec_object(
+          "view", "view", "A pluma view", PLUMA_TYPE_VIEW,
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 }
 
 /**
@@ -59,18 +56,15 @@ pluma_view_activatable_default_init (PlumaViewActivatableInterface *iface)
  *
  * Activates the extension on the window property.
  */
-void
-pluma_view_activatable_activate (PlumaViewActivatable *activatable)
-{
-    PlumaViewActivatableInterface *iface;
+void pluma_view_activatable_activate(PlumaViewActivatable *activatable) {
+  PlumaViewActivatableInterface *iface;
 
-    g_return_if_fail (PLUMA_IS_VIEW_ACTIVATABLE (activatable));
+  g_return_if_fail(PLUMA_IS_VIEW_ACTIVATABLE(activatable));
 
-    iface = PLUMA_VIEW_ACTIVATABLE_GET_IFACE (activatable);
-    if (iface->activate != NULL)
-    {
-        iface->activate (activatable);
-    }
+  iface = PLUMA_VIEW_ACTIVATABLE_GET_IFACE(activatable);
+  if (iface->activate != NULL) {
+    iface->activate(activatable);
+  }
 }
 
 /**
@@ -79,16 +73,13 @@ pluma_view_activatable_activate (PlumaViewActivatable *activatable)
  *
  * Deactivates the extension on the window property.
  */
-void
-pluma_view_activatable_deactivate (PlumaViewActivatable *activatable)
-{
-    PlumaViewActivatableInterface *iface;
+void pluma_view_activatable_deactivate(PlumaViewActivatable *activatable) {
+  PlumaViewActivatableInterface *iface;
 
-    g_return_if_fail (PLUMA_IS_VIEW_ACTIVATABLE (activatable));
+  g_return_if_fail(PLUMA_IS_VIEW_ACTIVATABLE(activatable));
 
-    iface = PLUMA_VIEW_ACTIVATABLE_GET_IFACE (activatable);
-    if (iface->deactivate != NULL)
-    {
-        iface->deactivate (activatable);
-    }
+  iface = PLUMA_VIEW_ACTIVATABLE_GET_IFACE(activatable);
+  if (iface->deactivate != NULL) {
+    iface->deactivate(activatable);
+  }
 }

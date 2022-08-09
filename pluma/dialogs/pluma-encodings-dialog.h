@@ -39,14 +39,23 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_ENCODINGS_DIALOG              (pluma_encodings_dialog_get_type())
-#define PLUMA_ENCODINGS_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_ENCODINGS_DIALOG, PlumaEncodingsDialog))
-#define PLUMA_ENCODINGS_DIALOG_CONST(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_ENCODINGS_DIALOG, PlumaEncodingsDialog const))
-#define PLUMA_ENCODINGS_DIALOG_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_ENCODINGS_DIALOG, PlumaEncodingsDialogClass))
-#define PLUMA_IS_ENCODINGS_DIALOG(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_ENCODINGS_DIALOG))
-#define PLUMA_IS_ENCODINGS_DIALOG_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_ENCODINGS_DIALOG))
-#define PLUMA_ENCODINGS_DIALOG_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_ENCODINGS_DIALOG, PlumaEncodingsDialogClass))
-
+#define PLUMA_TYPE_ENCODINGS_DIALOG (pluma_encodings_dialog_get_type())
+#define PLUMA_ENCODINGS_DIALOG(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_ENCODINGS_DIALOG, \
+                              PlumaEncodingsDialog))
+#define PLUMA_ENCODINGS_DIALOG_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_ENCODINGS_DIALOG, \
+                              PlumaEncodingsDialog const))
+#define PLUMA_ENCODINGS_DIALOG_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_ENCODINGS_DIALOG, \
+                           PlumaEncodingsDialogClass))
+#define PLUMA_IS_ENCODINGS_DIALOG(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_ENCODINGS_DIALOG))
+#define PLUMA_IS_ENCODINGS_DIALOG_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_ENCODINGS_DIALOG))
+#define PLUMA_ENCODINGS_DIALOG_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_ENCODINGS_DIALOG, \
+                             PlumaEncodingsDialogClass))
 
 /* Private structure type */
 typedef struct _PlumaEncodingsDialogPrivate PlumaEncodingsDialogPrivate;
@@ -56,12 +65,11 @@ typedef struct _PlumaEncodingsDialogPrivate PlumaEncodingsDialogPrivate;
  */
 typedef struct _PlumaEncodingsDialog PlumaEncodingsDialog;
 
-struct _PlumaEncodingsDialog
-{
-	GtkDialog dialog;
+struct _PlumaEncodingsDialog {
+  GtkDialog dialog;
 
-	/*< private > */
-	PlumaEncodingsDialogPrivate *priv;
+  /*< private > */
+  PlumaEncodingsDialogPrivate *priv;
 };
 
 /*
@@ -69,19 +77,17 @@ struct _PlumaEncodingsDialog
  */
 typedef struct _PlumaEncodingsDialogClass PlumaEncodingsDialogClass;
 
-struct _PlumaEncodingsDialogClass
-{
-	GtkDialogClass parent_class;
+struct _PlumaEncodingsDialogClass {
+  GtkDialogClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType		 pluma_encodings_dialog_get_type	(void) G_GNUC_CONST;
+GType pluma_encodings_dialog_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_encodings_dialog_new		(void);
+GtkWidget *pluma_encodings_dialog_new(void);
 
 G_END_DECLS
 
 #endif /* __PLUMA_ENCODINGS_DIALOG_H__ */
-

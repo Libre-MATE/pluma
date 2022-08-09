@@ -39,12 +39,17 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_PANEL		(pluma_panel_get_type())
-#define PLUMA_PANEL(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PANEL, PlumaPanel))
-#define PLUMA_PANEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PANEL, PlumaPanelClass))
-#define PLUMA_IS_PANEL(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PANEL))
-#define PLUMA_IS_PANEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PANEL))
-#define PLUMA_PANEL_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PANEL, PlumaPanelClass))
+#define PLUMA_TYPE_PANEL (pluma_panel_get_type())
+#define PLUMA_PANEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PANEL, PlumaPanel))
+#define PLUMA_PANEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PANEL, PlumaPanelClass))
+#define PLUMA_IS_PANEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PANEL))
+#define PLUMA_IS_PANEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PANEL))
+#define PLUMA_PANEL_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PANEL, PlumaPanelClass))
 
 /* Private structure type */
 typedef struct _PlumaPanelPrivate PlumaPanelPrivate;
@@ -54,12 +59,11 @@ typedef struct _PlumaPanelPrivate PlumaPanelPrivate;
  */
 typedef struct _PlumaPanel PlumaPanel;
 
-struct _PlumaPanel
-{
-	GtkBox vbox;
+struct _PlumaPanel {
+  GtkBox vbox;
 
-	/*< private > */
-	PlumaPanelPrivate *priv;
+  /*< private > */
+  PlumaPanelPrivate *priv;
 };
 
 /*
@@ -67,65 +71,53 @@ struct _PlumaPanel
  */
 typedef struct _PlumaPanelClass PlumaPanelClass;
 
-struct _PlumaPanelClass
-{
-	GtkBoxClass parent_class;
+struct _PlumaPanelClass {
+  GtkBoxClass parent_class;
 
-	void (* item_added)     (PlumaPanel     *panel,
-				 GtkWidget      *item);
-	void (* item_removed)   (PlumaPanel     *panel,
-				 GtkWidget      *item);
+  void (*item_added)(PlumaPanel *panel, GtkWidget *item);
+  void (*item_removed)(PlumaPanel *panel, GtkWidget *item);
 
-	/* Keybinding signals */
-	void (* close)          (PlumaPanel     *panel);
-	void (* focus_document) (PlumaPanel     *panel);
+  /* Keybinding signals */
+  void (*close)(PlumaPanel *panel);
+  void (*focus_document)(PlumaPanel *panel);
 
-	/* Padding for future expansion */
-	void (*_pluma_reserved1) (void);
-	void (*_pluma_reserved2) (void);
-	void (*_pluma_reserved3) (void);
-	void (*_pluma_reserved4) (void);
+  /* Padding for future expansion */
+  void (*_pluma_reserved1)(void);
+  void (*_pluma_reserved2)(void);
+  void (*_pluma_reserved3)(void);
+  void (*_pluma_reserved4)(void);
 };
 
 /*
  * Public methods
  */
-GType 		 pluma_panel_get_type 			(void) G_GNUC_CONST;
+GType pluma_panel_get_type(void) G_GNUC_CONST;
 
-GtkWidget 	*pluma_panel_new 			(GtkOrientation	 orientation);
+GtkWidget *pluma_panel_new(GtkOrientation orientation);
 
-void		 pluma_panel_add_item			(PlumaPanel     *panel,
-						      	 GtkWidget      *item,
-						      	 const gchar    *name,
-							 GtkWidget      *image);
+void pluma_panel_add_item(PlumaPanel *panel, GtkWidget *item, const gchar *name,
+                          GtkWidget *image);
 
-void		 pluma_panel_add_item_with_icon	(PlumaPanel     *panel,
-						 GtkWidget      *item,
-						 const gchar    *name,
-						 const gchar    *icon_name);
+void pluma_panel_add_item_with_icon(PlumaPanel *panel, GtkWidget *item,
+                                    const gchar *name, const gchar *icon_name);
 
-gboolean	 pluma_panel_remove_item	(PlumaPanel     *panel,
-					  	 GtkWidget      *item);
+gboolean pluma_panel_remove_item(PlumaPanel *panel, GtkWidget *item);
 
-gboolean	 pluma_panel_activate_item 	(PlumaPanel     *panel,
-					    	 GtkWidget      *item);
+gboolean pluma_panel_activate_item(PlumaPanel *panel, GtkWidget *item);
 
-gboolean	 pluma_panel_item_is_active 	(PlumaPanel     *panel,
-					    	 GtkWidget      *item);
+gboolean pluma_panel_item_is_active(PlumaPanel *panel, GtkWidget *item);
 
-GtkOrientation	 pluma_panel_get_orientation	(PlumaPanel	*panel);
+GtkOrientation pluma_panel_get_orientation(PlumaPanel *panel);
 
-gint		 pluma_panel_get_n_items	(PlumaPanel	*panel);
-
+gint pluma_panel_get_n_items(PlumaPanel *panel);
 
 /*
  * Non exported functions
  */
-gint		 _pluma_panel_get_active_item_id	(PlumaPanel	*panel);
+gint _pluma_panel_get_active_item_id(PlumaPanel *panel);
 
-void		 _pluma_panel_set_active_item_by_id	(PlumaPanel	*panel,
-							 gint		 id);
+void _pluma_panel_set_active_item_by_id(PlumaPanel *panel, gint id);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_PANEL_H__  */
+#endif /* __PLUMA_PANEL_H__  */

@@ -1,4 +1,5 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t;
+ * c-basic-offset: 8 -*- */
 /*
  * pluma-spell-language-dialog.h
  * This file is part of pluma
@@ -32,37 +33,44 @@
 #define __PLUMA_SPELL_LANGUAGE_DIALOG_H__
 
 #include <gtk/gtk.h>
+
 #include "pluma-spell-checker-language.h"
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_SPELL_LANGUAGE_DIALOG              (pluma_spell_language_dialog_get_type())
-#define PLUMA_SPELL_LANGUAGE_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, PlumaSpellLanguageDialog))
-#define PLUMA_SPELL_LANGUAGE_DIALOG_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, PlumaSpellLanguageDialogClass))
-#define PLUMA_IS_SPELL_LANGUAGE_DIALOG(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG))
-#define PLUMA_IS_SPELL_LANGUAGE_DIALOG_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG))
-#define PLUMA_SPELL_LANGUAGE_DIALOG_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, PlumaSpellLanguageDialogClass))
-
+#define PLUMA_TYPE_SPELL_LANGUAGE_DIALOG \
+  (pluma_spell_language_dialog_get_type())
+#define PLUMA_SPELL_LANGUAGE_DIALOG(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, \
+                              PlumaSpellLanguageDialog))
+#define PLUMA_SPELL_LANGUAGE_DIALOG_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, \
+                           PlumaSpellLanguageDialogClass))
+#define PLUMA_IS_SPELL_LANGUAGE_DIALOG(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG))
+#define PLUMA_IS_SPELL_LANGUAGE_DIALOG_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG))
+#define PLUMA_SPELL_LANGUAGE_DIALOG_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_SPELL_LANGUAGE_DIALOG, \
+                             PlumaSpellLanguageDialogClass))
 
 typedef struct _PlumaSpellLanguageDialog PlumaSpellLanguageDialog;
 
 typedef struct _PlumaSpellLanguageDialogClass PlumaSpellLanguageDialogClass;
 
-struct _PlumaSpellLanguageDialogClass
-{
-	GtkDialogClass parent_class;
+struct _PlumaSpellLanguageDialogClass {
+  GtkDialogClass parent_class;
 };
 
-GType		 pluma_spell_language_dialog_get_type		(void) G_GNUC_CONST;
+GType pluma_spell_language_dialog_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_spell_language_dialog_new		(GtkWindow			 *parent,
-								 const PlumaSpellCheckerLanguage *cur_lang,
-								 const gchar *data_dir);
+GtkWidget *pluma_spell_language_dialog_new(
+    GtkWindow *parent, const PlumaSpellCheckerLanguage *cur_lang,
+    const gchar *data_dir);
 
-const PlumaSpellCheckerLanguage *
-		 pluma_spell_language_get_selected_language	(PlumaSpellLanguageDialog *dlg);
+const PlumaSpellCheckerLanguage *pluma_spell_language_get_selected_language(
+    PlumaSpellLanguageDialog *dlg);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_SPELL_LANGUAGE_DIALOG_H__ */
-
+#endif /* __PLUMA_SPELL_LANGUAGE_DIALOG_H__ */

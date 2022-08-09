@@ -24,8 +24,8 @@
 #ifndef __PLUMA_SPELL_PLUGIN_H__
 #define __PLUMA_SPELL_PLUGIN_H__
 
-#include <glib.h>
 #include <glib-object.h>
+#include <glib.h>
 #include <libpeas/peas-extension-base.h>
 #include <libpeas/peas-object-module.h>
 
@@ -34,46 +34,50 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_SPELL_PLUGIN		(pluma_spell_plugin_get_type ())
-#define PLUMA_SPELL_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), PLUMA_TYPE_SPELL_PLUGIN, PlumaSpellPlugin))
-#define PLUMA_SPELL_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_SPELL_PLUGIN, PlumaSpellPluginClass))
-#define PLUMA_IS_SPELL_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), PLUMA_TYPE_SPELL_PLUGIN))
-#define PLUMA_IS_SPELL_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), PLUMA_TYPE_SPELL_PLUGIN))
-#define PLUMA_SPELL_PLUGIN_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), PLUMA_TYPE_SPELL_PLUGIN, PlumaSpellPluginClass))
+#define PLUMA_TYPE_SPELL_PLUGIN (pluma_spell_plugin_get_type())
+#define PLUMA_SPELL_PLUGIN(o) \
+  (G_TYPE_CHECK_INSTANCE_CAST((o), PLUMA_TYPE_SPELL_PLUGIN, PlumaSpellPlugin))
+#define PLUMA_SPELL_PLUGIN_CLASS(k) \
+  (G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_SPELL_PLUGIN, PlumaSpellPluginClass))
+#define PLUMA_IS_SPELL_PLUGIN(o) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((o), PLUMA_TYPE_SPELL_PLUGIN))
+#define PLUMA_IS_SPELL_PLUGIN_CLASS(k) \
+  (G_TYPE_CHECK_CLASS_TYPE((k), PLUMA_TYPE_SPELL_PLUGIN))
+#define PLUMA_SPELL_PLUGIN_GET_CLASS(o)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((o), PLUMA_TYPE_SPELL_PLUGIN, \
+                             PlumaSpellPluginClass))
 
 /* Private structure type */
-typedef struct _PlumaSpellPluginPrivate	PlumaSpellPluginPrivate;
+typedef struct _PlumaSpellPluginPrivate PlumaSpellPluginPrivate;
 
 /*
  * Main object structure
  */
-typedef struct _PlumaSpellPlugin	PlumaSpellPlugin;
+typedef struct _PlumaSpellPlugin PlumaSpellPlugin;
 
-struct _PlumaSpellPlugin
-{
-	PeasExtensionBase parent_instance;
+struct _PlumaSpellPlugin {
+  PeasExtensionBase parent_instance;
 
-	/*< private >*/
-	PlumaSpellPluginPrivate *priv;
+  /*< private >*/
+  PlumaSpellPluginPrivate *priv;
 };
 
 /*
  * Class definition
  */
-typedef struct _PlumaSpellPluginClass	PlumaSpellPluginClass;
+typedef struct _PlumaSpellPluginClass PlumaSpellPluginClass;
 
-struct _PlumaSpellPluginClass
-{
-	PeasExtensionBaseClass parent_class;
+struct _PlumaSpellPluginClass {
+  PeasExtensionBaseClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType	pluma_spell_plugin_get_type		(void) G_GNUC_CONST;
+GType pluma_spell_plugin_get_type(void) G_GNUC_CONST;
 
 /* All the plugins must implement this function */
-G_MODULE_EXPORT void peas_register_types (PeasObjectModule *module);
+G_MODULE_EXPORT void peas_register_types(PeasObjectModule *module);
 
 G_END_DECLS
 

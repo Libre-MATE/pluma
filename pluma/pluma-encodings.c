@@ -33,18 +33,15 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-
 #include <glib/gi18n.h>
+#include <string.h>
 
 #include "pluma-encodings.h"
 
-
-struct _PlumaEncoding
-{
-	gint   index;
-	const gchar *charset;
-	const gchar *name;
+struct _PlumaEncoding {
+  gint index;
+  const gchar *charset;
+  const gchar *name;
 };
 
 /*
@@ -53,8 +50,7 @@ struct _PlumaEncoding
  * Copyright (C) 2002 Red Hat, Inc.
  */
 
-typedef enum
-{
+typedef enum {
 
   PLUMA_ENCODING_ISO_8859_1,
   PLUMA_ENCODING_ISO_8859_2,
@@ -133,322 +129,218 @@ typedef enum
 
 } PlumaEncodingIndex;
 
-static const PlumaEncoding utf8_encoding =  {
-	PLUMA_ENCODING_UTF_8,
-	"UTF-8",
-	N_("Unicode")
-};
+static const PlumaEncoding utf8_encoding = {PLUMA_ENCODING_UTF_8, "UTF-8",
+                                            N_("Unicode")};
 
 /* initialized in pluma_encoding_lazy_init() */
-static PlumaEncoding unknown_encoding = {
-	PLUMA_ENCODING_UNKNOWN,
-	NULL,
-	NULL
-};
+static PlumaEncoding unknown_encoding = {PLUMA_ENCODING_UNKNOWN, NULL, NULL};
 
-static const PlumaEncoding encodings [] = {
+static const PlumaEncoding encodings[] = {
 
-  { PLUMA_ENCODING_ISO_8859_1,
-    "ISO-8859-1", N_("Western") },
-  { PLUMA_ENCODING_ISO_8859_2,
-   "ISO-8859-2", N_("Central European") },
-  { PLUMA_ENCODING_ISO_8859_3,
-    "ISO-8859-3", N_("South European") },
-  { PLUMA_ENCODING_ISO_8859_4,
-    "ISO-8859-4", N_("Baltic") },
-  { PLUMA_ENCODING_ISO_8859_5,
-    "ISO-8859-5", N_("Cyrillic") },
-  { PLUMA_ENCODING_ISO_8859_6,
-    "ISO-8859-6", N_("Arabic") },
-  { PLUMA_ENCODING_ISO_8859_7,
-    "ISO-8859-7", N_("Greek") },
-  { PLUMA_ENCODING_ISO_8859_8,
-    "ISO-8859-8", N_("Hebrew Visual") },
-  { PLUMA_ENCODING_ISO_8859_9,
-    "ISO-8859-9", N_("Turkish") },
-  { PLUMA_ENCODING_ISO_8859_10,
-    "ISO-8859-10", N_("Nordic") },
-  { PLUMA_ENCODING_ISO_8859_13,
-    "ISO-8859-13", N_("Baltic") },
-  { PLUMA_ENCODING_ISO_8859_14,
-    "ISO-8859-14", N_("Celtic") },
-  { PLUMA_ENCODING_ISO_8859_15,
-    "ISO-8859-15", N_("Western") },
-  { PLUMA_ENCODING_ISO_8859_16,
-    "ISO-8859-16", N_("Romanian") },
+    {PLUMA_ENCODING_ISO_8859_1, "ISO-8859-1", N_("Western")},
+    {PLUMA_ENCODING_ISO_8859_2, "ISO-8859-2", N_("Central European")},
+    {PLUMA_ENCODING_ISO_8859_3, "ISO-8859-3", N_("South European")},
+    {PLUMA_ENCODING_ISO_8859_4, "ISO-8859-4", N_("Baltic")},
+    {PLUMA_ENCODING_ISO_8859_5, "ISO-8859-5", N_("Cyrillic")},
+    {PLUMA_ENCODING_ISO_8859_6, "ISO-8859-6", N_("Arabic")},
+    {PLUMA_ENCODING_ISO_8859_7, "ISO-8859-7", N_("Greek")},
+    {PLUMA_ENCODING_ISO_8859_8, "ISO-8859-8", N_("Hebrew Visual")},
+    {PLUMA_ENCODING_ISO_8859_9, "ISO-8859-9", N_("Turkish")},
+    {PLUMA_ENCODING_ISO_8859_10, "ISO-8859-10", N_("Nordic")},
+    {PLUMA_ENCODING_ISO_8859_13, "ISO-8859-13", N_("Baltic")},
+    {PLUMA_ENCODING_ISO_8859_14, "ISO-8859-14", N_("Celtic")},
+    {PLUMA_ENCODING_ISO_8859_15, "ISO-8859-15", N_("Western")},
+    {PLUMA_ENCODING_ISO_8859_16, "ISO-8859-16", N_("Romanian")},
 
-  { PLUMA_ENCODING_UTF_7,
-    "UTF-7", N_("Unicode") },
-  { PLUMA_ENCODING_UTF_16,
-    "UTF-16", N_("Unicode") },
-  { PLUMA_ENCODING_UTF_16_BE,
-    "UTF-16BE", N_("Unicode") },
-  { PLUMA_ENCODING_UTF_16_LE,
-    "UTF-16LE", N_("Unicode") },
-  { PLUMA_ENCODING_UTF_32,
-    "UTF-32", N_("Unicode") },
-  { PLUMA_ENCODING_UCS_2,
-    "UCS-2", N_("Unicode") },
-  { PLUMA_ENCODING_UCS_4,
-    "UCS-4", N_("Unicode") },
+    {PLUMA_ENCODING_UTF_7, "UTF-7", N_("Unicode")},
+    {PLUMA_ENCODING_UTF_16, "UTF-16", N_("Unicode")},
+    {PLUMA_ENCODING_UTF_16_BE, "UTF-16BE", N_("Unicode")},
+    {PLUMA_ENCODING_UTF_16_LE, "UTF-16LE", N_("Unicode")},
+    {PLUMA_ENCODING_UTF_32, "UTF-32", N_("Unicode")},
+    {PLUMA_ENCODING_UCS_2, "UCS-2", N_("Unicode")},
+    {PLUMA_ENCODING_UCS_4, "UCS-4", N_("Unicode")},
 
-  { PLUMA_ENCODING_ARMSCII_8,
-    "ARMSCII-8", N_("Armenian") },
-  { PLUMA_ENCODING_BIG5,
-    "BIG5", N_("Chinese Traditional") },
-  { PLUMA_ENCODING_BIG5_HKSCS,
-    "BIG5-HKSCS", N_("Chinese Traditional") },
-  { PLUMA_ENCODING_CP_866,
-    "CP866", N_("Cyrillic/Russian") },
+    {PLUMA_ENCODING_ARMSCII_8, "ARMSCII-8", N_("Armenian")},
+    {PLUMA_ENCODING_BIG5, "BIG5", N_("Chinese Traditional")},
+    {PLUMA_ENCODING_BIG5_HKSCS, "BIG5-HKSCS", N_("Chinese Traditional")},
+    {PLUMA_ENCODING_CP_866, "CP866", N_("Cyrillic/Russian")},
 
-  { PLUMA_ENCODING_EUC_JP,
-    "EUC-JP", N_("Japanese") },
-  { PLUMA_ENCODING_EUC_JP_MS,
-    "EUC-JP-MS", N_("Japanese") },
-  { PLUMA_ENCODING_CP932,
-    "CP932", N_("Japanese") },
+    {PLUMA_ENCODING_EUC_JP, "EUC-JP", N_("Japanese")},
+    {PLUMA_ENCODING_EUC_JP_MS, "EUC-JP-MS", N_("Japanese")},
+    {PLUMA_ENCODING_CP932, "CP932", N_("Japanese")},
 
-  { PLUMA_ENCODING_EUC_KR,
-    "EUC-KR", N_("Korean") },
-  { PLUMA_ENCODING_EUC_TW,
-    "EUC-TW", N_("Chinese Traditional") },
+    {PLUMA_ENCODING_EUC_KR, "EUC-KR", N_("Korean")},
+    {PLUMA_ENCODING_EUC_TW, "EUC-TW", N_("Chinese Traditional")},
 
-  { PLUMA_ENCODING_GB18030,
-    "GB18030", N_("Chinese Simplified") },
-  { PLUMA_ENCODING_GB2312,
-    "GB2312", N_("Chinese Simplified") },
-  { PLUMA_ENCODING_GBK,
-    "GBK", N_("Chinese Simplified") },
-  { PLUMA_ENCODING_GEOSTD8,
-    "GEORGIAN-ACADEMY", N_("Georgian") }, /* FIXME GEOSTD8 ? */
+    {PLUMA_ENCODING_GB18030, "GB18030", N_("Chinese Simplified")},
+    {PLUMA_ENCODING_GB2312, "GB2312", N_("Chinese Simplified")},
+    {PLUMA_ENCODING_GBK, "GBK", N_("Chinese Simplified")},
+    {PLUMA_ENCODING_GEOSTD8, "GEORGIAN-ACADEMY",
+     N_("Georgian")}, /* FIXME GEOSTD8 ? */
 
-  { PLUMA_ENCODING_IBM_850,
-    "IBM850", N_("Western") },
-  { PLUMA_ENCODING_IBM_852,
-    "IBM852", N_("Central European") },
-  { PLUMA_ENCODING_IBM_855,
-    "IBM855", N_("Cyrillic") },
-  { PLUMA_ENCODING_IBM_857,
-    "IBM857", N_("Turkish") },
-  { PLUMA_ENCODING_IBM_862,
-    "IBM862", N_("Hebrew") },
-  { PLUMA_ENCODING_IBM_864,
-    "IBM864", N_("Arabic") },
+    {PLUMA_ENCODING_IBM_850, "IBM850", N_("Western")},
+    {PLUMA_ENCODING_IBM_852, "IBM852", N_("Central European")},
+    {PLUMA_ENCODING_IBM_855, "IBM855", N_("Cyrillic")},
+    {PLUMA_ENCODING_IBM_857, "IBM857", N_("Turkish")},
+    {PLUMA_ENCODING_IBM_862, "IBM862", N_("Hebrew")},
+    {PLUMA_ENCODING_IBM_864, "IBM864", N_("Arabic")},
 
-  { PLUMA_ENCODING_ISO_2022_JP,
-    "ISO-2022-JP", N_("Japanese") },
-  { PLUMA_ENCODING_ISO_2022_KR,
-    "ISO-2022-KR", N_("Korean") },
-  { PLUMA_ENCODING_ISO_IR_111,
-    "ISO-IR-111", N_("Cyrillic") },
-  { PLUMA_ENCODING_JOHAB,
-    "JOHAB", N_("Korean") },
-  { PLUMA_ENCODING_KOI8_R,
-    "KOI8R", N_("Cyrillic") },
-  { PLUMA_ENCODING_KOI8__R,
-    "KOI8-R", N_("Cyrillic") },
-  { PLUMA_ENCODING_KOI8_U,
-    "KOI8U", N_("Cyrillic/Ukrainian") },
+    {PLUMA_ENCODING_ISO_2022_JP, "ISO-2022-JP", N_("Japanese")},
+    {PLUMA_ENCODING_ISO_2022_KR, "ISO-2022-KR", N_("Korean")},
+    {PLUMA_ENCODING_ISO_IR_111, "ISO-IR-111", N_("Cyrillic")},
+    {PLUMA_ENCODING_JOHAB, "JOHAB", N_("Korean")},
+    {PLUMA_ENCODING_KOI8_R, "KOI8R", N_("Cyrillic")},
+    {PLUMA_ENCODING_KOI8__R, "KOI8-R", N_("Cyrillic")},
+    {PLUMA_ENCODING_KOI8_U, "KOI8U", N_("Cyrillic/Ukrainian")},
 
-  { PLUMA_ENCODING_SHIFT_JIS,
-    "SHIFT_JIS", N_("Japanese") },
-  { PLUMA_ENCODING_TCVN,
-    "TCVN", N_("Vietnamese") },
-  { PLUMA_ENCODING_TIS_620,
-    "TIS-620", N_("Thai") },
-  { PLUMA_ENCODING_UHC,
-    "UHC", N_("Korean") },
-  { PLUMA_ENCODING_VISCII,
-    "VISCII", N_("Vietnamese") },
+    {PLUMA_ENCODING_SHIFT_JIS, "SHIFT_JIS", N_("Japanese")},
+    {PLUMA_ENCODING_TCVN, "TCVN", N_("Vietnamese")},
+    {PLUMA_ENCODING_TIS_620, "TIS-620", N_("Thai")},
+    {PLUMA_ENCODING_UHC, "UHC", N_("Korean")},
+    {PLUMA_ENCODING_VISCII, "VISCII", N_("Vietnamese")},
 
-  { PLUMA_ENCODING_WINDOWS_1250,
-    "WINDOWS-1250", N_("Central European") },
-  { PLUMA_ENCODING_WINDOWS_1251,
-    "WINDOWS-1251", N_("Cyrillic") },
-  { PLUMA_ENCODING_WINDOWS_1252,
-    "WINDOWS-1252", N_("Western") },
-  { PLUMA_ENCODING_WINDOWS_1253,
-    "WINDOWS-1253", N_("Greek") },
-  { PLUMA_ENCODING_WINDOWS_1254,
-    "WINDOWS-1254", N_("Turkish") },
-  { PLUMA_ENCODING_WINDOWS_1255,
-    "WINDOWS-1255", N_("Hebrew") },
-  { PLUMA_ENCODING_WINDOWS_1256,
-    "WINDOWS-1256", N_("Arabic") },
-  { PLUMA_ENCODING_WINDOWS_1257,
-    "WINDOWS-1257", N_("Baltic") },
-  { PLUMA_ENCODING_WINDOWS_1258,
-    "WINDOWS-1258", N_("Vietnamese") }
-};
+    {PLUMA_ENCODING_WINDOWS_1250, "WINDOWS-1250", N_("Central European")},
+    {PLUMA_ENCODING_WINDOWS_1251, "WINDOWS-1251", N_("Cyrillic")},
+    {PLUMA_ENCODING_WINDOWS_1252, "WINDOWS-1252", N_("Western")},
+    {PLUMA_ENCODING_WINDOWS_1253, "WINDOWS-1253", N_("Greek")},
+    {PLUMA_ENCODING_WINDOWS_1254, "WINDOWS-1254", N_("Turkish")},
+    {PLUMA_ENCODING_WINDOWS_1255, "WINDOWS-1255", N_("Hebrew")},
+    {PLUMA_ENCODING_WINDOWS_1256, "WINDOWS-1256", N_("Arabic")},
+    {PLUMA_ENCODING_WINDOWS_1257, "WINDOWS-1257", N_("Baltic")},
+    {PLUMA_ENCODING_WINDOWS_1258, "WINDOWS-1258", N_("Vietnamese")}};
 
-static void
-pluma_encoding_lazy_init (void)
-{
-	static gboolean initialized = FALSE;
-	const gchar *locale_charset;
+static void pluma_encoding_lazy_init(void) {
+  static gboolean initialized = FALSE;
+  const gchar *locale_charset;
 
-	if (initialized)
-		return;
+  if (initialized) return;
 
-	if (g_get_charset (&locale_charset) == FALSE)
-	{
-		unknown_encoding.charset = g_strdup (locale_charset);
-	}
+  if (g_get_charset(&locale_charset) == FALSE) {
+    unknown_encoding.charset = g_strdup(locale_charset);
+  }
 
-	initialized = TRUE;
+  initialized = TRUE;
 }
 
-const PlumaEncoding *
-pluma_encoding_get_from_charset (const gchar *charset)
-{
-	gint i;
+const PlumaEncoding *pluma_encoding_get_from_charset(const gchar *charset) {
+  gint i;
 
-	g_return_val_if_fail (charset != NULL, NULL);
+  g_return_val_if_fail(charset != NULL, NULL);
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	if (charset == NULL)
-		return NULL;
+  if (charset == NULL) return NULL;
 
-	if (g_ascii_strcasecmp (charset, "UTF-8") == 0)
-		return pluma_encoding_get_utf8 ();
+  if (g_ascii_strcasecmp(charset, "UTF-8") == 0)
+    return pluma_encoding_get_utf8();
 
-	i = 0;
-	while (i < PLUMA_ENCODING_LAST)
-	{
-		if (g_ascii_strcasecmp (charset, encodings[i].charset) == 0)
-			return &encodings[i];
+  i = 0;
+  while (i < PLUMA_ENCODING_LAST) {
+    if (g_ascii_strcasecmp(charset, encodings[i].charset) == 0)
+      return &encodings[i];
 
-		++i;
-	}
+    ++i;
+  }
 
-	if (unknown_encoding.charset != NULL)
-	{
-		if (g_ascii_strcasecmp (charset, unknown_encoding.charset) == 0)
-			return &unknown_encoding;
-	}
+  if (unknown_encoding.charset != NULL) {
+    if (g_ascii_strcasecmp(charset, unknown_encoding.charset) == 0)
+      return &unknown_encoding;
+  }
 
-	return NULL;
+  return NULL;
 }
 
-const PlumaEncoding *
-pluma_encoding_get_from_index (gint idx)
-{
-	g_return_val_if_fail (idx >= 0, NULL);
+const PlumaEncoding *pluma_encoding_get_from_index(gint idx) {
+  g_return_val_if_fail(idx >= 0, NULL);
 
-	if (idx >= PLUMA_ENCODING_LAST)
-		return NULL;
+  if (idx >= PLUMA_ENCODING_LAST) return NULL;
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	return &encodings[idx];
+  return &encodings[idx];
 }
 
-const PlumaEncoding *
-pluma_encoding_get_utf8 (void)
-{
-	pluma_encoding_lazy_init ();
+const PlumaEncoding *pluma_encoding_get_utf8(void) {
+  pluma_encoding_lazy_init();
 
-	return &utf8_encoding;
+  return &utf8_encoding;
 }
 
-const PlumaEncoding *
-pluma_encoding_get_current (void)
-{
-	static gboolean initialized = FALSE;
-	static const PlumaEncoding *locale_encoding = NULL;
+const PlumaEncoding *pluma_encoding_get_current(void) {
+  static gboolean initialized = FALSE;
+  static const PlumaEncoding *locale_encoding = NULL;
 
-	const gchar *locale_charset;
+  const gchar *locale_charset;
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	if (initialized != FALSE)
-		return locale_encoding;
+  if (initialized != FALSE) return locale_encoding;
 
-	if (g_get_charset (&locale_charset) == FALSE)
-	{
-		g_return_val_if_fail (locale_charset != NULL, &utf8_encoding);
+  if (g_get_charset(&locale_charset) == FALSE) {
+    g_return_val_if_fail(locale_charset != NULL, &utf8_encoding);
 
-		locale_encoding = pluma_encoding_get_from_charset (locale_charset);
-	}
-	else
-	{
-		locale_encoding = &utf8_encoding;
-	}
+    locale_encoding = pluma_encoding_get_from_charset(locale_charset);
+  } else {
+    locale_encoding = &utf8_encoding;
+  }
 
-	if (locale_encoding == NULL)
-	{
-		locale_encoding = &unknown_encoding;
-	}
+  if (locale_encoding == NULL) {
+    locale_encoding = &unknown_encoding;
+  }
 
-	g_return_val_if_fail (locale_encoding != NULL, NULL);
+  g_return_val_if_fail(locale_encoding != NULL, NULL);
 
-	initialized = TRUE;
+  initialized = TRUE;
 
-	return locale_encoding;
+  return locale_encoding;
 }
 
-gchar *
-pluma_encoding_to_string (const PlumaEncoding* enc)
-{
-	g_return_val_if_fail (enc != NULL, NULL);
+gchar *pluma_encoding_to_string(const PlumaEncoding *enc) {
+  g_return_val_if_fail(enc != NULL, NULL);
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	g_return_val_if_fail (enc->charset != NULL, NULL);
+  g_return_val_if_fail(enc->charset != NULL, NULL);
 
-	if (enc->name != NULL)
-	{
-	    	return g_strdup_printf ("%s (%s)", _(enc->name), enc->charset);
-	}
-	else
-	{
-		if (g_ascii_strcasecmp (enc->charset, "ANSI_X3.4-1968") == 0)
-			return g_strdup_printf ("US-ASCII (%s)", enc->charset);
-		else
-			return g_strdup (enc->charset);
-	}
+  if (enc->name != NULL) {
+    return g_strdup_printf("%s (%s)", _(enc->name), enc->charset);
+  } else {
+    if (g_ascii_strcasecmp(enc->charset, "ANSI_X3.4-1968") == 0)
+      return g_strdup_printf("US-ASCII (%s)", enc->charset);
+    else
+      return g_strdup(enc->charset);
+  }
 }
 
-const gchar *
-pluma_encoding_get_charset (const PlumaEncoding* enc)
-{
-	g_return_val_if_fail (enc != NULL, NULL);
+const gchar *pluma_encoding_get_charset(const PlumaEncoding *enc) {
+  g_return_val_if_fail(enc != NULL, NULL);
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	g_return_val_if_fail (enc->charset != NULL, NULL);
+  g_return_val_if_fail(enc->charset != NULL, NULL);
 
-	return enc->charset;
+  return enc->charset;
 }
 
-const gchar *
-pluma_encoding_get_name (const PlumaEncoding* enc)
-{
-	g_return_val_if_fail (enc != NULL, NULL);
+const gchar *pluma_encoding_get_name(const PlumaEncoding *enc) {
+  g_return_val_if_fail(enc != NULL, NULL);
 
-	pluma_encoding_lazy_init ();
+  pluma_encoding_lazy_init();
 
-	return (enc->name == NULL) ? _("Unknown") : _(enc->name);
+  return (enc->name == NULL) ? _("Unknown") : _(enc->name);
 }
 
 /* These are to make language bindings happy. Since Encodings are
  * const, copy() just returns the same pointer and fres() doesn't
  * do nothing */
 
-PlumaEncoding *
-pluma_encoding_copy (const PlumaEncoding *enc)
-{
-	g_return_val_if_fail (enc != NULL, NULL);
+PlumaEncoding *pluma_encoding_copy(const PlumaEncoding *enc) {
+  g_return_val_if_fail(enc != NULL, NULL);
 
-	return (PlumaEncoding *) enc;
+  return (PlumaEncoding *)enc;
 }
 
-void
-pluma_encoding_free (PlumaEncoding *enc)
-{
-	g_return_if_fail (enc != NULL);
-}
+void pluma_encoding_free(PlumaEncoding *enc) { g_return_if_fail(enc != NULL); }
 
 /**
  * pluma_encoding_get_type:
@@ -458,85 +350,68 @@ pluma_encoding_free (PlumaEncoding *enc)
  *
  * Return value: the GType associated with #PlumaEncoding.
  **/
-GType
-pluma_encoding_get_type (void)
-{
-	static GType our_type = 0;
+GType pluma_encoding_get_type(void) {
+  static GType our_type = 0;
 
-	if (!our_type)
-		our_type = g_boxed_type_register_static (
-			"PlumaEncoding",
-			(GBoxedCopyFunc) pluma_encoding_copy,
-			(GBoxedFreeFunc) pluma_encoding_free);
+  if (!our_type)
+    our_type = g_boxed_type_register_static(
+        "PlumaEncoding", (GBoxedCopyFunc)pluma_encoding_copy,
+        (GBoxedFreeFunc)pluma_encoding_free);
 
-	return our_type;
+  return our_type;
 }
 
-static gboolean
-data_exists (GSList *list, const gpointer  data)
-{
-	while (list != NULL)
-	{
-		if (list->data == data)
-			return TRUE;
+static gboolean data_exists(GSList *list, const gpointer data) {
+  while (list != NULL) {
+    if (list->data == data) return TRUE;
 
-		list = g_slist_next (list);
-	}
+    list = g_slist_next(list);
+  }
 
-	return FALSE;
+  return FALSE;
 }
 
-GSList *
-_pluma_encoding_strv_to_list (const gchar * const *enc_str)
-{
-	GSList *res = NULL;
-	gchar **p;
-	const PlumaEncoding *enc;
+GSList *_pluma_encoding_strv_to_list(const gchar *const *enc_str) {
+  GSList *res = NULL;
+  gchar **p;
+  const PlumaEncoding *enc;
 
-	for (p = (gchar **)enc_str; p != NULL && *p != NULL; p++)
-	{
-		const gchar *charset = *p;
+  for (p = (gchar **)enc_str; p != NULL && *p != NULL; p++) {
+    const gchar *charset = *p;
 
-		if (strcmp (charset, "CURRENT") == 0)
-			g_get_charset (&charset);
+    if (strcmp(charset, "CURRENT") == 0) g_get_charset(&charset);
 
-		g_return_val_if_fail (charset != NULL, NULL);
-		enc = pluma_encoding_get_from_charset (charset);
+    g_return_val_if_fail(charset != NULL, NULL);
+    enc = pluma_encoding_get_from_charset(charset);
 
-		if (enc != NULL)
-		{
-			if (!data_exists (res, (gpointer)enc))
-				res = g_slist_prepend (res, (gpointer)enc);
+    if (enc != NULL) {
+      if (!data_exists(res, (gpointer)enc))
+        res = g_slist_prepend(res, (gpointer)enc);
+    }
+  }
 
-		}
-	}
-
-	return g_slist_reverse (res);
+  return g_slist_reverse(res);
 }
 
-gchar **
-_pluma_encoding_list_to_strv (const GSList *enc_list)
-{
-	GSList *l;
-	GPtrArray *array;
+gchar **_pluma_encoding_list_to_strv(const GSList *enc_list) {
+  GSList *l;
+  GPtrArray *array;
 
-	array = g_ptr_array_sized_new (g_slist_length ((GSList *)enc_list) + 1);
+  array = g_ptr_array_sized_new(g_slist_length((GSList *)enc_list) + 1);
 
-	for (l = (GSList *)enc_list; l != NULL; l = g_slist_next (l))
-	{
-		const PlumaEncoding *enc;
-		const gchar *charset;
+  for (l = (GSList *)enc_list; l != NULL; l = g_slist_next(l)) {
+    const PlumaEncoding *enc;
+    const gchar *charset;
 
-		enc = (const PlumaEncoding *)l->data;
+    enc = (const PlumaEncoding *)l->data;
 
-		charset = pluma_encoding_get_charset (enc);
-		g_return_val_if_fail (charset != NULL, NULL);
+    charset = pluma_encoding_get_charset(enc);
+    g_return_val_if_fail(charset != NULL, NULL);
 
-		g_ptr_array_add (array, g_strdup (charset));
-	}
+    g_ptr_array_add(array, g_strdup(charset));
+  }
 
-	g_ptr_array_add (array, NULL);
+  g_ptr_array_add(array, NULL);
 
-	return (gchar **)g_ptr_array_free (array, FALSE);
+  return (gchar **)g_ptr_array_free(array, FALSE);
 }
-

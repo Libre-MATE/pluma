@@ -39,13 +39,23 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_SEARCH_DIALOG              (pluma_search_dialog_get_type())
-#define PLUMA_SEARCH_DIALOG(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SEARCH_DIALOG, PlumaSearchDialog))
-#define PLUMA_SEARCH_DIALOG_CONST(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SEARCH_DIALOG, PlumaSearchDialog const))
-#define PLUMA_SEARCH_DIALOG_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_SEARCH_DIALOG, PlumaSearchDialogClass))
-#define PLUMA_IS_SEARCH_DIALOG(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_SEARCH_DIALOG))
-#define PLUMA_IS_SEARCH_DIALOG_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_SEARCH_DIALOG))
-#define PLUMA_SEARCH_DIALOG_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_SEARCH_DIALOG, PlumaSearchDialogClass))
+#define PLUMA_TYPE_SEARCH_DIALOG (pluma_search_dialog_get_type())
+#define PLUMA_SEARCH_DIALOG(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SEARCH_DIALOG, \
+                              PlumaSearchDialog))
+#define PLUMA_SEARCH_DIALOG_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SEARCH_DIALOG, \
+                              PlumaSearchDialog const))
+#define PLUMA_SEARCH_DIALOG_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_SEARCH_DIALOG, \
+                           PlumaSearchDialogClass))
+#define PLUMA_IS_SEARCH_DIALOG(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_SEARCH_DIALOG))
+#define PLUMA_IS_SEARCH_DIALOG_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_SEARCH_DIALOG))
+#define PLUMA_SEARCH_DIALOG_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_SEARCH_DIALOG, \
+                             PlumaSearchDialogClass))
 
 /* Private structure type */
 typedef struct _PlumaSearchDialogPrivate PlumaSearchDialogPrivate;
@@ -55,12 +65,11 @@ typedef struct _PlumaSearchDialogPrivate PlumaSearchDialogPrivate;
  */
 typedef struct _PlumaSearchDialog PlumaSearchDialog;
 
-struct _PlumaSearchDialog
-{
-	GtkDialog dialog;
+struct _PlumaSearchDialog {
+  GtkDialog dialog;
 
-	/*< private > */
-	PlumaSearchDialogPrivate *priv;
+  /*< private > */
+  PlumaSearchDialogPrivate *priv;
 };
 
 /*
@@ -68,71 +77,66 @@ struct _PlumaSearchDialog
  */
 typedef struct _PlumaSearchDialogClass PlumaSearchDialogClass;
 
-struct _PlumaSearchDialogClass
-{
-	GtkDialogClass parent_class;
+struct _PlumaSearchDialogClass {
+  GtkDialogClass parent_class;
 
-	/* Key bindings */
-	gboolean (* show_replace) (PlumaSearchDialog *dlg);
+  /* Key bindings */
+  gboolean (*show_replace)(PlumaSearchDialog *dlg);
 };
 
-enum
-{
-	PLUMA_SEARCH_DIALOG_FIND_RESPONSE = 100,
-	PLUMA_SEARCH_DIALOG_REPLACE_RESPONSE,
-	PLUMA_SEARCH_DIALOG_REPLACE_ALL_RESPONSE
+enum {
+  PLUMA_SEARCH_DIALOG_FIND_RESPONSE = 100,
+  PLUMA_SEARCH_DIALOG_REPLACE_RESPONSE,
+  PLUMA_SEARCH_DIALOG_REPLACE_ALL_RESPONSE
 };
 
 /*
  * Public methods
  */
-GType 		 pluma_search_dialog_get_type 		(void) G_GNUC_CONST;
+GType pluma_search_dialog_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_search_dialog_new		(GtkWindow         *parent,
-							 gboolean           show_replace);
+GtkWidget *pluma_search_dialog_new(GtkWindow *parent, gboolean show_replace);
 
-void		 pluma_search_dialog_present_with_time	(PlumaSearchDialog *dialog,
-							 guint32 timestamp);
+void pluma_search_dialog_present_with_time(PlumaSearchDialog *dialog,
+                                           guint32 timestamp);
 
-gboolean	 pluma_search_dialog_get_show_replace	(PlumaSearchDialog *dialog);
+gboolean pluma_search_dialog_get_show_replace(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_show_replace	(PlumaSearchDialog *dialog,
-							 gboolean           show_replace);
+void pluma_search_dialog_set_show_replace(PlumaSearchDialog *dialog,
+                                          gboolean show_replace);
 
+void pluma_search_dialog_set_search_text(PlumaSearchDialog *dialog,
+                                         const gchar *text);
+const gchar *pluma_search_dialog_get_search_text(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_search_text	(PlumaSearchDialog *dialog,
-							 const gchar       *text);
-const gchar	*pluma_search_dialog_get_search_text	(PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_replace_text(PlumaSearchDialog *dialog,
+                                          const gchar *text);
+const gchar *pluma_search_dialog_get_replace_text(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_replace_text	(PlumaSearchDialog *dialog,
-							 const gchar       *text);
-const gchar	*pluma_search_dialog_get_replace_text	(PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_match_case(PlumaSearchDialog *dialog,
+                                        gboolean match_case);
+gboolean pluma_search_dialog_get_match_case(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_match_case	(PlumaSearchDialog *dialog,
-							 gboolean           match_case);
-gboolean	 pluma_search_dialog_get_match_case	(PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_match_regex(PlumaSearchDialog *dialog,
+                                         gboolean match_case);
+gboolean pluma_search_dialog_get_match_regex(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_match_regex (PlumaSearchDialog *dialog,
-                             gboolean           match_case);
-gboolean	 pluma_search_dialog_get_match_regex (PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_entire_word(PlumaSearchDialog *dialog,
+                                         gboolean entire_word);
+gboolean pluma_search_dialog_get_entire_word(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_entire_word	(PlumaSearchDialog *dialog,
-							 gboolean           entire_word);
-gboolean	 pluma_search_dialog_get_entire_word	(PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_backwards(PlumaSearchDialog *dialog,
+                                       gboolean backwards);
+gboolean pluma_search_dialog_get_backwards(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_backwards	(PlumaSearchDialog *dialog,
-							 gboolean           backwards);
-gboolean	 pluma_search_dialog_get_backwards	(PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_wrap_around(PlumaSearchDialog *dialog,
+                                         gboolean wrap_around);
+gboolean pluma_search_dialog_get_wrap_around(PlumaSearchDialog *dialog);
 
-void		 pluma_search_dialog_set_wrap_around	(PlumaSearchDialog *dialog,
-							 gboolean           wrap_around);
-gboolean	 pluma_search_dialog_get_wrap_around	(PlumaSearchDialog *dialog);
-
-
-void		pluma_search_dialog_set_parse_escapes (PlumaSearchDialog *dialog,
-                                    		       gboolean           parse_escapes);
-gboolean	pluma_search_dialog_get_parse_escapes (PlumaSearchDialog *dialog);
+void pluma_search_dialog_set_parse_escapes(PlumaSearchDialog *dialog,
+                                           gboolean parse_escapes);
+gboolean pluma_search_dialog_get_parse_escapes(PlumaSearchDialog *dialog);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_SEARCH_DIALOG_H__  */
+#endif /* __PLUMA_SEARCH_DIALOG_H__  */

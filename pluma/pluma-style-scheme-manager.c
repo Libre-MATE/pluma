@@ -33,128 +33,106 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <errno.h>
-
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-
 #include <gtk/gtk.h>
+#include <string.h>
 
-#include "pluma-style-scheme-manager.h"
 #include "pluma-dirs.h"
+#include "pluma-style-scheme-manager.h"
 
 static GtkSourceStyleSchemeManager *style_scheme_manager = NULL;
 
-static gchar *
-get_pluma_styles_path (void)
-{
-	gchar *config_dir;
-	gchar *dir = NULL;
+static gchar *get_pluma_styles_path(void) {
+  gchar *config_dir;
+  gchar *dir = NULL;
 
-	config_dir = pluma_dirs_get_user_config_dir ();
+  config_dir = pluma_dirs_get_user_config_dir();
 
-	if (config_dir != NULL)
-	{
-		dir = g_build_filename (config_dir,
-					"styles",
-					NULL);
-		g_free (config_dir);
-	}
+  if (config_dir != NULL) {
+    dir = g_build_filename(config_dir, "styles", NULL);
+    g_free(config_dir);
+  }
 
-	return dir;
+  return dir;
 }
 
-static void
-add_pluma_styles_path (GtkSourceStyleSchemeManager *mgr)
-{
-	gchar *dir;
+static void add_pluma_styles_path(GtkSourceStyleSchemeManager *mgr) {
+  gchar *dir;
 
-	dir = get_pluma_styles_path();
+  dir = get_pluma_styles_path();
 
-	if (dir != NULL)
-	{
-		gtk_source_style_scheme_manager_append_search_path (mgr, dir);
-		g_free (dir);
-	}
+  if (dir != NULL) {
+    gtk_source_style_scheme_manager_append_search_path(mgr, dir);
+    g_free(dir);
+  }
 }
 
-GtkSourceStyleSchemeManager *
-pluma_get_style_scheme_manager (void)
-{
-	if (style_scheme_manager == NULL)
-	{
-		style_scheme_manager = gtk_source_style_scheme_manager_new ();
-		add_pluma_styles_path (style_scheme_manager);
-	}
+GtkSourceStyleSchemeManager *pluma_get_style_scheme_manager(void) {
+  if (style_scheme_manager == NULL) {
+    style_scheme_manager = gtk_source_style_scheme_manager_new();
+    add_pluma_styles_path(style_scheme_manager);
+  }
 
-	return style_scheme_manager;
+  return style_scheme_manager;
 }
 
-static gint
-schemes_compare (gconstpointer a, gconstpointer b)
-{
-	GtkSourceStyleScheme *scheme_a = (GtkSourceStyleScheme *)a;
-	GtkSourceStyleScheme *scheme_b = (GtkSourceStyleScheme *)b;
+static gint schemes_compare(gconstpointer a, gconstpointer b) {
+  GtkSourceStyleScheme *scheme_a = (GtkSourceStyleScheme *)a;
+  GtkSourceStyleScheme *scheme_b = (GtkSourceStyleScheme *)b;
 
-	const gchar *name_a = gtk_source_style_scheme_get_name (scheme_a);
-	const gchar *name_b = gtk_source_style_scheme_get_name (scheme_b);
+  const gchar *name_a = gtk_source_style_scheme_get_name(scheme_a);
+  const gchar *name_b = gtk_source_style_scheme_get_name(scheme_b);
 
-	return g_utf8_collate (name_a, name_b);
+  return g_utf8_collate(name_a, name_b);
 }
 
-GSList *
-pluma_style_scheme_manager_list_schemes_sorted (GtkSourceStyleSchemeManager *manager)
-{
-	const gchar * const * scheme_ids;
-	GSList *schemes = NULL;
+GSList *pluma_style_scheme_manager_list_schemes_sorted(
+    GtkSourceStyleSchemeManager *manager) {
+  const gchar *const *scheme_ids;
+  GSList *schemes = NULL;
 
-	g_return_val_if_fail (GTK_SOURCE_IS_STYLE_SCHEME_MANAGER (manager), NULL);
+  g_return_val_if_fail(GTK_SOURCE_IS_STYLE_SCHEME_MANAGER(manager), NULL);
 
-	scheme_ids = gtk_source_style_scheme_manager_get_scheme_ids (manager);
+  scheme_ids = gtk_source_style_scheme_manager_get_scheme_ids(manager);
 
-	while (*scheme_ids != NULL)
-	{
-		GtkSourceStyleScheme *scheme;
+  while (*scheme_ids != NULL) {
+    GtkSourceStyleScheme *scheme;
 
-		scheme = gtk_source_style_scheme_manager_get_scheme (manager,
-								     *scheme_ids);
+    scheme = gtk_source_style_scheme_manager_get_scheme(manager, *scheme_ids);
 
-		schemes = g_slist_prepend (schemes, scheme);
+    schemes = g_slist_prepend(schemes, scheme);
 
-		++scheme_ids;
-	}
+    ++scheme_ids;
+  }
 
-	if (schemes != NULL)
-		schemes = g_slist_sort (schemes, (GCompareFunc)schemes_compare);
+  if (schemes != NULL)
+    schemes = g_slist_sort(schemes, (GCompareFunc)schemes_compare);
 
-	return schemes;
+  return schemes;
 }
 
-gboolean
-_pluma_style_scheme_manager_scheme_is_pluma_user_scheme (GtkSourceStyleSchemeManager *manager,
-							 const gchar                 *scheme_id)
-{
-	GtkSourceStyleScheme *scheme;
-	const gchar *filename;
-	gchar *dir;
-	gboolean res = FALSE;
+gboolean _pluma_style_scheme_manager_scheme_is_pluma_user_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *scheme_id) {
+  GtkSourceStyleScheme *scheme;
+  const gchar *filename;
+  gchar *dir;
+  gboolean res = FALSE;
 
-	scheme = gtk_source_style_scheme_manager_get_scheme (manager, scheme_id);
-	if (scheme == NULL)
-		return FALSE;
+  scheme = gtk_source_style_scheme_manager_get_scheme(manager, scheme_id);
+  if (scheme == NULL) return FALSE;
 
-	filename = gtk_source_style_scheme_get_filename (scheme);
-	if (filename == NULL)
-		return FALSE;
+  filename = gtk_source_style_scheme_get_filename(scheme);
+  if (filename == NULL) return FALSE;
 
-	dir = get_pluma_styles_path ();
+  dir = get_pluma_styles_path();
 
-	res = g_str_has_prefix (filename, dir);
+  res = g_str_has_prefix(filename, dir);
 
-	g_free (dir);
+  g_free(dir);
 
-	return res;
+  return res;
 }
 
 /**
@@ -174,63 +152,55 @@ _pluma_style_scheme_manager_scheme_is_pluma_user_scheme (GtkSourceStyleSchemeMan
  *
  * Return value: %TRUE on success, %FALSE otherwise.
  */
-static gboolean
-file_copy (const gchar  *name,
-	   const gchar  *dest_name,
-	   GError      **error)
-{
-	gchar *contents;
-	gsize length;
-	gchar *dest_dir;
+static gboolean file_copy(const gchar *name, const gchar *dest_name,
+                          GError **error) {
+  gchar *contents;
+  gsize length;
+  gchar *dest_dir;
 
-	/* FIXME - Paolo (Aug. 13, 2007):
-	 * Since the style scheme files are relatively small, we can implement
-	 * file copy getting all the content of the source file in a buffer and
-	 * then write the content to the destination file. In this way we
-	 * can use the g_file_get_contents and g_file_set_contents and avoid to
-	 * write custom code to copy the file (with sane error management).
-	 * If needed we can improve this code later. */
+  /* FIXME - Paolo (Aug. 13, 2007):
+   * Since the style scheme files are relatively small, we can implement
+   * file copy getting all the content of the source file in a buffer and
+   * then write the content to the destination file. In this way we
+   * can use the g_file_get_contents and g_file_set_contents and avoid to
+   * write custom code to copy the file (with sane error management).
+   * If needed we can improve this code later. */
 
-	g_return_val_if_fail (name != NULL, FALSE);
-	g_return_val_if_fail (dest_name != NULL, FALSE);
-	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+  g_return_val_if_fail(name != NULL, FALSE);
+  g_return_val_if_fail(dest_name != NULL, FALSE);
+  g_return_val_if_fail(error == NULL || *error == NULL, FALSE);
 
-	/* Note: we allow to copy a file to itself since this is not a problem
-	 * in our use case */
+  /* Note: we allow to copy a file to itself since this is not a problem
+   * in our use case */
 
-	/* Ensure the destination directory exists */
-	dest_dir = g_path_get_dirname (dest_name);
+  /* Ensure the destination directory exists */
+  dest_dir = g_path_get_dirname(dest_name);
 
-	errno = 0;
-	if (g_mkdir_with_parents (dest_dir, 0755) != 0)
-	{
-		gint save_errno = errno;
-		gchar *display_filename = g_filename_display_name (dest_dir);
+  errno = 0;
+  if (g_mkdir_with_parents(dest_dir, 0755) != 0) {
+    gint save_errno = errno;
+    gchar *display_filename = g_filename_display_name(dest_dir);
 
-		g_set_error (error,
-			     G_FILE_ERROR,
-			     g_file_error_from_errno (save_errno),
-			     _("Directory '%s' could not be created: g_mkdir_with_parents() failed: %s"),
-			     display_filename,
-			     g_strerror (save_errno));
+    g_set_error(error, G_FILE_ERROR, g_file_error_from_errno(save_errno),
+                _("Directory '%s' could not be created: g_mkdir_with_parents() "
+                  "failed: %s"),
+                display_filename, g_strerror(save_errno));
 
-		g_free (dest_dir);
-		g_free (display_filename);
+    g_free(dest_dir);
+    g_free(display_filename);
 
-		return FALSE;
-	}
+    return FALSE;
+  }
 
-	g_free (dest_dir);
+  g_free(dest_dir);
 
-	if (!g_file_get_contents (name, &contents, &length, error))
-		return FALSE;
+  if (!g_file_get_contents(name, &contents, &length, error)) return FALSE;
 
-	if (!g_file_set_contents (dest_name, contents, length, error))
-		return FALSE;
+  if (!g_file_set_contents(dest_name, contents, length, error)) return FALSE;
 
-	g_free (contents);
+  g_free(contents);
 
-	return TRUE;
+  return TRUE;
 }
 
 /**
@@ -248,88 +218,78 @@ file_copy (const gchar  *name,
  *
  * Return value: the id of the installed scheme, %NULL otherwise.
  */
-const gchar *
-_pluma_style_scheme_manager_install_scheme (GtkSourceStyleSchemeManager *manager,
-					    const gchar                 *fname)
-{
-	gchar *new_file_name = NULL;
-	gchar *dirname;
-	gchar *styles_dir;
-	GError *error = NULL;
-	gboolean copied = FALSE;
+const gchar *_pluma_style_scheme_manager_install_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *fname) {
+  gchar *new_file_name = NULL;
+  gchar *dirname;
+  gchar *styles_dir;
+  GError *error = NULL;
+  gboolean copied = FALSE;
 
-	const gchar* const *ids;
+  const gchar *const *ids;
 
-	g_return_val_if_fail (GTK_SOURCE_IS_STYLE_SCHEME_MANAGER (manager), NULL);
-	g_return_val_if_fail (fname != NULL, NULL);
+  g_return_val_if_fail(GTK_SOURCE_IS_STYLE_SCHEME_MANAGER(manager), NULL);
+  g_return_val_if_fail(fname != NULL, NULL);
 
-	dirname = g_path_get_dirname (fname);
-	styles_dir = get_pluma_styles_path();
+  dirname = g_path_get_dirname(fname);
+  styles_dir = get_pluma_styles_path();
 
-	if (strcmp (dirname, styles_dir) != 0)
-	{
-		gchar *basename;
+  if (strcmp(dirname, styles_dir) != 0) {
+    gchar *basename;
 
-		basename = g_path_get_basename (fname);
-		new_file_name = g_build_filename (styles_dir, basename, NULL);
-		g_free (basename);
+    basename = g_path_get_basename(fname);
+    new_file_name = g_build_filename(styles_dir, basename, NULL);
+    g_free(basename);
 
-		/* Copy the style scheme file into PLUMA_STYLES_DIR */
-		if (!file_copy (fname, new_file_name, &error))
-		{
-			g_free (new_file_name);
+    /* Copy the style scheme file into PLUMA_STYLES_DIR */
+    if (!file_copy(fname, new_file_name, &error)) {
+      g_free(new_file_name);
 
-			g_message ("Cannot install style scheme:\n%s",
-				   error->message);
+      g_message("Cannot install style scheme:\n%s", error->message);
 
-			g_free (dirname);
-			g_free (styles_dir);
-			return NULL;
-		}
+      g_free(dirname);
+      g_free(styles_dir);
+      return NULL;
+    }
 
-		copied = TRUE;
-	}
-	else
-	{
-		new_file_name = g_strdup (fname);
-	}
+    copied = TRUE;
+  } else {
+    new_file_name = g_strdup(fname);
+  }
 
-	g_free (dirname);
-	g_free (styles_dir);
+  g_free(dirname);
+  g_free(styles_dir);
 
-	/* Reload the available style schemes */
-	gtk_source_style_scheme_manager_force_rescan (manager);
+  /* Reload the available style schemes */
+  gtk_source_style_scheme_manager_force_rescan(manager);
 
-	/* Check the new style scheme has been actually installed */
-	ids = gtk_source_style_scheme_manager_get_scheme_ids (manager);
+  /* Check the new style scheme has been actually installed */
+  ids = gtk_source_style_scheme_manager_get_scheme_ids(manager);
 
-	while (*ids != NULL)
-	{
-		GtkSourceStyleScheme *scheme;
-		const gchar *filename;
+  while (*ids != NULL) {
+    GtkSourceStyleScheme *scheme;
+    const gchar *filename;
 
-		scheme = gtk_source_style_scheme_manager_get_scheme (
-				pluma_get_style_scheme_manager (), *ids);
+    scheme = gtk_source_style_scheme_manager_get_scheme(
+        pluma_get_style_scheme_manager(), *ids);
 
-		filename = gtk_source_style_scheme_get_filename (scheme);
+    filename = gtk_source_style_scheme_get_filename(scheme);
 
-		if (filename && (strcmp (filename, new_file_name) == 0))
-		{
-			/* The style scheme has been correctly installed */
-			g_free (new_file_name);
+    if (filename && (strcmp(filename, new_file_name) == 0)) {
+      /* The style scheme has been correctly installed */
+      g_free(new_file_name);
 
-			return gtk_source_style_scheme_get_id (scheme);
-		}
-		++ids;
-	}
+      return gtk_source_style_scheme_get_id(scheme);
+    }
+    ++ids;
+  }
 
-	/* The style scheme has not been correctly installed */
-	if (copied)
-		g_unlink (new_file_name);
+  /* The style scheme has not been correctly installed */
+  if (copied) g_unlink(new_file_name);
 
-	g_free (new_file_name);
+  g_free(new_file_name);
 
-	return NULL;
+  return NULL;
 }
 
 /**
@@ -344,29 +304,24 @@ _pluma_style_scheme_manager_install_scheme (GtkSourceStyleSchemeManager *manager
  *
  * Return value: %TRUE on success, %FALSE otherwise.
  */
-gboolean
-_pluma_style_scheme_manager_uninstall_scheme (GtkSourceStyleSchemeManager *manager,
-					      const gchar                 *id)
-{
-	GtkSourceStyleScheme *scheme;
-	const gchar *filename;
+gboolean _pluma_style_scheme_manager_uninstall_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *id) {
+  GtkSourceStyleScheme *scheme;
+  const gchar *filename;
 
-	g_return_val_if_fail (GTK_SOURCE_IS_STYLE_SCHEME_MANAGER (manager), FALSE);
-	g_return_val_if_fail (id != NULL, FALSE);
+  g_return_val_if_fail(GTK_SOURCE_IS_STYLE_SCHEME_MANAGER(manager), FALSE);
+  g_return_val_if_fail(id != NULL, FALSE);
 
-	scheme = gtk_source_style_scheme_manager_get_scheme (manager, id);
-	if (scheme == NULL)
-		return FALSE;
+  scheme = gtk_source_style_scheme_manager_get_scheme(manager, id);
+  if (scheme == NULL) return FALSE;
 
-	filename = gtk_source_style_scheme_get_filename (scheme);
-	if (filename == NULL)
-		return FALSE;
+  filename = gtk_source_style_scheme_get_filename(scheme);
+  if (filename == NULL) return FALSE;
 
-	if (g_unlink (filename) == -1)
-		return FALSE;
+  if (g_unlink(filename) == -1) return FALSE;
 
-	/* Reload the available style schemes */
-	gtk_source_style_scheme_manager_force_rescan (manager);
+  /* Reload the available style schemes */
+  gtk_source_style_scheme_manager_force_rescan(manager);
 
-	return TRUE;
+  return TRUE;
 }

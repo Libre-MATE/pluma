@@ -30,59 +30,55 @@
 
 G_BEGIN_DECLS
 
-typedef struct _PlumaTextRegion		PlumaTextRegion;
-typedef struct _PlumaTextRegionIterator	PlumaTextRegionIterator;
+typedef struct _PlumaTextRegion PlumaTextRegion;
+typedef struct _PlumaTextRegionIterator PlumaTextRegionIterator;
 
 struct _PlumaTextRegionIterator {
-	/* PlumaTextRegionIterator is an opaque datatype; ignore all these fields.
-	 * Initialize the iter with pluma_text_region_get_iterator
-	 * function
-	 */
-	/*< private >*/
-	gpointer dummy1;
-	guint32  dummy2;
-	gpointer dummy3;
+  /* PlumaTextRegionIterator is an opaque datatype; ignore all these fields.
+   * Initialize the iter with pluma_text_region_get_iterator
+   * function
+   */
+  /*< private >*/
+  gpointer dummy1;
+  guint32 dummy2;
+  gpointer dummy3;
 };
 
-PlumaTextRegion *pluma_text_region_new                          (GtkTextBuffer *buffer);
-void           pluma_text_region_destroy                      (PlumaTextRegion *region,
-							     gboolean       delete_marks);
+PlumaTextRegion *pluma_text_region_new(GtkTextBuffer *buffer);
+void pluma_text_region_destroy(PlumaTextRegion *region, gboolean delete_marks);
 
-GtkTextBuffer *pluma_text_region_get_buffer                   (PlumaTextRegion *region);
+GtkTextBuffer *pluma_text_region_get_buffer(PlumaTextRegion *region);
 
-void           pluma_text_region_add                          (PlumaTextRegion     *region,
-							     const GtkTextIter *_start,
-							     const GtkTextIter *_end);
+void pluma_text_region_add(PlumaTextRegion *region, const GtkTextIter *_start,
+                           const GtkTextIter *_end);
 
-void           pluma_text_region_subtract                     (PlumaTextRegion     *region,
-							     const GtkTextIter *_start,
-							     const GtkTextIter *_end);
+void pluma_text_region_subtract(PlumaTextRegion *region,
+                                const GtkTextIter *_start,
+                                const GtkTextIter *_end);
 
-gint           pluma_text_region_subregions                   (PlumaTextRegion *region);
+gint pluma_text_region_subregions(PlumaTextRegion *region);
 
-gboolean       pluma_text_region_nth_subregion                (PlumaTextRegion *region,
-							     guint          subregion,
-							     GtkTextIter   *start,
-							     GtkTextIter   *end);
+gboolean pluma_text_region_nth_subregion(PlumaTextRegion *region,
+                                         guint subregion, GtkTextIter *start,
+                                         GtkTextIter *end);
 
-PlumaTextRegion *pluma_text_region_intersect                    (PlumaTextRegion     *region,
-							     const GtkTextIter *_start,
-							     const GtkTextIter *_end);
+PlumaTextRegion *pluma_text_region_intersect(PlumaTextRegion *region,
+                                             const GtkTextIter *_start,
+                                             const GtkTextIter *_end);
 
-void           pluma_text_region_get_iterator                 (PlumaTextRegion         *region,
-                                                             PlumaTextRegionIterator *iter,
-                                                             guint                  start);
+void pluma_text_region_get_iterator(PlumaTextRegion *region,
+                                    PlumaTextRegionIterator *iter, guint start);
 
-gboolean       pluma_text_region_iterator_is_end              (PlumaTextRegionIterator *iter);
+gboolean pluma_text_region_iterator_is_end(PlumaTextRegionIterator *iter);
 
 /* Returns FALSE if iterator is the end iterator */
-gboolean       pluma_text_region_iterator_next	            (PlumaTextRegionIterator *iter);
+gboolean pluma_text_region_iterator_next(PlumaTextRegionIterator *iter);
 
-void           pluma_text_region_iterator_get_subregion       (PlumaTextRegionIterator *iter,
-							     GtkTextIter           *start,
-							     GtkTextIter           *end);
+void pluma_text_region_iterator_get_subregion(PlumaTextRegionIterator *iter,
+                                              GtkTextIter *start,
+                                              GtkTextIter *end);
 
-void           pluma_text_region_debug_print                  (PlumaTextRegion *region);
+void pluma_text_region_debug_print(PlumaTextRegion *region);
 
 G_END_DECLS
 

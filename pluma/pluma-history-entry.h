@@ -32,65 +32,67 @@
 #ifndef __PLUMA_HISTORY_ENTRY_H__
 #define __PLUMA_HISTORY_ENTRY_H__
 
-
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_HISTORY_ENTRY             (pluma_history_entry_get_type ())
-#define PLUMA_HISTORY_ENTRY(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_HISTORY_ENTRY, PlumaHistoryEntry))
-#define PLUMA_HISTORY_ENTRY_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_HISTORY_ENTRY, PlumaHistoryEntryClass))
-#define PLUMA_IS_HISTORY_ENTRY(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_HISTORY_ENTRY))
-#define PLUMA_IS_HISTORY_ENTRY_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_HISTORY_ENTRY))
-#define PLUMA_HISTORY_ENTRY_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_HISTORY_ENTRY, PlumaHistoryEntryClass))
+#define PLUMA_TYPE_HISTORY_ENTRY (pluma_history_entry_get_type())
+#define PLUMA_HISTORY_ENTRY(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_HISTORY_ENTRY, \
+                              PlumaHistoryEntry))
+#define PLUMA_HISTORY_ENTRY_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_HISTORY_ENTRY, \
+                           PlumaHistoryEntryClass))
+#define PLUMA_IS_HISTORY_ENTRY(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_HISTORY_ENTRY))
+#define PLUMA_IS_HISTORY_ENTRY_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_HISTORY_ENTRY))
+#define PLUMA_HISTORY_ENTRY_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_HISTORY_ENTRY, \
+                             PlumaHistoryEntryClass))
 
-
-typedef struct _PlumaHistoryEntry        PlumaHistoryEntry;
-typedef struct _PlumaHistoryEntryClass   PlumaHistoryEntryClass;
+typedef struct _PlumaHistoryEntry PlumaHistoryEntry;
+typedef struct _PlumaHistoryEntryClass PlumaHistoryEntryClass;
 typedef struct _PlumaHistoryEntryPrivate PlumaHistoryEntryPrivate;
 
-struct _PlumaHistoryEntryClass
-{
-	GtkComboBoxTextClass parent_class;
+struct _PlumaHistoryEntryClass {
+  GtkComboBoxTextClass parent_class;
 };
 
-struct _PlumaHistoryEntry
-{
-	GtkComboBoxText parent_instance;
+struct _PlumaHistoryEntry {
+  GtkComboBoxText parent_instance;
 
-	PlumaHistoryEntryPrivate *priv;
+  PlumaHistoryEntryPrivate *priv;
 };
 
-GType		 pluma_history_entry_get_type	(void) G_GNUC_CONST;
+GType pluma_history_entry_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_history_entry_new		(const gchar       *history_id,
-							 gboolean           enable_completion);
+GtkWidget *pluma_history_entry_new(const gchar *history_id,
+                                   gboolean enable_completion);
 
-void		 pluma_history_entry_prepend_text	(PlumaHistoryEntry *entry,
-							 const gchar       *text);
+void pluma_history_entry_prepend_text(PlumaHistoryEntry *entry,
+                                      const gchar *text);
 
-void		 pluma_history_entry_append_text	(PlumaHistoryEntry *entry,
-							 const gchar       *text);
+void pluma_history_entry_append_text(PlumaHistoryEntry *entry,
+                                     const gchar *text);
 
-void		 pluma_history_entry_clear		(PlumaHistoryEntry *entry);
+void pluma_history_entry_clear(PlumaHistoryEntry *entry);
 
-void		 pluma_history_entry_set_history_length	(PlumaHistoryEntry *entry,
-							 guint              max_saved);
+void pluma_history_entry_set_history_length(PlumaHistoryEntry *entry,
+                                            guint max_saved);
 
-guint		 pluma_history_entry_get_history_length	(PlumaHistoryEntry *gentry);
+guint pluma_history_entry_get_history_length(PlumaHistoryEntry *gentry);
 
-gchar		*pluma_history_entry_get_history_id	(PlumaHistoryEntry *entry);
+gchar *pluma_history_entry_get_history_id(PlumaHistoryEntry *entry);
 
-void             pluma_history_entry_set_enable_completion
-							(PlumaHistoryEntry *entry,
-							 gboolean           enable);
+void pluma_history_entry_set_enable_completion(PlumaHistoryEntry *entry,
+                                               gboolean enable);
 
-gboolean         pluma_history_entry_get_enable_completion
-							(PlumaHistoryEntry *entry);
+gboolean pluma_history_entry_get_enable_completion(PlumaHistoryEntry *entry);
 
-GtkWidget	*pluma_history_entry_get_entry		(PlumaHistoryEntry *entry);
+GtkWidget *pluma_history_entry_get_entry(PlumaHistoryEntry *entry);
 
-typedef gchar * (* PlumaHistoryEntryEscapeFunc) (const gchar *str);
-void		pluma_history_entry_set_escape_func	(PlumaHistoryEntry *entry,
-							 PlumaHistoryEntryEscapeFunc escape_func);
+typedef gchar *(*PlumaHistoryEntryEscapeFunc)(const gchar *str);
+void pluma_history_entry_set_escape_func(
+    PlumaHistoryEntry *entry, PlumaHistoryEntryEscapeFunc escape_func);
 
 G_END_DECLS
 

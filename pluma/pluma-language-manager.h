@@ -38,11 +38,10 @@
 
 G_BEGIN_DECLS
 
-GtkSourceLanguageManager	*pluma_get_language_manager	(void);
+GtkSourceLanguageManager *pluma_get_language_manager(void);
 
-GSList				*pluma_language_manager_list_languages_sorted
-								(GtkSourceLanguageManager	*lm,
-								 gboolean			 include_hidden);
+GSList *pluma_language_manager_list_languages_sorted(
+    GtkSourceLanguageManager *lm, gboolean include_hidden);
 
 G_END_DECLS
 

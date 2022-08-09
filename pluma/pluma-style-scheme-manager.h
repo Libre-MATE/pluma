@@ -30,27 +30,23 @@
 
 G_BEGIN_DECLS
 
-GtkSourceStyleSchemeManager *
-		 pluma_get_style_scheme_manager		(void);
+GtkSourceStyleSchemeManager *pluma_get_style_scheme_manager(void);
 
 /* Returns a sorted list of style schemes */
-GSList		*pluma_style_scheme_manager_list_schemes_sorted
-							(GtkSourceStyleSchemeManager *manager);
+GSList *pluma_style_scheme_manager_list_schemes_sorted(
+    GtkSourceStyleSchemeManager *manager);
 
 /*
  * Non exported functions
  */
-gboolean	 _pluma_style_scheme_manager_scheme_is_pluma_user_scheme
-							(GtkSourceStyleSchemeManager *manager,
-							 const gchar                 *scheme_id);
+gboolean _pluma_style_scheme_manager_scheme_is_pluma_user_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *scheme_id);
 
-const gchar	*_pluma_style_scheme_manager_install_scheme
-							(GtkSourceStyleSchemeManager *manager,
-							 const gchar                 *fname);
+const gchar *_pluma_style_scheme_manager_install_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *fname);
 
-gboolean	 _pluma_style_scheme_manager_uninstall_scheme
-							(GtkSourceStyleSchemeManager *manager,
-							 const gchar                 *id);
+gboolean _pluma_style_scheme_manager_uninstall_scheme(
+    GtkSourceStyleSchemeManager *manager, const gchar *id);
 
 G_END_DECLS
 

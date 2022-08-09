@@ -21,44 +21,55 @@
  * Boston, MA  02110-1301  USA
  */
 
-
 #ifndef __PLUMA_DOCUMENT_OUTPUT_STREAM_H__
 #define __PLUMA_DOCUMENT_OUTPUT_STREAM_H__
 
 #include <gio/gio.h>
+
 #include "pluma-document.h"
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM		(pluma_document_output_stream_get_type ())
-#define PLUMA_DOCUMENT_OUTPUT_STREAM(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, PlumaDocumentOutputStream))
-#define PLUMA_DOCUMENT_OUTPUT_STREAM_CONST(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, PlumaDocumentOutputStream const))
-#define PLUMA_DOCUMENT_OUTPUT_STREAM_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, PlumaDocumentOutputStreamClass))
-#define PLUMA_IS_DOCUMENT_OUTPUT_STREAM(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM))
-#define PLUMA_IS_DOCUMENT_OUTPUT_STREAM_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM))
-#define PLUMA_DOCUMENT_OUTPUT_STREAM_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, PlumaDocumentOutputStreamClass))
+#define PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM \
+  (pluma_document_output_stream_get_type())
+#define PLUMA_DOCUMENT_OUTPUT_STREAM(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, \
+                              PlumaDocumentOutputStream))
+#define PLUMA_DOCUMENT_OUTPUT_STREAM_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, \
+                              PlumaDocumentOutputStream const))
+#define PLUMA_DOCUMENT_OUTPUT_STREAM_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, \
+                           PlumaDocumentOutputStreamClass))
+#define PLUMA_IS_DOCUMENT_OUTPUT_STREAM(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM))
+#define PLUMA_IS_DOCUMENT_OUTPUT_STREAM_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM))
+#define PLUMA_DOCUMENT_OUTPUT_STREAM_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_DOCUMENT_OUTPUT_STREAM, \
+                             PlumaDocumentOutputStreamClass))
 
-typedef struct _PlumaDocumentOutputStream		PlumaDocumentOutputStream;
-typedef struct _PlumaDocumentOutputStreamClass		PlumaDocumentOutputStreamClass;
-typedef struct _PlumaDocumentOutputStreamPrivate	PlumaDocumentOutputStreamPrivate;
+typedef struct _PlumaDocumentOutputStream PlumaDocumentOutputStream;
+typedef struct _PlumaDocumentOutputStreamClass PlumaDocumentOutputStreamClass;
+typedef struct _PlumaDocumentOutputStreamPrivate
+    PlumaDocumentOutputStreamPrivate;
 
-struct _PlumaDocumentOutputStream
-{
-	GOutputStream parent;
+struct _PlumaDocumentOutputStream {
+  GOutputStream parent;
 
-	PlumaDocumentOutputStreamPrivate *priv;
+  PlumaDocumentOutputStreamPrivate *priv;
 };
 
-struct _PlumaDocumentOutputStreamClass
-{
-	GOutputStreamClass parent_class;
+struct _PlumaDocumentOutputStreamClass {
+  GOutputStreamClass parent_class;
 };
 
-GType			 pluma_document_output_stream_get_type		(void) G_GNUC_CONST;
+GType pluma_document_output_stream_get_type(void) G_GNUC_CONST;
 
-GOutputStream		*pluma_document_output_stream_new		(PlumaDocument *doc);
+GOutputStream *pluma_document_output_stream_new(PlumaDocument *doc);
 
-PlumaDocumentNewlineType pluma_document_output_stream_detect_newline_type (PlumaDocumentOutputStream *stream);
+PlumaDocumentNewlineType pluma_document_output_stream_detect_newline_type(
+    PlumaDocumentOutputStream *stream);
 
 G_END_DECLS
 

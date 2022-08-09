@@ -28,11 +28,11 @@
 
 G_BEGIN_DECLS
 
-gboolean pluma_spell_utils_is_digit (const char *text, gssize length);
+gboolean pluma_spell_utils_is_digit(const char *text, gssize length);
 
-gboolean pluma_spell_utils_skip_no_spell_check (GtkTextIter *start, GtkTextIter *end);
+gboolean pluma_spell_utils_skip_no_spell_check(GtkTextIter *start,
+                                               GtkTextIter *end);
 
 G_END_DECLS
 
 #endif /* __PLUMA_SPELL_UTILS_H__ */
-

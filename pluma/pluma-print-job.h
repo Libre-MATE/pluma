@@ -41,27 +41,29 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_PRINT_JOB              (pluma_print_job_get_type())
-#define PLUMA_PRINT_JOB(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PRINT_JOB, PlumaPrintJob))
-#define PLUMA_PRINT_JOB_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PRINT_JOB, PlumaPrintJobClass))
-#define PLUMA_IS_PRINT_JOB(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PRINT_JOB))
-#define PLUMA_IS_PRINT_JOB_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PRINT_JOB))
-#define PLUMA_PRINT_JOB_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PRINT_JOB, PlumaPrintJobClass))
+#define PLUMA_TYPE_PRINT_JOB (pluma_print_job_get_type())
+#define PLUMA_PRINT_JOB(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PRINT_JOB, PlumaPrintJob))
+#define PLUMA_PRINT_JOB_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PRINT_JOB, PlumaPrintJobClass))
+#define PLUMA_IS_PRINT_JOB(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PRINT_JOB))
+#define PLUMA_IS_PRINT_JOB_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PRINT_JOB))
+#define PLUMA_PRINT_JOB_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PRINT_JOB, PlumaPrintJobClass))
 
-
-typedef enum
-{
-	PLUMA_PRINT_JOB_STATUS_INIT,
-	PLUMA_PRINT_JOB_STATUS_PAGINATING,
-	PLUMA_PRINT_JOB_STATUS_DRAWING,
-	PLUMA_PRINT_JOB_STATUS_DONE
+typedef enum {
+  PLUMA_PRINT_JOB_STATUS_INIT,
+  PLUMA_PRINT_JOB_STATUS_PAGINATING,
+  PLUMA_PRINT_JOB_STATUS_DRAWING,
+  PLUMA_PRINT_JOB_STATUS_DONE
 } PlumaPrintJobStatus;
 
-typedef enum
-{
-	PLUMA_PRINT_JOB_RESULT_OK,
-	PLUMA_PRINT_JOB_RESULT_CANCEL,
-	PLUMA_PRINT_JOB_RESULT_ERROR
+typedef enum {
+  PLUMA_PRINT_JOB_RESULT_OK,
+  PLUMA_PRINT_JOB_RESULT_CANCEL,
+  PLUMA_PRINT_JOB_RESULT_ERROR
 } PlumaPrintJobResult;
 
 /* Private structure type */
@@ -72,13 +74,11 @@ typedef struct _PlumaPrintJobPrivate PlumaPrintJobPrivate;
  */
 typedef struct _PlumaPrintJob PlumaPrintJob;
 
+struct _PlumaPrintJob {
+  GObject parent;
 
-struct _PlumaPrintJob
-{
-	GObject parent;
-
-	/* <private> */
-	PlumaPrintJobPrivate *priv;
+  /* <private> */
+  PlumaPrintJobPrivate *priv;
 };
 
 /*
@@ -86,48 +86,44 @@ struct _PlumaPrintJob
  */
 typedef struct _PlumaPrintJobClass PlumaPrintJobClass;
 
-struct _PlumaPrintJobClass
-{
-	GObjectClass parent_class;
+struct _PlumaPrintJobClass {
+  GObjectClass parent_class;
 
-        /* Signals */
-	void (* printing) (PlumaPrintJob       *job,
-	                   PlumaPrintJobStatus  status);
+  /* Signals */
+  void (*printing)(PlumaPrintJob *job, PlumaPrintJobStatus status);
 
-	void (* show_preview) (PlumaPrintJob   *job,
-	                       GtkWidget       *preview);
+  void (*show_preview)(PlumaPrintJob *job, GtkWidget *preview);
 
-        void (*done)      (PlumaPrintJob       *job,
-		           PlumaPrintJobResult  result,
-                           const GError        *error);
+  void (*done)(PlumaPrintJob *job, PlumaPrintJobResult result,
+               const GError *error);
 };
 
 /*
  * Public methods
  */
-GType			 pluma_print_job_get_type		(void) G_GNUC_CONST;
+GType pluma_print_job_get_type(void) G_GNUC_CONST;
 
-PlumaPrintJob		*pluma_print_job_new			(PlumaView                *view);
+PlumaPrintJob *pluma_print_job_new(PlumaView *view);
 
-void			 pluma_print_job_set_export_filename	(PlumaPrintJob            *job,
-								 const gchar              *filename);
+void pluma_print_job_set_export_filename(PlumaPrintJob *job,
+                                         const gchar *filename);
 
-GtkPrintOperationResult	 pluma_print_job_print			(PlumaPrintJob            *job,
-								 GtkPrintOperationAction   action,
-								 GtkPageSetup             *page_setup,
-								 GtkPrintSettings         *settings,
-								 GtkWindow                *parent,
-								 GError                  **error);
+GtkPrintOperationResult pluma_print_job_print(PlumaPrintJob *job,
+                                              GtkPrintOperationAction action,
+                                              GtkPageSetup *page_setup,
+                                              GtkPrintSettings *settings,
+                                              GtkWindow *parent,
+                                              GError **error);
 
-void			 pluma_print_job_cancel			(PlumaPrintJob            *job);
+void pluma_print_job_cancel(PlumaPrintJob *job);
 
-const gchar		*pluma_print_job_get_status_string	(PlumaPrintJob            *job);
+const gchar *pluma_print_job_get_status_string(PlumaPrintJob *job);
 
-gdouble			 pluma_print_job_get_progress		(PlumaPrintJob            *job);
+gdouble pluma_print_job_get_progress(PlumaPrintJob *job);
 
-GtkPrintSettings	*pluma_print_job_get_print_settings	(PlumaPrintJob            *job);
+GtkPrintSettings *pluma_print_job_get_print_settings(PlumaPrintJob *job);
 
-GtkPageSetup		*pluma_print_job_get_page_setup		(PlumaPrintJob            *job);
+GtkPageSetup *pluma_print_job_get_page_setup(PlumaPrintJob *job);
 
 G_END_DECLS
 

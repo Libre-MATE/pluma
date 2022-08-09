@@ -36,34 +36,32 @@
 
 G_BEGIN_DECLS
 
-GtkWidget	*pluma_io_loading_error_message_area_new		 (const gchar         *uri,
-									  const PlumaEncoding *encoding,
-									  const GError        *error);
+GtkWidget *pluma_io_loading_error_message_area_new(
+    const gchar *uri, const PlumaEncoding *encoding, const GError *error);
 
-GtkWidget	*pluma_unrecoverable_reverting_error_message_area_new	 (const gchar         *uri,
-									  const GError        *error);
+GtkWidget *pluma_unrecoverable_reverting_error_message_area_new(
+    const gchar *uri, const GError *error);
 
-GtkWidget	*pluma_conversion_error_while_saving_message_area_new	 (const gchar         *uri,
-									  const PlumaEncoding *encoding,
-									  const GError        *error);
+GtkWidget *pluma_conversion_error_while_saving_message_area_new(
+    const gchar *uri, const PlumaEncoding *encoding, const GError *error);
 
-const PlumaEncoding
-		*pluma_conversion_error_message_area_get_encoding	 (GtkWidget           *message_area);
+const PlumaEncoding *pluma_conversion_error_message_area_get_encoding(
+    GtkWidget *message_area);
 
-GtkWidget	*pluma_file_already_open_warning_message_area_new	 (const gchar         *uri);
+GtkWidget *pluma_file_already_open_warning_message_area_new(const gchar *uri);
 
-GtkWidget	*pluma_externally_modified_saving_error_message_area_new (const gchar         *uri,
-									  const GError        *error);
+GtkWidget *pluma_externally_modified_saving_error_message_area_new(
+    const gchar *uri, const GError *error);
 
-GtkWidget	*pluma_no_backup_saving_error_message_area_new		 (const gchar         *uri,
-									  const GError        *error);
+GtkWidget *pluma_no_backup_saving_error_message_area_new(const gchar *uri,
+                                                         const GError *error);
 
-GtkWidget	*pluma_unrecoverable_saving_error_message_area_new	 (const gchar         *uri,
-									  const GError        *error);
+GtkWidget *pluma_unrecoverable_saving_error_message_area_new(
+    const gchar *uri, const GError *error);
 
-GtkWidget	*pluma_externally_modified_message_area_new		 (const gchar         *uri,
-									  gboolean             document_modified);
+GtkWidget *pluma_externally_modified_message_area_new(
+    const gchar *uri, gboolean document_modified);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_IO_ERROR_MESSAGE_AREA_H__  */
+#endif /* __PLUMA_IO_ERROR_MESSAGE_AREA_H__  */

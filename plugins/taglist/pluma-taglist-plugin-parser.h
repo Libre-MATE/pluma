@@ -32,35 +32,34 @@
 #ifndef __PLUMA_TAGLIST_PLUGIN_PARSER_H__
 #define __PLUMA_TAGLIST_PLUGIN_PARSER_H__
 
-#include <libxml/tree.h>
 #include <glib.h>
+#include <libxml/tree.h>
 
 typedef struct _TagList TagList;
 typedef struct _TagGroup TagGroup;
 typedef struct _Tag Tag;
 
 struct _TagList {
-	GList* tag_groups;
+  GList* tag_groups;
 };
 
 struct _TagGroup {
-	xmlChar* name;
+  xmlChar* name;
 
-	GList* tags;
+  GList* tags;
 };
 
 struct _Tag {
-	xmlChar* name;
-	xmlChar* begin;
-	xmlChar* end;
+  xmlChar* name;
+  xmlChar* begin;
+  xmlChar* end;
 };
 
 /* Note that the taglist is ref counted */
-extern TagList *taglist;
+extern TagList* taglist;
 
 TagList* create_taglist(const gchar* data_dir);
 
 void free_taglist(void);
 
 #endif /* __PLUMA_TAGLIST_PLUGIN_PARSER_H__ */
-

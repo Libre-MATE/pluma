@@ -29,27 +29,27 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_VIEW_ACTIVATABLE (pluma_view_activatable_get_type ())
+#define PLUMA_TYPE_VIEW_ACTIVATABLE (pluma_view_activatable_get_type())
 
-G_DECLARE_INTERFACE (PlumaViewActivatable, pluma_view_activatable, PLUMA, VIEW_ACTIVATABLE, GObject)
+G_DECLARE_INTERFACE(PlumaViewActivatable, pluma_view_activatable, PLUMA,
+                    VIEW_ACTIVATABLE, GObject)
 
-typedef struct _PlumaViewActivatable           PlumaViewActivatable; /* dummy typedef */
-typedef struct _PlumaViewActivatableInterface  PlumaViewActivatableInterface;
+typedef struct _PlumaViewActivatable PlumaViewActivatable; /* dummy typedef */
+typedef struct _PlumaViewActivatableInterface PlumaViewActivatableInterface;
 
-struct _PlumaViewActivatableInterface
-{
-    GTypeInterface g_iface;
+struct _PlumaViewActivatableInterface {
+  GTypeInterface g_iface;
 
-    /* Virtual public methods */
-    void    (*activate)         (PlumaViewActivatable   *activatable);
-    void    (*deactivate)       (PlumaViewActivatable   *activatable);
+  /* Virtual public methods */
+  void (*activate)(PlumaViewActivatable *activatable);
+  void (*deactivate)(PlumaViewActivatable *activatable);
 };
 
 /*
  * Public methods
  */
-void     pluma_view_activatable_activate    (PlumaViewActivatable *activatable);
-void     pluma_view_activatable_deactivate  (PlumaViewActivatable *activatable);
+void pluma_view_activatable_activate(PlumaViewActivatable *activatable);
+void pluma_view_activatable_deactivate(PlumaViewActivatable *activatable);
 
 G_END_DECLS
 

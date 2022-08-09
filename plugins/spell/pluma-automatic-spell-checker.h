@@ -43,26 +43,21 @@
 
 typedef struct _PlumaAutomaticSpellChecker PlumaAutomaticSpellChecker;
 
-PlumaAutomaticSpellChecker	*pluma_automatic_spell_checker_new (
-							PlumaDocument 			*doc,
-							PlumaSpellChecker		*checker);
+PlumaAutomaticSpellChecker *pluma_automatic_spell_checker_new(
+    PlumaDocument *doc, PlumaSpellChecker *checker);
 
-PlumaAutomaticSpellChecker	*pluma_automatic_spell_checker_get_from_document (
-							const PlumaDocument 		*doc);
+PlumaAutomaticSpellChecker *pluma_automatic_spell_checker_get_from_document(
+    const PlumaDocument *doc);
 
-void				 pluma_automatic_spell_checker_free (
-							PlumaAutomaticSpellChecker 	*spell);
+void pluma_automatic_spell_checker_free(PlumaAutomaticSpellChecker *spell);
 
-void 				 pluma_automatic_spell_checker_attach_view (
-							PlumaAutomaticSpellChecker 	*spell,
-							PlumaView 			*view);
+void pluma_automatic_spell_checker_attach_view(
+    PlumaAutomaticSpellChecker *spell, PlumaView *view);
 
-void 				 pluma_automatic_spell_checker_detach_view (
-							PlumaAutomaticSpellChecker 	*spell,
-							PlumaView 			*view);
+void pluma_automatic_spell_checker_detach_view(
+    PlumaAutomaticSpellChecker *spell, PlumaView *view);
 
-void				 pluma_automatic_spell_checker_recheck_all (
-							PlumaAutomaticSpellChecker 	*spell);
+void pluma_automatic_spell_checker_recheck_all(
+    PlumaAutomaticSpellChecker *spell);
 
-#endif  /* __PLUMA_AUTOMATIC_SPELL_CHECKER_H__ */
-
+#endif /* __PLUMA_AUTOMATIC_SPELL_CHECKER_H__ */

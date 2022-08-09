@@ -33,112 +33,93 @@
 #include <config.h>
 #endif
 
+#include <girepository.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
-#include <glib/gi18n.h>
-#include <girepository.h>
-
-#include "pluma-plugins-engine.h"
-#include "pluma-debug.h"
 #include "pluma-app.h"
+#include "pluma-debug.h"
 #include "pluma-dirs.h"
+#include "pluma-plugins-engine.h"
 #include "pluma-settings.h"
 
-struct _PlumaPluginsEnginePrivate
-{
-	GSettings *plugin_settings;
+struct _PlumaPluginsEnginePrivate {
+  GSettings *plugin_settings;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PlumaPluginsEngine, pluma_plugins_engine, PEAS_TYPE_ENGINE)
+G_DEFINE_TYPE_WITH_PRIVATE(PlumaPluginsEngine, pluma_plugins_engine,
+                           PEAS_TYPE_ENGINE)
 
 PlumaPluginsEngine *default_engine = NULL;
 
-static void
-pluma_plugins_engine_init (PlumaPluginsEngine *engine)
-{
-	GError *error = NULL;
-	char *user_plugins_dir;
+static void pluma_plugins_engine_init(PlumaPluginsEngine *engine) {
+  GError *error = NULL;
+  char *user_plugins_dir;
 
-	pluma_debug (DEBUG_PLUGINS);
+  pluma_debug(DEBUG_PLUGINS);
 
-	peas_engine_enable_loader (PEAS_ENGINE (engine), "python3");
+  peas_engine_enable_loader(PEAS_ENGINE(engine), "python3");
 
-	engine->priv = pluma_plugins_engine_get_instance_private (engine);
+  engine->priv = pluma_plugins_engine_get_instance_private(engine);
 
-	engine->priv->plugin_settings = g_settings_new (PLUMA_SCHEMA_ID);
+  engine->priv->plugin_settings = g_settings_new(PLUMA_SCHEMA_ID);
 
-	/* This should be moved to libpeas */
-	if (!g_irepository_require (g_irepository_get_default (),
-	                            "Peas", "1.0", 0, &error))
-	{
-		g_warning ("Could not load Peas repository: %s", error->message);
-		g_clear_error (&error);
-	}
+  /* This should be moved to libpeas */
+  if (!g_irepository_require(g_irepository_get_default(), "Peas", "1.0", 0,
+                             &error)) {
+    g_warning("Could not load Peas repository: %s", error->message);
+    g_clear_error(&error);
+  }
 
-	if (!g_irepository_require (g_irepository_get_default (),
-	                            "PeasGtk", "1.0", 0, &error))
-	{
-		g_warning ("Could not load PeasGtk repository: %s", error->message);
-		g_clear_error (&error);
-	}
+  if (!g_irepository_require(g_irepository_get_default(), "PeasGtk", "1.0", 0,
+                             &error)) {
+    g_warning("Could not load PeasGtk repository: %s", error->message);
+    g_clear_error(&error);
+  }
 
-	if (!g_irepository_require_private (g_irepository_get_default (),
-	                                    LIBDIR "/girepository-1.0",
-	                                    "Pluma", "1.0", 0, &error))
-	{
-		g_warning ("Could not load Pluma repository: %s", error->message);
-		g_clear_error (&error);
-	}
+  if (!g_irepository_require_private(g_irepository_get_default(),
+                                     LIBDIR "/girepository-1.0", "Pluma", "1.0",
+                                     0, &error)) {
+    g_warning("Could not load Pluma repository: %s", error->message);
+    g_clear_error(&error);
+  }
 
-	user_plugins_dir = pluma_dirs_get_user_plugins_dir ();
-	peas_engine_add_search_path (PEAS_ENGINE (engine),
-	                             user_plugins_dir,
-	                             user_plugins_dir);
-	g_free (user_plugins_dir);
+  user_plugins_dir = pluma_dirs_get_user_plugins_dir();
+  peas_engine_add_search_path(PEAS_ENGINE(engine), user_plugins_dir,
+                              user_plugins_dir);
+  g_free(user_plugins_dir);
 
-	peas_engine_add_search_path (PEAS_ENGINE (engine),
-	                             PLUMA_LIBDIR "/plugins",
-	                             PLUMA_DATADIR "/plugins");
+  peas_engine_add_search_path(PEAS_ENGINE(engine), PLUMA_LIBDIR "/plugins",
+                              PLUMA_DATADIR "/plugins");
 
-	g_settings_bind (engine->priv->plugin_settings,
-	                 PLUMA_SETTINGS_ACTIVE_PLUGINS,
-	                 engine,
-	                 "loaded-plugins",
-	                 G_SETTINGS_BIND_DEFAULT);
+  g_settings_bind(engine->priv->plugin_settings, PLUMA_SETTINGS_ACTIVE_PLUGINS,
+                  engine, "loaded-plugins", G_SETTINGS_BIND_DEFAULT);
 }
 
-static void
-pluma_plugins_engine_dispose (GObject *object)
-{
-	PlumaPluginsEngine *engine = PLUMA_PLUGINS_ENGINE (object);
+static void pluma_plugins_engine_dispose(GObject *object) {
+  PlumaPluginsEngine *engine = PLUMA_PLUGINS_ENGINE(object);
 
-	if (engine->priv->plugin_settings != NULL)
-	{
-		g_object_unref (engine->priv->plugin_settings);
-		engine->priv->plugin_settings = NULL;
-	}
+  if (engine->priv->plugin_settings != NULL) {
+    g_object_unref(engine->priv->plugin_settings);
+    engine->priv->plugin_settings = NULL;
+  }
 
-	G_OBJECT_CLASS (pluma_plugins_engine_parent_class)->dispose (object);
+  G_OBJECT_CLASS(pluma_plugins_engine_parent_class)->dispose(object);
 }
 
-static void
-pluma_plugins_engine_class_init (PlumaPluginsEngineClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+static void pluma_plugins_engine_class_init(PlumaPluginsEngineClass *klass) {
+  GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-	object_class->dispose = pluma_plugins_engine_dispose;
+  object_class->dispose = pluma_plugins_engine_dispose;
 }
 
-PlumaPluginsEngine *
-pluma_plugins_engine_get_default (void)
-{
-	if (default_engine != NULL)
-		return default_engine;
+PlumaPluginsEngine *pluma_plugins_engine_get_default(void) {
+  if (default_engine != NULL) return default_engine;
 
-	default_engine = PLUMA_PLUGINS_ENGINE (g_object_new (PLUMA_TYPE_PLUGINS_ENGINE, NULL));
-	g_object_add_weak_pointer (G_OBJECT (default_engine),
-	                           (gpointer) &default_engine);
+  default_engine =
+      PLUMA_PLUGINS_ENGINE(g_object_new(PLUMA_TYPE_PLUGINS_ENGINE, NULL));
+  g_object_add_weak_pointer(G_OBJECT(default_engine),
+                            (gpointer)&default_engine);
 
-	return default_engine;
+  return default_engine;
 }
-

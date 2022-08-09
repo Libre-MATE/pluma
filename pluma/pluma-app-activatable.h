@@ -27,27 +27,27 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_APP_ACTIVATABLE (pluma_app_activatable_get_type ())
+#define PLUMA_TYPE_APP_ACTIVATABLE (pluma_app_activatable_get_type())
 
-G_DECLARE_INTERFACE (PlumaAppActivatable, pluma_app_activatable, PLUMA, APP_ACTIVATABLE, GObject)
+G_DECLARE_INTERFACE(PlumaAppActivatable, pluma_app_activatable, PLUMA,
+                    APP_ACTIVATABLE, GObject)
 
-typedef struct _PlumaAppActivatable           PlumaAppActivatable; /* dummy typedef */
-typedef struct _PlumaAppActivatableInterface  PlumaAppActivatableInterface;
+typedef struct _PlumaAppActivatable PlumaAppActivatable; /* dummy typedef */
+typedef struct _PlumaAppActivatableInterface PlumaAppActivatableInterface;
 
-struct _PlumaAppActivatableInterface
-{
-    GTypeInterface g_iface;
+struct _PlumaAppActivatableInterface {
+  GTypeInterface g_iface;
 
-    /* Virtual public methods */
-    void    (*activate)     (PlumaAppActivatable *activatable);
-    void    (*deactivate)   (PlumaAppActivatable *activatable);
+  /* Virtual public methods */
+  void (*activate)(PlumaAppActivatable *activatable);
+  void (*deactivate)(PlumaAppActivatable *activatable);
 };
 
 /*
  * Public methods
  */
-void     pluma_app_activatable_activate     (PlumaAppActivatable *activatable);
-void     pluma_app_activatable_deactivate   (PlumaAppActivatable *activatable);
+void pluma_app_activatable_activate(PlumaAppActivatable *activatable);
+void pluma_app_activatable_deactivate(PlumaAppActivatable *activatable);
 
 G_END_DECLS
 

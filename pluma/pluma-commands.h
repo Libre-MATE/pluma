@@ -41,127 +41,82 @@
 G_BEGIN_DECLS
 
 /* Do nothing if URI does not exist */
-void		 pluma_commands_load_uri		(PlumaWindow         *window,
-							 const gchar         *uri,
-							 const PlumaEncoding *encoding,
-							 gint                 line_pos);
+void pluma_commands_load_uri(PlumaWindow *window, const gchar *uri,
+                             const PlumaEncoding *encoding, gint line_pos);
 
 /* Ignore non-existing URIs */
-gint		 pluma_commands_load_uris		(PlumaWindow         *window,
-							 const GSList        *uris,
-							 const PlumaEncoding *encoding,
-							 gint                 line_pos);
+gint pluma_commands_load_uris(PlumaWindow *window, const GSList *uris,
+                              const PlumaEncoding *encoding, gint line_pos);
 
-void		 pluma_commands_save_document		(PlumaWindow         *window,
-                                                         PlumaDocument       *document);
+void pluma_commands_save_document(PlumaWindow *window, PlumaDocument *document);
 
-void		 pluma_commands_save_all_documents 	(PlumaWindow         *window);
+void pluma_commands_save_all_documents(PlumaWindow *window);
 
 /*
  * Non-exported functions
  */
 
 /* Create titled documens for non-existing URIs */
-gint		_pluma_cmd_load_files_from_prompt	(PlumaWindow         *window,
-							 GSList              *files,
-							 const PlumaEncoding *encoding,
-							 gint                 line_pos);
+gint _pluma_cmd_load_files_from_prompt(PlumaWindow *window, GSList *files,
+                                       const PlumaEncoding *encoding,
+                                       gint line_pos);
 
-void		_pluma_cmd_file_new			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_open			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_save			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_save_as			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_save_all		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_revert			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_open_uri		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_print_preview		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_print			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_close			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_close_all		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_file_quit			(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_file_new(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_open(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_save(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_save_as(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_save_all(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_revert(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_open_uri(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_print_preview(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_print(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_close(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_close_all(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_file_quit(GtkAction *action, PlumaWindow *window);
 
-void		_pluma_cmd_edit_undo			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_redo			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_cut			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_copy			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_paste			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_delete			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_upper_case		  (GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_lower_case		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_invert_case		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_title_case		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_select_all		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_edit_preferences		(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_edit_undo(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_redo(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_cut(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_copy(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_paste(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_delete(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_upper_case(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_lower_case(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_invert_case(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_title_case(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_select_all(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_edit_preferences(GtkAction *action, PlumaWindow *window);
 
-void		_pluma_cmd_view_show_toolbar		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_view_show_statusbar		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_view_show_side_pane		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_view_show_bottom_pane	(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_view_toggle_fullscreen_mode	(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_view_leave_fullscreen_mode	(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_view_show_toolbar(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_view_show_statusbar(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_view_show_side_pane(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_view_show_bottom_pane(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_view_toggle_fullscreen_mode(GtkAction *action,
+                                            PlumaWindow *window);
+void _pluma_cmd_view_leave_fullscreen_mode(GtkAction *action,
+                                           PlumaWindow *window);
 
-void		_pluma_cmd_search_find			(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_find_next		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_find_prev		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_replace		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_clear_highlight	(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_goto_line		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_search_incremental_search	(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_search_find(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_find_next(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_find_prev(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_replace(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_clear_highlight(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_goto_line(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_search_incremental_search(GtkAction *action,
+                                          PlumaWindow *window);
 
-void		_pluma_cmd_documents_previous_document	(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_documents_next_document	(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_documents_move_to_new_window	(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_documents_previous_document(GtkAction *action,
+                                            PlumaWindow *window);
+void _pluma_cmd_documents_next_document(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_documents_move_to_new_window(GtkAction *action,
+                                             PlumaWindow *window);
 
-void		_pluma_cmd_help_contents		(GtkAction   *action,
-							 PlumaWindow *window);
-void		_pluma_cmd_help_about			(GtkAction   *action,
-							 PlumaWindow *window);
+void _pluma_cmd_help_contents(GtkAction *action, PlumaWindow *window);
+void _pluma_cmd_help_about(GtkAction *action, PlumaWindow *window);
 
-void		_pluma_cmd_file_close_tab 		(PlumaTab    *tab,
-							 PlumaWindow *window);
+void _pluma_cmd_file_close_tab(PlumaTab *tab, PlumaWindow *window);
 
-void		_pluma_cmd_file_save_documents_list	(PlumaWindow *window,
-							 GList       *docs);
+void _pluma_cmd_file_save_documents_list(PlumaWindow *window, GList *docs);
 
 G_END_DECLS
 

@@ -23,13 +23,14 @@
 #ifndef __PLUMA_FILE_BROWSER_MESSAGES_H__
 #define __PLUMA_FILE_BROWSER_MESSAGES_H__
 
-#include <pluma/pluma-window.h>
 #include <pluma/pluma-message-bus.h>
+#include <pluma/pluma-window.h>
+
 #include "pluma-file-browser-widget.h"
 
-void pluma_file_browser_messages_register   (PlumaWindow *window,
-					     PlumaFileBrowserWidget *widget);
-void pluma_file_browser_messages_unregister (PlumaWindow *window);
+void pluma_file_browser_messages_register(PlumaWindow *window,
+                                          PlumaFileBrowserWidget *widget);
+void pluma_file_browser_messages_unregister(PlumaWindow *window);
 
 #endif /* __PLUMA_FILE_BROWSER_MESSAGES_H__ */
 

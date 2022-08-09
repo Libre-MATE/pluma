@@ -19,10 +19,10 @@
  */
 
 #ifndef __##(PLUGIN_ID.upper)_PLUGIN_H__
-#define __##(PLUGIN_ID.upper)_PLUGIN_H__
+#define __ ##(PLUGIN_ID.upper)_PLUGIN_H__
 
-#include <glib.h>
 #include <glib-object.h>
+#include <glib.h>
 #include <pluma/pluma-plugin.h>
 
 G_BEGIN_DECLS
@@ -30,46 +30,52 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define TYPE_##(PLUGIN_ID.upper)_PLUGIN		(##(PLUGIN_ID.lower)_plugin_get_type ())
-#define ##(PLUGIN_ID.upper)_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)Plugin))
-#define ##(PLUGIN_ID.upper)_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)PluginClass))
-#define IS_##(PLUGIN_ID.upper)_PLUGIN(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_##(PLUGIN_ID.upper)_PLUGIN))
-#define IS_##(PLUGIN_ID.upper)_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_##(PLUGIN_ID.upper)_PLUGIN))
-#define ##(PLUGIN_ID.upper)_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)PluginClass))
+#define TYPE_ ##(PLUGIN_ID.upper)_PLUGIN(##(PLUGIN_ID.lower)_plugin_get_type())
+#define##(PLUGIN_ID.upper)_PLUGIN(o)(G_TYPE_CHECK_INSTANCE_CAST( \
+    (o), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)Plugin))
+#define##(PLUGIN_ID.upper)_PLUGIN_CLASS(k)(G_TYPE_CHECK_CLASS_CAST( \
+    (k), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)PluginClass))
+#define IS_                      \
+  ##(PLUGIN_ID.upper)_PLUGIN(o)( \
+      G_TYPE_CHECK_INSTANCE_TYPE((o), TYPE_##(PLUGIN_ID.upper)_PLUGIN))
+#define IS_                            \
+  ##(PLUGIN_ID.upper)_PLUGIN_CLASS(k)( \
+      G_TYPE_CHECK_CLASS_TYPE((k), TYPE_##(PLUGIN_ID.upper)_PLUGIN))
+#define##(PLUGIN_ID.upper)_GET_CLASS(o)(G_TYPE_INSTANCE_GET_CLASS( \
+    (o), TYPE_##(PLUGIN_ID.upper)_PLUGIN, ##(PLUGIN_ID.camel)PluginClass))
 
 /* Private structure type */
-typedef struct _##(PLUGIN_ID.camel)PluginPrivate	##(PLUGIN_ID.camel)PluginPrivate;
+typedef struct _##(PLUGIN_ID.camel)PluginPrivate
+    ##(PLUGIN_ID.camel)PluginPrivate;
 
 /*
  * Main object structure
  */
-typedef struct _##(PLUGIN_ID.camel)Plugin		##(PLUGIN_ID.camel)Plugin;
+typedef struct _##(PLUGIN_ID.camel)Plugin##(PLUGIN_ID.camel)Plugin;
 
-struct _##(PLUGIN_ID.camel)Plugin
-{
-	PlumaPlugin parent_instance;
+struct _##(PLUGIN_ID.camel)Plugin {
+  PlumaPlugin parent_instance;
 
-	/*< private >*/
-	##(PLUGIN_ID.camel)PluginPrivate *priv;
+  /*< private >*/
+  ##(PLUGIN_ID.camel)PluginPrivate *priv;
 };
 
 /*
  * Class definition
  */
-typedef struct _##(PLUGIN_ID.camel)PluginClass	##(PLUGIN_ID.camel)PluginClass;
+typedef struct _##(PLUGIN_ID.camel)PluginClass##(PLUGIN_ID.camel)PluginClass;
 
-struct _##(PLUGIN_ID.camel)PluginClass
-{
-	PlumaPluginClass parent_class;
+struct _##(PLUGIN_ID.camel)PluginClass {
+  PlumaPluginClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType	##(PLUGIN_ID.lower)_plugin_get_type	(void) G_GNUC_CONST;
+GType##(PLUGIN_ID.lower)_plugin_get_type(void) G_GNUC_CONST;
 
 /* All the plugins must implement this function */
-G_MODULE_EXPORT GType register_pluma_plugin (GTypeModule *module);
+G_MODULE_EXPORT GType register_pluma_plugin(GTypeModule *module);
 
 G_END_DECLS
 

@@ -28,29 +28,38 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_CLOSE_BUTTON			(pluma_close_button_get_type ())
-#define PLUMA_CLOSE_BUTTON(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_CLOSE_BUTTON, PlumaCloseButton))
-#define PLUMA_CLOSE_BUTTON_CONST(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_CLOSE_BUTTON, PlumaCloseButton const))
-#define PLUMA_CLOSE_BUTTON_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_CLOSE_BUTTON, PlumaCloseButtonClass))
-#define PLUMA_IS_CLOSE_BUTTON(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_CLOSE_BUTTON))
-#define PLUMA_IS_CLOSE_BUTTON_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_CLOSE_BUTTON))
-#define PLUMA_CLOSE_BUTTON_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_CLOSE_BUTTON, PlumaCloseButtonClass))
+#define PLUMA_TYPE_CLOSE_BUTTON (pluma_close_button_get_type())
+#define PLUMA_CLOSE_BUTTON(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_CLOSE_BUTTON, PlumaCloseButton))
+#define PLUMA_CLOSE_BUTTON_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_CLOSE_BUTTON, \
+                              PlumaCloseButton const))
+#define PLUMA_CLOSE_BUTTON_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_CLOSE_BUTTON, \
+                           PlumaCloseButtonClass))
+#define PLUMA_IS_CLOSE_BUTTON(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_CLOSE_BUTTON))
+#define PLUMA_IS_CLOSE_BUTTON_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_CLOSE_BUTTON))
+#define PLUMA_CLOSE_BUTTON_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_CLOSE_BUTTON, \
+                             PlumaCloseButtonClass))
 
-typedef struct _PlumaCloseButton	PlumaCloseButton;
-typedef struct _PlumaCloseButtonClass	PlumaCloseButtonClass;
-typedef struct _PlumaCloseButtonPrivate	PlumaCloseButtonPrivate;
+typedef struct _PlumaCloseButton PlumaCloseButton;
+typedef struct _PlumaCloseButtonClass PlumaCloseButtonClass;
+typedef struct _PlumaCloseButtonPrivate PlumaCloseButtonPrivate;
 
 struct _PlumaCloseButton {
-	GtkButton parent;
+  GtkButton parent;
 };
 
 struct _PlumaCloseButtonClass {
-	GtkButtonClass parent_class;
+  GtkButtonClass parent_class;
 };
 
-GType		  pluma_close_button_get_type (void) G_GNUC_CONST;
+GType pluma_close_button_get_type(void) G_GNUC_CONST;
 
-GtkWidget	 *pluma_close_button_new (void);
+GtkWidget *pluma_close_button_new(void);
 
 G_END_DECLS
 

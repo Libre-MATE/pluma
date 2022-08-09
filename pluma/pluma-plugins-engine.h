@@ -37,33 +37,39 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_PLUGINS_ENGINE              (pluma_plugins_engine_get_type ())
-#define PLUMA_PLUGINS_ENGINE(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PLUGINS_ENGINE, PlumaPluginsEngine))
-#define PLUMA_PLUGINS_ENGINE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PLUGINS_ENGINE, PlumaPluginsEngineClass))
-#define PLUMA_IS_PLUGINS_ENGINE(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PLUGINS_ENGINE))
-#define PLUMA_IS_PLUGINS_ENGINE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PLUGINS_ENGINE))
-#define PLUMA_PLUGINS_ENGINE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PLUGINS_ENGINE, PlumaPluginsEngineClass))
+#define PLUMA_TYPE_PLUGINS_ENGINE (pluma_plugins_engine_get_type())
+#define PLUMA_PLUGINS_ENGINE(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PLUGINS_ENGINE, \
+                              PlumaPluginsEngine))
+#define PLUMA_PLUGINS_ENGINE_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PLUGINS_ENGINE, \
+                           PlumaPluginsEngineClass))
+#define PLUMA_IS_PLUGINS_ENGINE(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PLUGINS_ENGINE))
+#define PLUMA_IS_PLUGINS_ENGINE_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PLUGINS_ENGINE))
+#define PLUMA_PLUGINS_ENGINE_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PLUGINS_ENGINE, \
+                             PlumaPluginsEngineClass))
 
-typedef struct _PlumaPluginsEngine		PlumaPluginsEngine;
-typedef struct _PlumaPluginsEnginePrivate	PlumaPluginsEnginePrivate;
+typedef struct _PlumaPluginsEngine PlumaPluginsEngine;
+typedef struct _PlumaPluginsEnginePrivate PlumaPluginsEnginePrivate;
 
-struct _PlumaPluginsEngine
-{
-	PeasEngine parent;
-	PlumaPluginsEnginePrivate *priv;
+struct _PlumaPluginsEngine {
+  PeasEngine parent;
+  PlumaPluginsEnginePrivate *priv;
 };
 
-typedef struct _PlumaPluginsEngineClass		PlumaPluginsEngineClass;
+typedef struct _PlumaPluginsEngineClass PlumaPluginsEngineClass;
 
-struct _PlumaPluginsEngineClass
-{
-	PeasEngineClass parent_class;
+struct _PlumaPluginsEngineClass {
+  PeasEngineClass parent_class;
 };
 
-GType			 pluma_plugins_engine_get_type		(void) G_GNUC_CONST;
+GType pluma_plugins_engine_get_type(void) G_GNUC_CONST;
 
-PlumaPluginsEngine	*pluma_plugins_engine_get_default	(void);
+PlumaPluginsEngine *pluma_plugins_engine_get_default(void);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_PLUGINS_ENGINE_H__ */
+#endif /* __PLUMA_PLUGINS_ENGINE_H__ */

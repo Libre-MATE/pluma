@@ -33,7 +33,6 @@
 #define __PLUMA_TAGLIST_PLUGIN_PANEL_H__
 
 #include <gtk/gtk.h>
-
 #include <pluma/pluma-window.h>
 
 G_BEGIN_DECLS
@@ -41,13 +40,23 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_TAGLIST_PLUGIN_PANEL              (pluma_taglist_plugin_panel_get_type())
-#define PLUMA_TAGLIST_PLUGIN_PANEL(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, PlumaTaglistPluginPanel))
-#define PLUMA_TAGLIST_PLUGIN_PANEL_CONST(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, PlumaTaglistPluginPanel const))
-#define PLUMA_TAGLIST_PLUGIN_PANEL_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, PlumaTaglistPluginPanelClass))
-#define PLUMA_IS_TAGLIST_PLUGIN_PANEL(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL))
-#define PLUMA_IS_TAGLIST_PLUGIN_PANEL_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL))
-#define PLUMA_TAGLIST_PLUGIN_PANEL_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, PlumaTaglistPluginPanelClass))
+#define PLUMA_TYPE_TAGLIST_PLUGIN_PANEL (pluma_taglist_plugin_panel_get_type())
+#define PLUMA_TAGLIST_PLUGIN_PANEL(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, \
+                              PlumaTaglistPluginPanel))
+#define PLUMA_TAGLIST_PLUGIN_PANEL_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, \
+                              PlumaTaglistPluginPanel const))
+#define PLUMA_TAGLIST_PLUGIN_PANEL_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, \
+                           PlumaTaglistPluginPanelClass))
+#define PLUMA_IS_TAGLIST_PLUGIN_PANEL(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL))
+#define PLUMA_IS_TAGLIST_PLUGIN_PANEL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL))
+#define PLUMA_TAGLIST_PLUGIN_PANEL_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_TAGLIST_PLUGIN_PANEL, \
+                             PlumaTaglistPluginPanelClass))
 
 /* Private structure type */
 typedef struct _PlumaTaglistPluginPanelPrivate PlumaTaglistPluginPanelPrivate;
@@ -57,12 +66,11 @@ typedef struct _PlumaTaglistPluginPanelPrivate PlumaTaglistPluginPanelPrivate;
  */
 typedef struct _PlumaTaglistPluginPanel PlumaTaglistPluginPanel;
 
-struct _PlumaTaglistPluginPanel
-{
-	GtkBox vbox;
+struct _PlumaTaglistPluginPanel {
+  GtkBox vbox;
 
-	/*< private > */
-	PlumaTaglistPluginPanelPrivate *priv;
+  /*< private > */
+  PlumaTaglistPluginPanelPrivate *priv;
 };
 
 /*
@@ -70,21 +78,20 @@ struct _PlumaTaglistPluginPanel
  */
 typedef struct _PlumaTaglistPluginPanelClass PlumaTaglistPluginPanelClass;
 
-struct _PlumaTaglistPluginPanelClass
-{
-	GtkBoxClass parent_class;
+struct _PlumaTaglistPluginPanelClass {
+  GtkBoxClass parent_class;
 };
 
 /*
  * Public methods
  */
-void		 _pluma_taglist_plugin_panel_register_type	(GTypeModule *module);
+void _pluma_taglist_plugin_panel_register_type(GTypeModule *module);
 
-GType 		 pluma_taglist_plugin_panel_get_type		(void) G_GNUC_CONST;
+GType pluma_taglist_plugin_panel_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_taglist_plugin_panel_new 		(PlumaWindow *window,
-								 const gchar *data_dir);
+GtkWidget *pluma_taglist_plugin_panel_new(PlumaWindow *window,
+                                          const gchar *data_dir);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_TAGLIST_PLUGIN_PANEL_H__  */
+#endif /* __PLUMA_TAGLIST_PLUGIN_PANEL_H__  */

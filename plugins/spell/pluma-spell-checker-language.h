@@ -1,4 +1,5 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t;
+ * c-basic-offset: 8 -*- */
 /*
  * pluma-spell-checker-language.h
  * This file is part of pluma
@@ -37,15 +38,17 @@ G_BEGIN_DECLS
 
 typedef struct _PlumaSpellCheckerLanguage PlumaSpellCheckerLanguage;
 
-const gchar			*pluma_spell_checker_language_to_string	(const PlumaSpellCheckerLanguage *lang);
+const gchar *pluma_spell_checker_language_to_string(
+    const PlumaSpellCheckerLanguage *lang);
 
-const gchar			*pluma_spell_checker_language_to_key	(const PlumaSpellCheckerLanguage *lang);
+const gchar *pluma_spell_checker_language_to_key(
+    const PlumaSpellCheckerLanguage *lang);
 
-const PlumaSpellCheckerLanguage	*pluma_spell_checker_language_from_key	(const gchar *key);
+const PlumaSpellCheckerLanguage *pluma_spell_checker_language_from_key(
+    const gchar *key);
 
 /* GSList contains "PlumaSpellCheckerLanguage*" items */
-const GSList 			*pluma_spell_checker_get_available_languages
-									(void);
+const GSList *pluma_spell_checker_get_available_languages(void);
 
 G_END_DECLS
 

@@ -36,9 +36,9 @@
 
 G_BEGIN_DECLS
 
-gboolean	pluma_help_display (GtkWindow   *parent,
-				    const gchar *name, /* "pluma" if NULL */
-				    const gchar *link_id);
+gboolean pluma_help_display(GtkWindow *parent,
+                            const gchar *name, /* "pluma" if NULL */
+                            const gchar *link_id);
 
 G_END_DECLS
 

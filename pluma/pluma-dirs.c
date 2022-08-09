@@ -28,42 +28,39 @@
 
 #include "pluma-dirs.h"
 
-gchar* pluma_dirs_get_user_config_dir(void)
-{
-	gchar* config_dir = NULL;
+gchar* pluma_dirs_get_user_config_dir(void) {
+  gchar* config_dir = NULL;
 
-	config_dir = g_build_filename(g_get_user_config_dir(), "pluma", NULL);
+  config_dir = g_build_filename(g_get_user_config_dir(), "pluma", NULL);
 
-	return config_dir;
+  return config_dir;
 }
 
-gchar* pluma_dirs_get_user_cache_dir(void)
-{
-	const gchar* cache_dir;
+gchar* pluma_dirs_get_user_cache_dir(void) {
+  const gchar* cache_dir;
 
-	cache_dir = g_get_user_cache_dir();
+  cache_dir = g_get_user_cache_dir();
 
-	return g_build_filename(cache_dir, "pluma", NULL);
+  return g_build_filename(cache_dir, "pluma", NULL);
 }
 
-gchar* pluma_dirs_get_user_plugins_dir(void)
-{
-	gchar* plugin_dir;
+gchar* pluma_dirs_get_user_plugins_dir(void) {
+  gchar* plugin_dir;
 
-	plugin_dir = g_build_filename(g_get_user_data_dir(), "pluma", "plugins", NULL);
+  plugin_dir =
+      g_build_filename(g_get_user_data_dir(), "pluma", "plugins", NULL);
 
-	return plugin_dir;
+  return plugin_dir;
 }
 
-gchar* pluma_dirs_get_user_accels_file(void)
-{
-	gchar* accels = NULL;
-	gchar *config_dir = NULL;
+gchar* pluma_dirs_get_user_accels_file(void) {
+  gchar* accels = NULL;
+  gchar* config_dir = NULL;
 
-	config_dir = pluma_dirs_get_user_config_dir();
-	accels = g_build_filename(config_dir, "accels", NULL);
+  config_dir = pluma_dirs_get_user_config_dir();
+  accels = g_build_filename(config_dir, "accels", NULL);
 
-	g_free(config_dir);
+  g_free(config_dir);
 
-	return accels;
+  return accels;
 }

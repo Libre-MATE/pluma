@@ -35,241 +35,213 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <libxml/parser.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-
+#include <libxml/parser.h>
 #include <pluma/pluma-debug.h>
+#include <string.h>
 
 #include "pluma-taglist-plugin-parser.h"
 
 #define USER_PLUMA_TAGLIST_PLUGIN_LOCATION "pluma/taglist/"
 
-TagList* taglist = NULL;
+TagList *taglist = NULL;
 static gint taglist_ref_count = 0;
 
-static gboolean	 parse_tag (Tag *tag, xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur);
-static gboolean	 parse_tag_group (TagGroup *tg, const gchar *fn,
-				  xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur,
-				  gboolean sort);
-static TagGroup* get_tag_group (const gchar* filename, xmlDocPtr doc,
-				xmlNsPtr ns, xmlNodePtr cur);
-static TagList* lookup_best_lang (TagList *taglist, const gchar *filename,
-				xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur);
-static TagList 	*parse_taglist_file (const gchar* filename);
-static TagList  *parse_taglist_dir (const gchar *dir);
+static gboolean parse_tag(Tag *tag, xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur);
+static gboolean parse_tag_group(TagGroup *tg, const gchar *fn, xmlDocPtr doc,
+                                xmlNsPtr ns, xmlNodePtr cur, gboolean sort);
+static TagGroup *get_tag_group(const gchar *filename, xmlDocPtr doc,
+                               xmlNsPtr ns, xmlNodePtr cur);
+static TagList *lookup_best_lang(TagList *taglist, const gchar *filename,
+                                 xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur);
+static TagList *parse_taglist_file(const gchar *filename);
+static TagList *parse_taglist_dir(const gchar *dir);
 
-static void	 free_tag (Tag *tag);
-static void	 free_tag_group (TagGroup *tag_group);
+static void free_tag(Tag *tag);
+static void free_tag_group(TagGroup *tag_group);
 
-static gboolean
-parse_tag (Tag *tag, xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur)
-{
-	/*
-	pluma_debug_message (DEBUG_PLUGINS, "  Tag name: %s", tag->name);
-	*/
-	/* We don't care what the top level element name is */
-	cur = cur->xmlChildrenNode;
+static gboolean parse_tag(Tag *tag, xmlDocPtr doc, xmlNsPtr ns,
+                          xmlNodePtr cur) {
+  /*
+  pluma_debug_message (DEBUG_PLUGINS, "  Tag name: %s", tag->name);
+  */
+  /* We don't care what the top level element name is */
+  cur = cur->xmlChildrenNode;
 
-	while (cur != NULL)
-	{
-		if ((!xmlStrcmp (cur->name, (const xmlChar *)"Begin")) &&
-		    (cur->ns == ns))
-		{
-			tag->begin = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-			/*
-			pluma_debug_message (DEBUG_PLUGINS, "    - Begin: %s", tag->begin);
-			*/
-		}
+  while (cur != NULL) {
+    if ((!xmlStrcmp(cur->name, (const xmlChar *)"Begin")) && (cur->ns == ns)) {
+      tag->begin = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
+      /*
+      pluma_debug_message (DEBUG_PLUGINS, "    - Begin: %s", tag->begin);
+      */
+    }
 
-		if ((!xmlStrcmp (cur->name, (const xmlChar *)"End")) &&
-		    (cur->ns == ns))
-		{
-			tag->end = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-			/*
-			pluma_debug_message (DEBUG_PLUGINS, "    - End: %s", tag->end);
-			*/
-		}
+    if ((!xmlStrcmp(cur->name, (const xmlChar *)"End")) && (cur->ns == ns)) {
+      tag->end = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
+      /*
+      pluma_debug_message (DEBUG_PLUGINS, "    - End: %s", tag->end);
+      */
+    }
 
-		cur = cur->next;
-	}
+    cur = cur->next;
+  }
 
-	if ((tag->begin == NULL) && (tag->end == NULL))
-		return FALSE;
+  if ((tag->begin == NULL) && (tag->end == NULL)) return FALSE;
 
-	return TRUE;
+  return TRUE;
 }
 
-static gint
-tags_cmp (gconstpointer a, gconstpointer b)
-{
-	gchar *tag_a = (gchar*)((Tag *)a)->name;
-	gchar *tag_b = (gchar*)((Tag *)b)->name;
+static gint tags_cmp(gconstpointer a, gconstpointer b) {
+  gchar *tag_a = (gchar *)((Tag *)a)->name;
+  gchar *tag_b = (gchar *)((Tag *)b)->name;
 
-	return g_utf8_collate (tag_a, tag_b);
+  return g_utf8_collate(tag_a, tag_b);
 }
 
-static gboolean
-parse_tag_group (TagGroup *tg, const gchar* fn, xmlDocPtr doc,
-		 xmlNsPtr ns, xmlNodePtr cur, gboolean sort)
-{
-	pluma_debug_message (DEBUG_PLUGINS, "Parse TagGroup: %s", tg->name);
+static gboolean parse_tag_group(TagGroup *tg, const gchar *fn, xmlDocPtr doc,
+                                xmlNsPtr ns, xmlNodePtr cur, gboolean sort) {
+  pluma_debug_message(DEBUG_PLUGINS, "Parse TagGroup: %s", tg->name);
 
-	/* We don't care what the top level element name is */
-    	cur = cur->xmlChildrenNode;
+  /* We don't care what the top level element name is */
+  cur = cur->xmlChildrenNode;
 
-	while (cur != NULL)
-	{
-		if (xmlStrcmp (cur->name, (const xmlChar *) "comment") == 0)
-		{
-			cur = cur->next;
-		}
+  while (cur != NULL) {
+    if (xmlStrcmp(cur->name, (const xmlChar *)"comment") == 0) {
+      cur = cur->next;
+    }
 
-		if ((xmlStrcmp (cur->name, (const xmlChar *) "Tag")) || (cur->ns != ns))
-		{
-			g_warning ("The tag list file '%s' is of the wrong type, "
-				   "was '%s', 'Tag' expected.", fn, cur->name);
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"Tag")) || (cur->ns != ns)) {
+      g_warning(
+          "The tag list file '%s' is of the wrong type, "
+          "was '%s', 'Tag' expected.",
+          fn, cur->name);
 
-			return FALSE;
-		}
-		else
-		{
-			Tag *tag;
+      return FALSE;
+    } else {
+      Tag *tag;
 
-			tag = g_new0 (Tag, 1);
+      tag = g_new0(Tag, 1);
 
-			/* Get Tag name */
-			tag->name = (xmlChar*)gettext((const char*)xmlGetProp (cur, (const xmlChar *) "name"));
+      /* Get Tag name */
+      tag->name = (xmlChar *)gettext(
+          (const char *)xmlGetProp(cur, (const xmlChar *)"name"));
 
-			if (tag->name == NULL)
-			{
-				/* Error: No name */
-				g_warning ("The tag list file '%s' is of the wrong type, "
-				   "Tag without name.", fn);
+      if (tag->name == NULL) {
+        /* Error: No name */
+        g_warning(
+            "The tag list file '%s' is of the wrong type, "
+            "Tag without name.",
+            fn);
 
-				g_free (tag);
+        g_free(tag);
 
-				return FALSE;
-			}
-			else
-			{
-				/* Parse Tag */
-				if (parse_tag (tag, doc, ns, cur))
-				{
-					/* Prepend Tag to TagGroup */
-					tg->tags = g_list_prepend (tg->tags, tag);
-				}
-				else
-				{
-					/* Error parsing Tag */
-					g_warning ("The tag list file '%s' is of the wrong type, "
-			   		   	   "error parsing Tag '%s' in TagGroup '%s'.",
-					   	   fn, tag->name, tg->name);
+        return FALSE;
+      } else {
+        /* Parse Tag */
+        if (parse_tag(tag, doc, ns, cur)) {
+          /* Prepend Tag to TagGroup */
+          tg->tags = g_list_prepend(tg->tags, tag);
+        } else {
+          /* Error parsing Tag */
+          g_warning(
+              "The tag list file '%s' is of the wrong type, "
+              "error parsing Tag '%s' in TagGroup '%s'.",
+              fn, tag->name, tg->name);
 
-					free_tag (tag);
+          free_tag(tag);
 
-					return FALSE;
-				}
-			}
-		}
+          return FALSE;
+        }
+      }
+    }
 
-		cur = cur->next;
-	}
+    cur = cur->next;
+  }
 
-	if (sort)
-		tg->tags = g_list_sort (tg->tags, tags_cmp);
-	else
-		tg->tags = g_list_reverse (tg->tags);
+  if (sort)
+    tg->tags = g_list_sort(tg->tags, tags_cmp);
+  else
+    tg->tags = g_list_reverse(tg->tags);
 
-	return TRUE;
+  return TRUE;
 }
 
-static TagGroup*
-get_tag_group (const gchar* filename, xmlDocPtr doc,
-		 xmlNsPtr ns, xmlNodePtr cur)
-{
-	TagGroup *tag_group;
-	xmlChar *sort_str;
-	gboolean sort = FALSE;
+static TagGroup *get_tag_group(const gchar *filename, xmlDocPtr doc,
+                               xmlNsPtr ns, xmlNodePtr cur) {
+  TagGroup *tag_group;
+  xmlChar *sort_str;
+  gboolean sort = FALSE;
 
-	tag_group = g_new0 (TagGroup, 1);
+  tag_group = g_new0(TagGroup, 1);
 
-	/* Get TagGroup name */
-	tag_group->name = (xmlChar*)gettext((const char*)xmlGetProp (cur, (const xmlChar *) "name"));
+  /* Get TagGroup name */
+  tag_group->name = (xmlChar *)gettext(
+      (const char *)xmlGetProp(cur, (const xmlChar *)"name"));
 
-	sort_str = xmlGetProp (cur, (const xmlChar *) "sort");
+  sort_str = xmlGetProp(cur, (const xmlChar *)"sort");
 
-	if ((sort_str != NULL) &&
-	    ((xmlStrcasecmp (sort_str, (const xmlChar *) "yes") == 0) ||
-	     (xmlStrcasecmp (sort_str, (const xmlChar *) "true") == 0) ||
-	     (xmlStrcasecmp (sort_str, (const xmlChar *) "1") == 0)))
-	{
-		sort = TRUE;
-	}
+  if ((sort_str != NULL) &&
+      ((xmlStrcasecmp(sort_str, (const xmlChar *)"yes") == 0) ||
+       (xmlStrcasecmp(sort_str, (const xmlChar *)"true") == 0) ||
+       (xmlStrcasecmp(sort_str, (const xmlChar *)"1") == 0))) {
+    sort = TRUE;
+  }
 
-	xmlFree(sort_str);
+  xmlFree(sort_str);
 
-	if (tag_group->name == NULL)
-	{
-		/* Error: No name */
-		g_warning ("The tag list file '%s' is of the wrong type, "
-		   "TagGroup without name.", filename);
+  if (tag_group->name == NULL) {
+    /* Error: No name */
+    g_warning(
+        "The tag list file '%s' is of the wrong type, "
+        "TagGroup without name.",
+        filename);
 
-		g_free (tag_group);
-	}
-	else
-	{
-		/* Name found */
-		gboolean exists = FALSE;
-		GList *t = taglist->tag_groups;
+    g_free(tag_group);
+  } else {
+    /* Name found */
+    gboolean exists = FALSE;
+    GList *t = taglist->tag_groups;
 
-		/* Check if the tag group already exists */
-		while (t && !exists)
-		{
-			gchar *tgn = (gchar*)((TagGroup*)(t->data))->name;
+    /* Check if the tag group already exists */
+    while (t && !exists) {
+      gchar *tgn = (gchar *)((TagGroup *)(t->data))->name;
 
-			if (strcmp (tgn, (gchar*)tag_group->name) == 0)
-			{
-				pluma_debug_message (DEBUG_PLUGINS,
-					     "Tag group '%s' already exists.", tgn);
+      if (strcmp(tgn, (gchar *)tag_group->name) == 0) {
+        pluma_debug_message(DEBUG_PLUGINS, "Tag group '%s' already exists.",
+                            tgn);
 
-				exists = TRUE;
+        exists = TRUE;
 
-				free_tag_group (tag_group);
-			}
+        free_tag_group(tag_group);
+      }
 
-			t = g_list_next (t);
-		}
+      t = g_list_next(t);
+    }
 
-		if (!exists)
-		{
-			/* Parse tag group */
-			if (parse_tag_group (tag_group, filename, doc, ns, cur, sort))
-			{
-				return tag_group;
-			}
-			else
-			{
-				/* Error parsing TagGroup */
-				g_warning ("The tag list file '%s' is of the wrong type, "
-		   			   "error parsing TagGroup '%s'.",
-					   filename, tag_group->name);
+    if (!exists) {
+      /* Parse tag group */
+      if (parse_tag_group(tag_group, filename, doc, ns, cur, sort)) {
+        return tag_group;
+      } else {
+        /* Error parsing TagGroup */
+        g_warning(
+            "The tag list file '%s' is of the wrong type, "
+            "error parsing TagGroup '%s'.",
+            filename, tag_group->name);
 
-				free_tag_group (tag_group);
-			}
-		}
-	}
-	return NULL;
+        free_tag_group(tag_group);
+      }
+    }
+  }
+  return NULL;
 }
 
-static gint
-groups_cmp (gconstpointer a, gconstpointer b)
-{
-	gchar *g_a = (gchar *)((TagGroup *)a)->name;
-	gchar *g_b = (gchar *)((TagGroup *)b)->name;
+static gint groups_cmp(gconstpointer a, gconstpointer b) {
+  gchar *g_a = (gchar *)((TagGroup *)a)->name;
+  gchar *g_b = (gchar *)((TagGroup *)b)->name;
 
-	return g_utf8_collate (g_a, g_b);
+  return g_utf8_collate(g_a, g_b);
 }
 
 /*
@@ -287,345 +259,309 @@ groups_cmp (gconstpointer a, gconstpointer b)
  *      .....
  *  Therefore need to pick up the best lang on the current locale.
  */
-static TagList*
-lookup_best_lang (TagList     *tag_list,
-                  const gchar *filename,
-                  xmlDocPtr    doc,
-                  xmlNsPtr     ns,
-                  xmlNodePtr   cur)
-{
+static TagList *lookup_best_lang(TagList *tag_list, const gchar *filename,
+                                 xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur) {
+  TagGroup *best_tag_group = NULL;
+  TagGroup *tag_group;
+  gint best_lanking = -1;
 
-	TagGroup *best_tag_group = NULL;
-	TagGroup *tag_group;
-	gint best_lanking = -1;
+  /*
+   * Walk the tree.
+   *
+   * First level we expect a list TagGroup
+   */
+  cur = cur->xmlChildrenNode;
 
-	/*
-	 * Walk the tree.
-	 *
-	 * First level we expect a list TagGroup
-	 */
-	cur = cur->xmlChildrenNode;
+  while (cur != NULL) {
+    if ((xmlStrcmp(cur->name, (const xmlChar *)"TagGroup")) ||
+        (cur->ns != ns)) {
+      g_warning(
+          "The tag list file '%s' is of the wrong type, "
+          "was '%s', 'TagGroup' expected.",
+          filename, cur->name);
+      xmlFreeDoc(doc);
 
-	while (cur != NULL)
-     	{
-		if ((xmlStrcmp (cur->name, (const xmlChar *) "TagGroup")) || (cur->ns != ns))
-		{
-			g_warning ("The tag list file '%s' is of the wrong type, "
-				   "was '%s', 'TagGroup' expected.", filename, cur->name);
-			xmlFreeDoc (doc);
+      return tag_list;
+    } else {
+      const char *const *langs_pointer;
+      gchar *lang;
+      gint cur_lanking;
+      gint i;
 
-			return tag_list;
-		}
-		else
-		{
-			const char * const *langs_pointer;
-			gchar *lang;
-			gint cur_lanking;
-			gint i;
+      langs_pointer = g_get_language_names();
 
-			langs_pointer = g_get_language_names ();
+      lang = (gchar *)xmlGetProp(cur, (const xmlChar *)"lang");
+      cur_lanking = 1;
 
-			lang = (gchar*) xmlGetProp (cur, (const xmlChar*) "lang");
-			cur_lanking = 1;
+      /*
+       * When found a new TagGroup, prepend the best
+       * tag_group to tag_list. In the current intltool-merge,
+       * the first section is the default lang NULL.
+       */
+      if (lang == NULL) {
+        if (best_tag_group != NULL) {
+          tag_list->tag_groups =
+              g_list_prepend(tag_list->tag_groups, best_tag_group);
+        }
 
-			/*
-			 * When found a new TagGroup, prepend the best
-			 * tag_group to tag_list. In the current intltool-merge,
-			 * the first section is the default lang NULL.
-			 */
-			if (lang == NULL) {
-				if (best_tag_group != NULL) {
-					tag_list->tag_groups =
-					g_list_prepend (tag_list->tag_groups, best_tag_group);
-				}
+        best_tag_group = NULL;
+        best_lanking = -1;
+      }
 
-				best_tag_group = NULL;
-				best_lanking = -1;
-			}
+      /*
+       * If already find the best TagGroup on the current
+       * locale, ignore the logic.
+       */
+      if (best_lanking != -1 && best_lanking <= cur_lanking) {
+        cur = cur->next;
+        continue;
+      }
 
-			/*
-			 * If already find the best TagGroup on the current
-			 * locale, ignore the logic.
-			 */
-			if (best_lanking != -1 && best_lanking <= cur_lanking) {
-				cur = cur->next;
-				continue;
-			}
+      /* try to find the best lang */
+      for (i = 0; langs_pointer[i] != NULL; i++) {
+        const gchar *best_lang = langs_pointer[i];
 
-			/* try to find the best lang */
-			for (i = 0; langs_pointer[i] != NULL; i++)
-			{
-				const gchar *best_lang = langs_pointer[i];
+        /*
+         * if launch on C, POSIX locale or does
+         * not find the best lang on the current locale,
+         * this is called.
+         * g_get_language_names returns lang
+         * lists with C locale.
+         */
+        if (lang == NULL && (!g_ascii_strcasecmp(best_lang, "C") ||
+                             !g_ascii_strcasecmp(best_lang, "POSIX"))) {
+          tag_group = get_tag_group(filename, doc, ns, cur);
+          if (tag_group != NULL) {
+            if (best_tag_group != NULL) free_tag_group(best_tag_group);
+            best_lanking = cur_lanking;
+            best_tag_group = tag_group;
+          }
+        }
 
-				/*
-				 * if launch on C, POSIX locale or does
-				 * not find the best lang on the current locale,
-				 * this is called.
-				 * g_get_language_names returns lang
-				 * lists with C locale.
-				 */
-				if (lang == NULL &&
-				    (!g_ascii_strcasecmp (best_lang, "C") ||
-				     !g_ascii_strcasecmp (best_lang, "POSIX")))
-				{
-					tag_group = get_tag_group (filename, doc, ns, cur);
-					if (tag_group != NULL)
-					{
-						if (best_tag_group !=NULL)
-							free_tag_group (best_tag_group);
-						best_lanking = cur_lanking;
-						best_tag_group = tag_group;
-					}
-				}
+        /* if it is possible the best lang is not C */
+        else if (lang == NULL) {
+          cur_lanking++;
+          continue;
+        }
 
-				/* if it is possible the best lang is not C */
-				else if (lang == NULL)
-				{
-					cur_lanking++;
-					continue;
-				}
+        /* if the best lang is found */
+        else if (!g_ascii_strcasecmp(best_lang, lang)) {
+          tag_group = get_tag_group(filename, doc, ns, cur);
+          if (tag_group != NULL) {
+            if (best_tag_group != NULL) free_tag_group(best_tag_group);
+            best_lanking = cur_lanking;
+            best_tag_group = tag_group;
+          }
+        }
 
-				/* if the best lang is found */
-				else if (!g_ascii_strcasecmp (best_lang, lang))
-				{
-					tag_group = get_tag_group (filename, doc, ns, cur);
-					if (tag_group != NULL)
-					{
-						if (best_tag_group !=NULL)
-							free_tag_group (best_tag_group);
-						best_lanking = cur_lanking;
-						best_tag_group = tag_group;
-					}
-				}
+        cur_lanking++;
+      }
 
-				cur_lanking++;
-			}
+      if (lang) g_free(lang);
+    } /* End of else */
 
-			if (lang) g_free (lang);
-		} /* End of else */
+    cur = cur->next;
+  } /* End of while (cur != NULL) */
 
-		cur = cur->next;
-    	} /* End of while (cur != NULL) */
+  /* Prepend TagGroup to TagList */
+  if (best_tag_group != NULL) {
+    tag_list->tag_groups = g_list_prepend(tag_list->tag_groups, best_tag_group);
+  }
 
-	/* Prepend TagGroup to TagList */
-	if (best_tag_group != NULL) {
-		tag_list->tag_groups =
-			g_list_prepend (tag_list->tag_groups, best_tag_group);
-	}
+  tag_list->tag_groups = g_list_sort(tag_list->tag_groups, groups_cmp);
 
-	tag_list->tag_groups = g_list_sort (tag_list->tag_groups, groups_cmp);
-
-	return tag_list;
+  return tag_list;
 }
 
-static TagList *
-parse_taglist_file (const gchar* filename)
-{
-	xmlDocPtr doc;
+static TagList *parse_taglist_file(const gchar *filename) {
+  xmlDocPtr doc;
 
-	xmlNsPtr ns;
-	xmlNodePtr cur;
+  xmlNsPtr ns;
+  xmlNodePtr cur;
 
-	pluma_debug_message (DEBUG_PLUGINS, "Parse file: %s", filename);
+  pluma_debug_message(DEBUG_PLUGINS, "Parse file: %s", filename);
 
-	xmlKeepBlanksDefault (0);
+  xmlKeepBlanksDefault(0);
 
-	/*
-	* build an XML tree from a the file;
-	*/
-	doc = xmlParseFile (filename);
-	if (doc == NULL)
-	{
-		g_warning ("The tag list file '%s' is empty.", filename);
+  /*
+   * build an XML tree from a the file;
+   */
+  doc = xmlParseFile(filename);
+  if (doc == NULL) {
+    g_warning("The tag list file '%s' is empty.", filename);
 
-		return taglist;
-	}
+    return taglist;
+  }
 
-	/*
-	* Check the document is of the right kind
-	*/
+  /*
+   * Check the document is of the right kind
+   */
 
-	cur = xmlDocGetRootElement (doc);
+  cur = xmlDocGetRootElement(doc);
 
-	if (cur == NULL)
-	{
-		g_warning ("The tag list file '%s' is empty.", filename);
-		xmlFreeDoc(doc);
-		return taglist;
-	}
+  if (cur == NULL) {
+    g_warning("The tag list file '%s' is empty.", filename);
+    xmlFreeDoc(doc);
+    return taglist;
+  }
 
-	ns = xmlSearchNsByHref (doc, cur,
-			(const xmlChar *) "http://pluma.sourceforge.net/some-location");
+  ns = xmlSearchNsByHref(
+      doc, cur, (const xmlChar *)"http://pluma.sourceforge.net/some-location");
 
-	if (ns == NULL)
-	{
-		g_warning ("The tag list file '%s' is of the wrong type, "
-			   "pluma namespace not found.", filename);
-		xmlFreeDoc (doc);
+  if (ns == NULL) {
+    g_warning(
+        "The tag list file '%s' is of the wrong type, "
+        "pluma namespace not found.",
+        filename);
+    xmlFreeDoc(doc);
 
-		return taglist;
-	}
+    return taglist;
+  }
 
-    	if (xmlStrcmp(cur->name, (const xmlChar *) "TagList"))
-	{
-		g_warning ("The tag list file '%s' is of the wrong type, "
-			   "root node != TagList.", filename);
-		xmlFreeDoc (doc);
+  if (xmlStrcmp(cur->name, (const xmlChar *)"TagList")) {
+    g_warning(
+        "The tag list file '%s' is of the wrong type, "
+        "root node != TagList.",
+        filename);
+    xmlFreeDoc(doc);
 
-		return taglist;
-	}
+    return taglist;
+  }
 
-	/*
-	 * If needed, allocate taglist
-	 */
+  /*
+   * If needed, allocate taglist
+   */
 
-	if (taglist == NULL)
-		taglist = g_new0 (TagList, 1);
+  if (taglist == NULL) taglist = g_new0(TagList, 1);
 
-	taglist = lookup_best_lang (taglist, filename, doc, ns, cur);
+  taglist = lookup_best_lang(taglist, filename, doc, ns, cur);
 
-	xmlFreeDoc (doc);
+  xmlFreeDoc(doc);
 
-	pluma_debug_message (DEBUG_PLUGINS, "END");
+  pluma_debug_message(DEBUG_PLUGINS, "END");
 
-	return taglist;
+  return taglist;
 }
 
-static void
-free_tag (Tag *tag)
-{
-	/*
-	pluma_debug_message (DEBUG_PLUGINS, "Tag: %s", tag->name);
-	*/
-	g_return_if_fail (tag != NULL);
+static void free_tag(Tag *tag) {
+  /*
+  pluma_debug_message (DEBUG_PLUGINS, "Tag: %s", tag->name);
+  */
+  g_return_if_fail(tag != NULL);
 
-	free (tag->name);
+  free(tag->name);
 
-	if (tag->begin != NULL)
-		free (tag->begin);
+  if (tag->begin != NULL) free(tag->begin);
 
-	if (tag->end != NULL)
-		free (tag->end);
+  if (tag->end != NULL) free(tag->end);
 
-	g_free (tag);
+  g_free(tag);
 }
 
-static void
-free_tag_group (TagGroup *tag_group)
-{
-	GList *l;
+static void free_tag_group(TagGroup *tag_group) {
+  GList *l;
 
-	pluma_debug_message (DEBUG_PLUGINS, "Tag group: %s", tag_group->name);
+  pluma_debug_message(DEBUG_PLUGINS, "Tag group: %s", tag_group->name);
 
-	g_return_if_fail (tag_group != NULL);
+  g_return_if_fail(tag_group != NULL);
 
-	free (tag_group->name);
+  free(tag_group->name);
 
-	for (l = tag_group->tags; l != NULL; l = g_list_next (l))
-	{
-		free_tag ((Tag *) l->data);
-	}
+  for (l = tag_group->tags; l != NULL; l = g_list_next(l)) {
+    free_tag((Tag *)l->data);
+  }
 
-	g_list_free (tag_group->tags);
-	g_free (tag_group);
+  g_list_free(tag_group->tags);
+  g_free(tag_group);
 
-	pluma_debug_message (DEBUG_PLUGINS, "END");
+  pluma_debug_message(DEBUG_PLUGINS, "END");
 }
 
-void free_taglist(void)
-{
-	GList* l;
+void free_taglist(void) {
+  GList *l;
 
-	pluma_debug_message(DEBUG_PLUGINS, "ref_count: %d", taglist_ref_count);
+  pluma_debug_message(DEBUG_PLUGINS, "ref_count: %d", taglist_ref_count);
 
-	if (taglist == NULL)
-	{
-		return;
-	}
+  if (taglist == NULL) {
+    return;
+  }
 
-	g_return_if_fail(taglist_ref_count > 0);
+  g_return_if_fail(taglist_ref_count > 0);
 
-	--taglist_ref_count;
+  --taglist_ref_count;
 
-	if (taglist_ref_count > 0)
-	{
-		return;
-	}
+  if (taglist_ref_count > 0) {
+    return;
+  }
 
-	for (l = taglist->tag_groups; l != NULL; l = g_list_next (l))
-	{
-		free_tag_group ((TagGroup*) l->data);
-	}
+  for (l = taglist->tag_groups; l != NULL; l = g_list_next(l)) {
+    free_tag_group((TagGroup *)l->data);
+  }
 
-	g_list_free (taglist->tag_groups);
-	g_free (taglist);
-	taglist = NULL;
+  g_list_free(taglist->tag_groups);
+  g_free(taglist);
+  taglist = NULL;
 
-	pluma_debug_message (DEBUG_PLUGINS, "Really freed");
+  pluma_debug_message(DEBUG_PLUGINS, "Really freed");
 }
 
-static TagList* parse_taglist_dir(const gchar* dir)
-{
-	GError* error = NULL;
-	GDir* d;
-	const gchar* dirent;
+static TagList *parse_taglist_dir(const gchar *dir) {
+  GError *error = NULL;
+  GDir *d;
+  const gchar *dirent;
 
-	pluma_debug_message(DEBUG_PLUGINS, "DIR: %s", dir);
+  pluma_debug_message(DEBUG_PLUGINS, "DIR: %s", dir);
 
-	d = g_dir_open(dir, 0, &error);
+  d = g_dir_open(dir, 0, &error);
 
-	if (!d)
-	{
-		pluma_debug_message(DEBUG_PLUGINS, "%s", error->message);
-		g_error_free (error);
-		return taglist;
-	}
+  if (!d) {
+    pluma_debug_message(DEBUG_PLUGINS, "%s", error->message);
+    g_error_free(error);
+    return taglist;
+  }
 
-	while ((dirent = g_dir_read_name(d)))
-	{
-		if (g_str_has_suffix(dirent, ".tags") || g_str_has_suffix(dirent, ".tags.gz"))
-		{
-			gchar* tags_file = g_build_filename(dir, dirent, NULL);
-			parse_taglist_file(tags_file);
-			g_free (tags_file);
-		}
-	}
+  while ((dirent = g_dir_read_name(d))) {
+    if (g_str_has_suffix(dirent, ".tags") ||
+        g_str_has_suffix(dirent, ".tags.gz")) {
+      gchar *tags_file = g_build_filename(dir, dirent, NULL);
+      parse_taglist_file(tags_file);
+      g_free(tags_file);
+    }
+  }
 
-	g_dir_close (d);
+  g_dir_close(d);
 
-	return taglist;
+  return taglist;
 }
 
-TagList* create_taglist(const gchar* data_dir)
-{
-	gchar* pdir;
+TagList *create_taglist(const gchar *data_dir) {
+  gchar *pdir;
 
-	pluma_debug_message(DEBUG_PLUGINS, "ref_count: %d", taglist_ref_count);
+  pluma_debug_message(DEBUG_PLUGINS, "ref_count: %d", taglist_ref_count);
 
-	if (taglist_ref_count > 0)
-	{
-		++taglist_ref_count;
+  if (taglist_ref_count > 0) {
+    ++taglist_ref_count;
 
-		return taglist;
-	}
+    return taglist;
+  }
 
-	const gchar* home;
+  const gchar *home;
 
-	/* load user's taglists */
+  /* load user's taglists */
 
-	home = g_get_home_dir ();
-	if (home != NULL)
-	{
-		pdir = g_build_filename(home, ".config", USER_PLUMA_TAGLIST_PLUGIN_LOCATION, NULL);
-		parse_taglist_dir(pdir);
-		g_free (pdir);
-	}
+  home = g_get_home_dir();
+  if (home != NULL) {
+    pdir = g_build_filename(home, ".config", USER_PLUMA_TAGLIST_PLUGIN_LOCATION,
+                            NULL);
+    parse_taglist_dir(pdir);
+    g_free(pdir);
+  }
 
-	/* load system's taglists */
-	parse_taglist_dir(data_dir);
+  /* load system's taglists */
+  parse_taglist_dir(data_dir);
 
-	++taglist_ref_count;
-	g_return_val_if_fail(taglist_ref_count == 1, taglist);
+  ++taglist_ref_count;
+  g_return_val_if_fail(taglist_ref_count == 1, taglist);
 
-	return taglist;
+  return taglist;
 }

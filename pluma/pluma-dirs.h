@@ -21,7 +21,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef __PLUMA_DIRS_H__
 #define __PLUMA_DIRS_H__
 
@@ -29,13 +28,13 @@
 
 G_BEGIN_DECLS
 
-gchar		*pluma_dirs_get_user_config_dir		(void);
+gchar *pluma_dirs_get_user_config_dir(void);
 
-gchar		*pluma_dirs_get_user_cache_dir		(void);
+gchar *pluma_dirs_get_user_cache_dir(void);
 
-gchar		*pluma_dirs_get_user_plugins_dir	(void);
+gchar *pluma_dirs_get_user_plugins_dir(void);
 
-gchar		*pluma_dirs_get_user_accels_file	(void);
+gchar *pluma_dirs_get_user_accels_file(void);
 
 G_END_DECLS
 

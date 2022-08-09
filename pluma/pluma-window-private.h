@@ -34,90 +34,90 @@
 
 #include <libpeas/peas-extension-set.h>
 
-#include "pluma/pluma-window.h"
 #include "pluma-message-bus.h"
 #include "pluma-settings.h"
+#include "pluma/pluma-window.h"
 
 G_BEGIN_DECLS
 
-/* WindowPrivate is in a separate .h so that we can access it from pluma-commands */
+/* WindowPrivate is in a separate .h so that we can access it from
+ * pluma-commands */
 
-struct _PlumaWindowPrivate
-{
-	GSettings      *editor_settings;
+struct _PlumaWindowPrivate {
+  GSettings *editor_settings;
 
-	GtkWidget      *notebook;
+  GtkWidget *notebook;
 
-	GtkWidget      *side_panel;
-	GtkWidget      *bottom_panel;
+  GtkWidget *side_panel;
+  GtkWidget *bottom_panel;
 
-	GtkWidget      *hpaned;
-	GtkWidget      *vpaned;
+  GtkWidget *hpaned;
+  GtkWidget *vpaned;
 
-	GtkWidget      *tab_width_combo;
-	GtkWidget      *language_combo;
+  GtkWidget *tab_width_combo;
+  GtkWidget *language_combo;
 
-	PlumaMessageBus *message_bus;
-	PeasExtensionSet *extensions;
+  PlumaMessageBus *message_bus;
+  PeasExtensionSet *extensions;
 
-	/* Widgets for fullscreen mode */
-	GtkWidget      *fullscreen_controls;
-	guint           fullscreen_animation_timeout_id;
-	gboolean        fullscreen_animation_enter;
+  /* Widgets for fullscreen mode */
+  GtkWidget *fullscreen_controls;
+  guint fullscreen_animation_timeout_id;
+  gboolean fullscreen_animation_enter;
 
-	/* statusbar and context ids for statusbar messages */
-	GtkWidget      *statusbar;
-	guint           generic_message_cid;
-	guint           tip_message_cid;
-	/* The handler IDs */
-	gulong 		tab_width_id;
-	gulong 		spaces_instead_of_tabs_id;
-	gulong 		language_changed_id;
+  /* statusbar and context ids for statusbar messages */
+  GtkWidget *statusbar;
+  guint generic_message_cid;
+  guint tip_message_cid;
+  /* The handler IDs */
+  gulong tab_width_id;
+  gulong spaces_instead_of_tabs_id;
+  gulong language_changed_id;
 
-	/* Menus & Toolbars */
-	GtkUIManager   *manager;
-	GtkActionGroup *action_group;
-	GtkActionGroup *always_sensitive_action_group;
-	GtkActionGroup *close_action_group;
-	GtkActionGroup *quit_action_group;
-	GtkActionGroup *panes_action_group;
-	GtkActionGroup *languages_action_group;
-	GtkActionGroup *documents_list_action_group;
-	guint           documents_list_menu_ui_id;
-	GtkWidget      *toolbar;
-	GtkWidget      *toolbar_recent_menu;
-	GtkWidget      *menubar;
-	PlumaToolbarSetting toolbar_style;
+  /* Menus & Toolbars */
+  GtkUIManager *manager;
+  GtkActionGroup *action_group;
+  GtkActionGroup *always_sensitive_action_group;
+  GtkActionGroup *close_action_group;
+  GtkActionGroup *quit_action_group;
+  GtkActionGroup *panes_action_group;
+  GtkActionGroup *languages_action_group;
+  GtkActionGroup *documents_list_action_group;
+  guint documents_list_menu_ui_id;
+  GtkWidget *toolbar;
+  GtkWidget *toolbar_recent_menu;
+  GtkWidget *menubar;
+  PlumaToolbarSetting toolbar_style;
 
-	/* recent files */
-	GtkActionGroup *recents_action_group;
-	guint           recents_menu_ui_id;
-	gulong          recents_handler_id;
+  /* recent files */
+  GtkActionGroup *recents_action_group;
+  guint recents_menu_ui_id;
+  gulong recents_handler_id;
 
-	PlumaTab       *active_tab;
-	gint            num_tabs;
+  PlumaTab *active_tab;
+  gint num_tabs;
 
-	gint            num_tabs_with_error;
+  gint num_tabs_with_error;
 
-	gint            width;
-	gint            height;
-	GdkWindowState  window_state;
+  gint width;
+  gint height;
+  GdkWindowState window_state;
 
-	gint            side_panel_size;
-	gint            bottom_panel_size;
+  gint side_panel_size;
+  gint bottom_panel_size;
 
-	PlumaWindowState state;
+  PlumaWindowState state;
 
-	gulong          bottom_panel_item_removed_handler_id;
+  gulong bottom_panel_item_removed_handler_id;
 
-	GtkWindowGroup *window_group;
+  GtkWindowGroup *window_group;
 
-	GFile          *default_location;
+  GFile *default_location;
 
-	gboolean        removing_tabs : 1;
-	gboolean        dispose_has_run : 1;
+  gboolean removing_tabs : 1;
+  gboolean dispose_has_run : 1;
 };
 
 G_END_DECLS
 
-#endif  /* __PLUMA_WINDOW_PRIVATE_H__  */
+#endif /* __PLUMA_WINDOW_PRIVATE_H__  */

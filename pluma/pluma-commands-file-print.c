@@ -39,37 +39,28 @@
 #include <gtk/gtk.h>
 
 #include "pluma-commands.h"
-#include "pluma-window.h"
-#include "pluma-tab.h"
 #include "pluma-debug.h"
+#include "pluma-tab.h"
+#include "pluma-window.h"
 
-void
-_pluma_cmd_file_print_preview (GtkAction   *action,
-			       PlumaWindow *window)
-{
-	PlumaTab *tab;
+void _pluma_cmd_file_print_preview(GtkAction *action, PlumaWindow *window) {
+  PlumaTab *tab;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	tab = pluma_window_get_active_tab (window);
-	if (tab == NULL)
-		return;
+  tab = pluma_window_get_active_tab(window);
+  if (tab == NULL) return;
 
-	_pluma_tab_print_preview (tab);
+  _pluma_tab_print_preview(tab);
 }
 
-void
-_pluma_cmd_file_print (GtkAction   *action,
-		       PlumaWindow *window)
-{
-	PlumaTab *tab;
+void _pluma_cmd_file_print(GtkAction *action, PlumaWindow *window) {
+  PlumaTab *tab;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	tab = pluma_window_get_active_tab (window);
-	if (tab == NULL)
-		return;
+  tab = pluma_window_get_active_tab(window);
+  if (tab == NULL) return;
 
-	_pluma_tab_print (tab);
+  _pluma_tab_print(tab);
 }
-

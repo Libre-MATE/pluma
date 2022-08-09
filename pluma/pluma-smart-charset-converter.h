@@ -30,37 +30,50 @@
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_SMART_CHARSET_CONVERTER		(pluma_smart_charset_converter_get_type ())
-#define PLUMA_SMART_CHARSET_CONVERTER(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, PlumaSmartCharsetConverter))
-#define PLUMA_SMART_CHARSET_CONVERTER_CONST(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, PlumaSmartCharsetConverter const))
-#define PLUMA_SMART_CHARSET_CONVERTER_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), PLUMA_TYPE_SMART_CHARSET_CONVERTER, PlumaSmartCharsetConverterClass))
-#define PLUMA_IS_SMART_CHARSET_CONVERTER(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER))
-#define PLUMA_IS_SMART_CHARSET_CONVERTER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_SMART_CHARSET_CONVERTER))
-#define PLUMA_SMART_CHARSET_CONVERTER_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, PlumaSmartCharsetConverterClass))
+#define PLUMA_TYPE_SMART_CHARSET_CONVERTER \
+  (pluma_smart_charset_converter_get_type())
+#define PLUMA_SMART_CHARSET_CONVERTER(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, \
+                              PlumaSmartCharsetConverter))
+#define PLUMA_SMART_CHARSET_CONVERTER_CONST(obj)                         \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, \
+                              PlumaSmartCharsetConverter const))
+#define PLUMA_SMART_CHARSET_CONVERTER_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_SMART_CHARSET_CONVERTER, \
+                           PlumaSmartCharsetConverterClass))
+#define PLUMA_IS_SMART_CHARSET_CONVERTER(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER))
+#define PLUMA_IS_SMART_CHARSET_CONVERTER_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_SMART_CHARSET_CONVERTER))
+#define PLUMA_SMART_CHARSET_CONVERTER_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_SMART_CHARSET_CONVERTER, \
+                             PlumaSmartCharsetConverterClass))
 
-typedef struct _PlumaSmartCharsetConverter		PlumaSmartCharsetConverter;
-typedef struct _PlumaSmartCharsetConverterClass		PlumaSmartCharsetConverterClass;
-typedef struct _PlumaSmartCharsetConverterPrivate	PlumaSmartCharsetConverterPrivate;
+typedef struct _PlumaSmartCharsetConverter PlumaSmartCharsetConverter;
+typedef struct _PlumaSmartCharsetConverterClass PlumaSmartCharsetConverterClass;
+typedef struct _PlumaSmartCharsetConverterPrivate
+    PlumaSmartCharsetConverterPrivate;
 
-struct _PlumaSmartCharsetConverter
-{
-	GObject parent;
+struct _PlumaSmartCharsetConverter {
+  GObject parent;
 
-	PlumaSmartCharsetConverterPrivate *priv;
+  PlumaSmartCharsetConverterPrivate *priv;
 };
 
-struct _PlumaSmartCharsetConverterClass
-{
-	GObjectClass parent_class;
+struct _PlumaSmartCharsetConverterClass {
+  GObjectClass parent_class;
 };
 
-GType pluma_smart_charset_converter_get_type (void) G_GNUC_CONST;
+GType pluma_smart_charset_converter_get_type(void) G_GNUC_CONST;
 
-PlumaSmartCharsetConverter	*pluma_smart_charset_converter_new		(GSList *candidate_encodings);
+PlumaSmartCharsetConverter *pluma_smart_charset_converter_new(
+    GSList *candidate_encodings);
 
-const PlumaEncoding		*pluma_smart_charset_converter_get_guessed	(PlumaSmartCharsetConverter *smart);
+const PlumaEncoding *pluma_smart_charset_converter_get_guessed(
+    PlumaSmartCharsetConverter *smart);
 
-guint				 pluma_smart_charset_converter_get_num_fallbacks(PlumaSmartCharsetConverter *smart);
+guint pluma_smart_charset_converter_get_num_fallbacks(
+    PlumaSmartCharsetConverter *smart);
 
 G_END_DECLS
 

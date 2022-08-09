@@ -23,41 +23,47 @@
 #ifndef __PLUMA_MODELINE_PLUGIN_H__
 #define __PLUMA_MODELINE_PLUGIN_H__
 
-#include <glib.h>
 #include <glib-object.h>
+#include <glib.h>
 #include <libpeas/peas-extension-base.h>
 #include <libpeas/peas-object-module.h>
 
 G_BEGIN_DECLS
 
-#define PLUMA_TYPE_MODELINE_PLUGIN		(pluma_modeline_plugin_get_type ())
-#define PLUMA_MODELINE_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), PLUMA_TYPE_MODELINE_PLUGIN, PlumaModelinePlugin))
-#define PLUMA_MODELINE_PLUGIN_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_MODELINE_PLUGIN, PlumaModelinePluginClass))
-#define PLUMA_IS_MODELINE_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), PLUMA_TYPE_MODELINE_PLUGIN))
-#define PLUMA_IS_MODELINE_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), PLUMA_TYPE_MODELINE_PLUGIN))
-#define PLUMA_MODELINE_PLUGIN_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), PLUMA_TYPE_MODELINE_PLUGIN, PlumaModelinePluginClass))
+#define PLUMA_TYPE_MODELINE_PLUGIN (pluma_modeline_plugin_get_type())
+#define PLUMA_MODELINE_PLUGIN(o)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((o), PLUMA_TYPE_MODELINE_PLUGIN, \
+                              PlumaModelinePlugin))
+#define PLUMA_MODELINE_PLUGIN_CLASS(k)                      \
+  (G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_MODELINE_PLUGIN, \
+                           PlumaModelinePluginClass))
+#define PLUMA_IS_MODELINE_PLUGIN(o) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((o), PLUMA_TYPE_MODELINE_PLUGIN))
+#define PLUMA_IS_MODELINE_PLUGIN_CLASS(k) \
+  (G_TYPE_CHECK_CLASS_TYPE((k), PLUMA_TYPE_MODELINE_PLUGIN))
+#define PLUMA_MODELINE_PLUGIN_GET_CLASS(o)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((o), PLUMA_TYPE_MODELINE_PLUGIN, \
+                             PlumaModelinePluginClass))
 
-typedef struct _PlumaModelinePlugin         PlumaModelinePlugin;
-typedef struct _PlumaModelinePluginPrivate  PlumaModelinePluginPrivate;
+typedef struct _PlumaModelinePlugin PlumaModelinePlugin;
+typedef struct _PlumaModelinePluginPrivate PlumaModelinePluginPrivate;
 
-struct _PlumaModelinePlugin
-{
-	PeasExtensionBase parent_instance;
+struct _PlumaModelinePlugin {
+  PeasExtensionBase parent_instance;
 
-	/*< private >*/
-	PlumaModelinePluginPrivate *priv;
+  /*< private >*/
+  PlumaModelinePluginPrivate *priv;
 };
 
-typedef struct _PlumaModelinePluginClass    PlumaModelinePluginClass;
+typedef struct _PlumaModelinePluginClass PlumaModelinePluginClass;
 
-struct _PlumaModelinePluginClass
-{
-	PeasExtensionBaseClass parent_class;
+struct _PlumaModelinePluginClass {
+  PeasExtensionBaseClass parent_class;
 };
 
-GType	pluma_modeline_plugin_get_type		(void) G_GNUC_CONST;
+GType pluma_modeline_plugin_get_type(void) G_GNUC_CONST;
 
-G_MODULE_EXPORT void peas_register_types (PeasObjectModule *module);
+G_MODULE_EXPORT void peas_register_types(PeasObjectModule *module);
 
 G_END_DECLS
 

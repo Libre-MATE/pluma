@@ -37,203 +37,169 @@
 
 #include <gtk/gtk.h>
 
+#include "dialogs/pluma-preferences-dialog.h"
 #include "pluma-commands.h"
-#include "pluma-window.h"
 #include "pluma-debug.h"
 #include "pluma-view.h"
-#include "dialogs/pluma-preferences-dialog.h"
+#include "pluma-window.h"
 
-void
-_pluma_cmd_edit_undo (GtkAction   *action,
-		     PlumaWindow *window)
-{
-	PlumaView *active_view;
-	GtkSourceBuffer *active_document;
+void _pluma_cmd_edit_undo(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
+  GtkSourceBuffer *active_document;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	active_document = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (active_view)));
+  active_document =
+      GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(active_view)));
 
-	gtk_source_buffer_undo (active_document);
+  gtk_source_buffer_undo(active_document);
 
-	pluma_view_scroll_to_cursor (active_view);
+  pluma_view_scroll_to_cursor(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_redo (GtkAction   *action,
-		     PlumaWindow *window)
-{
-	PlumaView *active_view;
-	GtkSourceBuffer *active_document;
+void _pluma_cmd_edit_redo(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
+  GtkSourceBuffer *active_document;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	active_document = GTK_SOURCE_BUFFER (gtk_text_view_get_buffer (GTK_TEXT_VIEW (active_view)));
+  active_document =
+      GTK_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(active_view)));
 
-	gtk_source_buffer_redo (active_document);
+  gtk_source_buffer_redo(active_document);
 
-	pluma_view_scroll_to_cursor (active_view);
+  pluma_view_scroll_to_cursor(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_cut (GtkAction   *action,
-		    PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_cut(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_cut_clipboard (active_view);
+  pluma_view_cut_clipboard(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_copy (GtkAction   *action,
-		     PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_copy(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_copy_clipboard (active_view);
+  pluma_view_copy_clipboard(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_paste (GtkAction   *action,
-		      PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_paste(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_paste_clipboard (active_view);
+  pluma_view_paste_clipboard(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_delete (GtkAction   *action,
-		       PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_delete(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_delete_selection (active_view);
+  pluma_view_delete_selection(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_select_all (GtkAction   *action,
-			   PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_select_all(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_select_all (active_view);
+  pluma_view_select_all(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_upper_case (GtkAction   *action,
-			    PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_upper_case(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_upper_case_selection (active_view);
+  pluma_view_upper_case_selection(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_lower_case (GtkAction   *action,
-			    PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_lower_case(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_lower_case_selection (active_view);
+  pluma_view_lower_case_selection(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_invert_case (GtkAction   *action,
-			     PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_invert_case(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_invert_case_selection (active_view);
+  pluma_view_invert_case_selection(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_title_case (GtkAction   *action,
-			    PlumaWindow *window)
-{
-	PlumaView *active_view;
+void _pluma_cmd_edit_title_case(GtkAction *action, PlumaWindow *window) {
+  PlumaView *active_view;
 
-	pluma_debug (DEBUG_COMMANDS);
+  pluma_debug(DEBUG_COMMANDS);
 
-	active_view = pluma_window_get_active_view (window);
-	g_return_if_fail (active_view);
+  active_view = pluma_window_get_active_view(window);
+  g_return_if_fail(active_view);
 
-	pluma_view_title_case_selection (active_view);
+  pluma_view_title_case_selection(active_view);
 
-	gtk_widget_grab_focus (GTK_WIDGET (active_view));
+  gtk_widget_grab_focus(GTK_WIDGET(active_view));
 }
 
-void
-_pluma_cmd_edit_preferences (GtkAction   *action,
-			    PlumaWindow *window)
-{
-	pluma_debug (DEBUG_COMMANDS);
+void _pluma_cmd_edit_preferences(GtkAction *action, PlumaWindow *window) {
+  pluma_debug(DEBUG_COMMANDS);
 
-	pluma_show_preferences_dialog (window);
+  pluma_show_preferences_dialog(window);
 }

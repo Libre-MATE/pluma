@@ -39,12 +39,21 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_PROGRESS_MESSAGE_AREA              (pluma_progress_message_area_get_type())
-#define PLUMA_PROGRESS_MESSAGE_AREA(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, PlumaProgressMessageArea))
-#define PLUMA_PROGRESS_MESSAGE_AREA_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, PlumaProgressMessageAreaClass))
-#define PLUMA_IS_PROGRESS_MESSAGE_AREA(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA))
-#define PLUMA_IS_PROGRESS_MESSAGE_AREA_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), PLUMA_TYPE_PROGRESS_MESSAGE_AREA))
-#define PLUMA_PROGRESS_MESSAGE_AREA_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, PlumaProgressMessageAreaClass))
+#define PLUMA_TYPE_PROGRESS_MESSAGE_AREA \
+  (pluma_progress_message_area_get_type())
+#define PLUMA_PROGRESS_MESSAGE_AREA(obj)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, \
+                              PlumaProgressMessageArea))
+#define PLUMA_PROGRESS_MESSAGE_AREA_CLASS(klass)                      \
+  (G_TYPE_CHECK_CLASS_CAST((klass), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, \
+                           PlumaProgressMessageAreaClass))
+#define PLUMA_IS_PROGRESS_MESSAGE_AREA(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA))
+#define PLUMA_IS_PROGRESS_MESSAGE_AREA_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass), PLUMA_TYPE_PROGRESS_MESSAGE_AREA))
+#define PLUMA_PROGRESS_MESSAGE_AREA_GET_CLASS(obj)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), PLUMA_TYPE_PROGRESS_MESSAGE_AREA, \
+                             PlumaProgressMessageAreaClass))
 
 /* Private structure type */
 typedef struct _PlumaProgressMessageAreaPrivate PlumaProgressMessageAreaPrivate;
@@ -54,12 +63,11 @@ typedef struct _PlumaProgressMessageAreaPrivate PlumaProgressMessageAreaPrivate;
  */
 typedef struct _PlumaProgressMessageArea PlumaProgressMessageArea;
 
-struct _PlumaProgressMessageArea
-{
-	GtkInfoBar parent;
+struct _PlumaProgressMessageArea {
+  GtkInfoBar parent;
 
-	/*< private > */
-	PlumaProgressMessageAreaPrivate *priv;
+  /*< private > */
+  PlumaProgressMessageAreaPrivate *priv;
 };
 
 /*
@@ -67,35 +75,33 @@ struct _PlumaProgressMessageArea
  */
 typedef struct _PlumaProgressMessageAreaClass PlumaProgressMessageAreaClass;
 
-struct _PlumaProgressMessageAreaClass
-{
-	GtkInfoBarClass parent_class;
+struct _PlumaProgressMessageAreaClass {
+  GtkInfoBarClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType 		 pluma_progress_message_area_get_type 		(void) G_GNUC_CONST;
+GType pluma_progress_message_area_get_type(void) G_GNUC_CONST;
 
-GtkWidget	*pluma_progress_message_area_new      		(const gchar              *image_id,
-								 const gchar              *markup,
-								 gboolean                  has_cancel);
+GtkWidget *pluma_progress_message_area_new(const gchar *image_id,
+                                           const gchar *markup,
+                                           gboolean has_cancel);
 
-void		 pluma_progress_message_area_set_image		(PlumaProgressMessageArea *area,
-								 const gchar              *image_id);
+void pluma_progress_message_area_set_image(PlumaProgressMessageArea *area,
+                                           const gchar *image_id);
 
-void		 pluma_progress_message_area_set_markup		(PlumaProgressMessageArea *area,
-								 const gchar              *markup);
+void pluma_progress_message_area_set_markup(PlumaProgressMessageArea *area,
+                                            const gchar *markup);
 
-void		 pluma_progress_message_area_set_text		(PlumaProgressMessageArea *area,
-								 const gchar              *text);
+void pluma_progress_message_area_set_text(PlumaProgressMessageArea *area,
+                                          const gchar *text);
 
-void		 pluma_progress_message_area_set_fraction	(PlumaProgressMessageArea *area,
-								 gdouble                   fraction);
+void pluma_progress_message_area_set_fraction(PlumaProgressMessageArea *area,
+                                              gdouble fraction);
 
-void		 pluma_progress_message_area_pulse		(PlumaProgressMessageArea *area);
-
+void pluma_progress_message_area_pulse(PlumaProgressMessageArea *area);
 
 G_END_DECLS
 
-#endif  /* __PLUMA_PROGRESS_MESSAGE_AREA_H__  */
+#endif /* __PLUMA_PROGRESS_MESSAGE_AREA_H__  */

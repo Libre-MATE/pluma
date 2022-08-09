@@ -21,8 +21,8 @@
 #ifndef __PLUMA_TRAIL_SAVE_PLUGIN_H__
 #define __PLUMA_TRAIL_SAVE_PLUGIN_H__
 
-#include <glib.h>
 #include <glib-object.h>
+#include <glib.h>
 #include <libpeas/peas-extension-base.h>
 #include <libpeas/peas-object-module.h>
 
@@ -31,46 +31,52 @@ G_BEGIN_DECLS
 /*
  * Type checking and casting macros
  */
-#define PLUMA_TYPE_TRAIL_SAVE_PLUGIN		(pluma_trail_save_plugin_get_type ())
-#define PLUMA_TRAIL_SAVE_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, PlumaTrailSavePlugin))
-#define PLUMA_TRAIL_SAVE_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, PlumaTrailSavePluginClass))
-#define PLUMA_IS_TRAIL_SAVE_PLUGIN(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN))
-#define PLUMA_IS_TRAIL_SAVE_PLUGIN_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), PLUMA_TYPE_TRAIL_SAVE_PLUGIN))
-#define PLUMA_TRAIL_SAVE_PLUGIN_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, PlumaTrailSavePluginClass))
+#define PLUMA_TYPE_TRAIL_SAVE_PLUGIN (pluma_trail_save_plugin_get_type())
+#define PLUMA_TRAIL_SAVE_PLUGIN(o)                               \
+  (G_TYPE_CHECK_INSTANCE_CAST((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, \
+                              PlumaTrailSavePlugin))
+#define PLUMA_TRAIL_SAVE_PLUGIN_CLASS(k)                      \
+  (G_TYPE_CHECK_CLASS_CAST((k), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, \
+                           PlumaTrailSavePluginClass))
+#define PLUMA_IS_TRAIL_SAVE_PLUGIN(o) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN))
+#define PLUMA_IS_TRAIL_SAVE_PLUGIN_CLASS(k) \
+  (G_TYPE_CHECK_CLASS_TYPE((k), PLUMA_TYPE_TRAIL_SAVE_PLUGIN))
+#define PLUMA_TRAIL_SAVE_PLUGIN_GET_CLASS(o)                    \
+  (G_TYPE_INSTANCE_GET_CLASS((o), PLUMA_TYPE_TRAIL_SAVE_PLUGIN, \
+                             PlumaTrailSavePluginClass))
 
 /* Private structure type */
-typedef struct _PlumaTrailSavePluginPrivate	PlumaTrailSavePluginPrivate;
+typedef struct _PlumaTrailSavePluginPrivate PlumaTrailSavePluginPrivate;
 
 /*
  * Main object structure
  */
-typedef struct _PlumaTrailSavePlugin		PlumaTrailSavePlugin;
+typedef struct _PlumaTrailSavePlugin PlumaTrailSavePlugin;
 
-struct _PlumaTrailSavePlugin
-{
-	PeasExtensionBase parent_instance;
+struct _PlumaTrailSavePlugin {
+  PeasExtensionBase parent_instance;
 
-	/*< private >*/
-	PlumaTrailSavePluginPrivate *priv;
+  /*< private >*/
+  PlumaTrailSavePluginPrivate *priv;
 };
 
 /*
  * Class definition
  */
-typedef struct _PlumaTrailSavePluginClass	PlumaTrailSavePluginClass;
+typedef struct _PlumaTrailSavePluginClass PlumaTrailSavePluginClass;
 
-struct _PlumaTrailSavePluginClass
-{
-	PeasExtensionBaseClass parent_class;
+struct _PlumaTrailSavePluginClass {
+  PeasExtensionBaseClass parent_class;
 };
 
 /*
  * Public methods
  */
-GType	pluma_trail_save_plugin_get_type	(void) G_GNUC_CONST;
+GType pluma_trail_save_plugin_get_type(void) G_GNUC_CONST;
 
 /* All the plugins must implement this function */
-G_MODULE_EXPORT void peas_register_types (PeasObjectModule *module);
+G_MODULE_EXPORT void peas_register_types(PeasObjectModule *module);
 
 G_END_DECLS
 
