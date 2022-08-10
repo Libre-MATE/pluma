@@ -1035,9 +1035,8 @@ static void preview_got_page_size(GtkPrintOperationPreview *gtk_preview,
 
 /* HACK: we need a dummy surface to paginate... can we use something simpler? */
 
-static cairo_status_t dummy_write_func(G_GNUC_UNUSED gpointer closure,
-                                       G_GNUC_UNUSED const guchar *data,
-                                       G_GNUC_UNUSED guint length) {
+static cairo_status_t dummy_write_func(gpointer closure, const guchar *data,
+                                       guint length) {
   return CAIRO_STATUS_SUCCESS;
 }
 
