@@ -166,9 +166,8 @@ static void disconnect_handlers(PlumaView *view) {
   data = g_object_steal_data(G_OBJECT(doc), DOCUMENT_DATA_KEY);
 
   if (data) {
-    g_signal_handler_disconnect(doc, data->document_loaded_handler_id);
-    g_signal_handler_disconnect(doc, data->document_saved_handler_id);
-
+    g_clear_signal_handler(&data->document_loaded_handler_id, doc);
+    g_clear_signal_handler(&data->document_saved_handler_id, doc);
     document_data_free(data);
   } else {
     g_warning("Modeline handlers not found");
@@ -223,14 +222,13 @@ static void pluma_modeline_plugin_deactivate(
   data = PLUMA_MODELINE_PLUGIN(activatable)->priv;
   window = PLUMA_WINDOW(data->window);
 
-  g_signal_handler_disconnect(window, data->tab_added_handler_id);
-  g_signal_handler_disconnect(window, data->tab_removed_handler_id);
+  g_clear_signal_handler(&data->tab_added_handler_id, window);
+  g_clear_signal_handler(&data->tab_removed_handler_id, window);
 
   views = pluma_window_get_views(window);
 
   for (l = views; l != NULL; l = l->next) {
     disconnect_handlers(PLUMA_VIEW(l->data));
-
     modeline_parser_deactivate(GTK_SOURCE_VIEW(l->data));
   }
 

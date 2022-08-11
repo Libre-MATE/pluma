@@ -410,7 +410,7 @@ static void clear_signals(PlumaFileBrowserWidget *obj) {
   for (item = obj->priv->signal_pool; item; item = item->next) {
     node = (SignalNode *)(item->data);
 
-    g_signal_handler_disconnect(node->object, node->id);
+    g_clear_signal_handler(&node->id, node->object);
     g_free(item->data);
   }
 

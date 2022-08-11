@@ -1101,8 +1101,8 @@ static void pluma_spell_plugin_deactivate(PlumaWindowActivatable *activatable) {
   gtk_ui_manager_remove_ui(manager, data->ui_id);
   gtk_ui_manager_remove_action_group(manager, data->action_group);
 
-  g_signal_handler_disconnect(window, data->tab_added_id);
-  g_signal_handler_disconnect(window, data->tab_removed_id);
+  g_clear_signal_handler(&data->tab_added_id, window);
+  g_clear_signal_handler(&data->tab_removed_id, window);
 }
 
 static void pluma_spell_plugin_update_state(

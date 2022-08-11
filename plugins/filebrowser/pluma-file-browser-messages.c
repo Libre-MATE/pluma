@@ -791,11 +791,11 @@ static void cleanup_signals(PlumaWindow *window) {
 
   store = pluma_file_browser_widget_get_browser_store(data->widget);
 
-  g_signal_handler_disconnect(store, data->row_inserted_id);
-  g_signal_handler_disconnect(store, data->row_deleted_id);
-  g_signal_handler_disconnect(store, data->root_changed_id);
-  g_signal_handler_disconnect(store, data->begin_loading_id);
-  g_signal_handler_disconnect(store, data->end_loading_id);
+  g_clear_signal_handler(&data->row_inserted_id, store);
+  g_clear_signal_handler(&data->row_deleted_id, store);
+  g_clear_signal_handler(&data->root_changed_id, store);
+  g_clear_signal_handler(&data->begin_loading_id, store);
+  g_clear_signal_handler(&data->end_loading_id, store);
 
   g_signal_handlers_disconnect_by_func(data->bus, message_unregistered, window);
 }
