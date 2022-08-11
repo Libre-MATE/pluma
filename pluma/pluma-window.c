@@ -152,17 +152,8 @@ static void pluma_window_dispose(GObject *object) {
   /* Stop tracking removal of panes otherwise we always
    * end up with thinking we had no pane active, since they
    * should all be removed below */
-#if GLIB_CHECK_VERSION(2, 62, 0)
   g_clear_signal_handler(&window->priv->bottom_panel_item_removed_handler_id,
                          window->priv->bottom_panel);
-#else
-  if (window->priv->bottom_panel_item_removed_handler_id != 0) {
-    g_signal_handler_disconnect(
-        window->priv->bottom_panel,
-        window->priv->bottom_panel_item_removed_handler_id);
-    window->priv->bottom_panel_item_removed_handler_id = 0;
-  }
-#endif
 
   /* First of all, force collection so that plugins
    * really drop some of the references.
@@ -199,13 +190,7 @@ static void pluma_window_dispose(GObject *object) {
     GtkRecentManager *recent_manager;
 
     recent_manager = gtk_recent_manager_get_default();
-#if GLIB_CHECK_VERSION(2, 62, 0)
     g_clear_signal_handler(&window->priv->recents_handler_id, recent_manager);
-#else
-    g_signal_handler_disconnect(recent_manager,
-                                window->priv->recents_handler_id);
-    window->priv->recents_handler_id = 0;
-#endif
   }
 
   if (window->priv->manager != NULL) {
@@ -2035,28 +2020,12 @@ static void notebook_switch_page(GtkNotebook *book, GtkWidget *pg,
   if (tab == window->priv->active_tab) return;
 
   if (window->priv->active_tab) {
-#if GLIB_CHECK_VERSION(2, 62, 0)
     PlumaView *active_tab_view;
 
     active_tab_view = pluma_tab_get_view(window->priv->active_tab);
     g_clear_signal_handler(&window->priv->tab_width_id, active_tab_view);
     g_clear_signal_handler(&window->priv->spaces_instead_of_tabs_id,
                            active_tab_view);
-#else
-    if (window->priv->tab_width_id) {
-      g_signal_handler_disconnect(pluma_tab_get_view(window->priv->active_tab),
-                                  window->priv->tab_width_id);
-
-      window->priv->tab_width_id = 0;
-    }
-
-    if (window->priv->spaces_instead_of_tabs_id) {
-      g_signal_handler_disconnect(pluma_tab_get_view(window->priv->active_tab),
-                                  window->priv->spaces_instead_of_tabs_id);
-
-      window->priv->spaces_instead_of_tabs_id = 0;
-    }
-#endif
   }
 
   /* set the active tab */
@@ -2776,31 +2745,11 @@ static void notebook_tab_removed(PlumaNotebook *notebook, PlumaTab *tab,
                                        window);
   g_signal_handlers_disconnect_by_func(view, G_CALLBACK(drop_uris_cb), NULL);
 
-#if GLIB_CHECK_VERSION(2, 62, 0)
   if (tab == pluma_window_get_active_tab(window)) {
     g_clear_signal_handler(&window->priv->tab_width_id, view);
     g_clear_signal_handler(&window->priv->spaces_instead_of_tabs_id, view);
     g_clear_signal_handler(&window->priv->language_changed_id, doc);
   }
-#else
-  if (window->priv->tab_width_id &&
-      tab == pluma_window_get_active_tab(window)) {
-    g_signal_handler_disconnect(view, window->priv->tab_width_id);
-    window->priv->tab_width_id = 0;
-  }
-
-  if (window->priv->spaces_instead_of_tabs_id &&
-      tab == pluma_window_get_active_tab(window)) {
-    g_signal_handler_disconnect(view, window->priv->spaces_instead_of_tabs_id);
-    window->priv->spaces_instead_of_tabs_id = 0;
-  }
-
-  if (window->priv->language_changed_id &&
-      tab == pluma_window_get_active_tab(window)) {
-    g_signal_handler_disconnect(doc, window->priv->language_changed_id);
-    window->priv->language_changed_id = 0;
-  }
-#endif
 
   g_return_if_fail(window->priv->num_tabs >= 0);
   if (window->priv->num_tabs == 0) {

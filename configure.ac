@@ -161,10 +161,10 @@ GTKSOURCEVIEW_REQUIRED=4.0.2
 PKG_CHECK_MODULES(GMODULE,gmodule-2.0,[GMODULE_ADD="gmodule-2.0"],[GMODULE_ADD=""])
 PKG_CHECK_MODULES(PLUMA, [
 	libxml-2.0 >= 2.5.0
-	glib-2.0 >= 2.50.0
+	glib-2.0 >= 2.62.0
 	$GMODULE_ADD
 	gthread-2.0 >= 2.13.0
-	gio-2.0 >= 2.50.0
+	gio-2.0 >= 2.62.0
 	gtk+-3.0 >= $GTK_REQUIRED
 	gtksourceview-4 >= $GTKSOURCEVIEW_REQUIRED
 	libpeas-1.0 >= 1.2.0
