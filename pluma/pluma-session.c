@@ -313,29 +313,6 @@ static void client_quit_requested_cb(EggSMClient *client, gpointer data) {
 
 /* quit handler for the master client */
 static void client_quit_cb(EggSMClient *client, gpointer data) {
-#if 0
-	pluma_debug (DEBUG_SESSION);
-
-	if (!client->save_yourself_emitted)
-		pluma_file_close_all ();
-
-	pluma_debug_message (DEBUG_FILE, "All files closed.");
-
-	matecomponent_mdi_destroy (MATECOMPONENT_MDI (pluma_mdi));
-
-	pluma_debug_message (DEBUG_FILE, "Unref pluma_mdi.");
-
-	g_object_unref (G_OBJECT (pluma_mdi));
-
-	pluma_debug_message (DEBUG_FILE, "Unref pluma_mdi: DONE");
-
-	pluma_debug_message (DEBUG_FILE, "Unref pluma_app_server.");
-
-	matecomponent_object_unref (pluma_app_server);
-
-	pluma_debug_message (DEBUG_FILE, "Unref pluma_app_server: DONE");
-#endif
-
   gtk_main_quit();
 }
 

@@ -2827,15 +2827,6 @@ static gboolean show_notebook_popup_menu(GtkNotebook *notebook,
   menu = gtk_ui_manager_get_widget(window->priv->manager, "/NotebookPopup");
   g_return_val_if_fail(menu != NULL, FALSE);
 
-// CHECK do we need this?
-#if 0
-    /* allow extensions to sync when showing the popup */
-    action = gtk_action_group_get_action (window->priv->action_group,
-                          "NotebookPopupAction");
-    g_return_val_if_fail (action != NULL, FALSE);
-    gtk_action_activate (action);
-#endif
-
   GtkWidget *tab;
   GtkWidget *tab_label;
 

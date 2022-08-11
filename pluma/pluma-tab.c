@@ -1392,17 +1392,6 @@ gchar *_pluma_tab_get_name(PlumaTab *tab) {
   if (gtk_text_buffer_get_modified(GTK_TEXT_BUFFER(doc))) {
     tab_name = g_strdup_printf("*%s", docname);
   } else {
-#if 0
-		if (pluma_document_get_readonly (doc))
-		{
-			tab_name = g_strdup_printf ("%s [%s]", docname,
-						/*Read only*/ _("RO"));
-		}
-		else
-		{
-			tab_name = g_strdup_printf ("%s", docname);
-		}
-#endif
     tab_name = g_strdup(docname);
   }
 
@@ -1962,16 +1951,6 @@ static void done_printing_cb(PlumaPrintJob *job, PlumaPrintJobResult result,
     store_print_settings(tab, job);
   }
 
-#if 0
-	if (tab->priv->print_preview != NULL)
-	{
-		/* If we were printing while showing the print preview,
-		   see bug #352658 */
-		gtk_widget_destroy (tab->priv->print_preview);
-		g_return_if_fail (tab->priv->state == PLUMA_TAB_STATE_PRINTING);
-	}
-#endif
-
   pluma_tab_set_state(tab, PLUMA_TAB_STATE_NORMAL);
 
   view = pluma_tab_get_view(tab);
@@ -1980,34 +1959,6 @@ static void done_printing_cb(PlumaPrintJob *job, PlumaPrintJobResult result,
   g_object_unref(tab->priv->print_job);
   tab->priv->print_job = NULL;
 }
-
-#if 0
-static void
-print_preview_destroyed (GtkWidget *preview,
-			 PlumaTab  *tab)
-{
-	tab->priv->print_preview = NULL;
-
-	if (tab->priv->state == PLUMA_TAB_STATE_SHOWING_PRINT_PREVIEW)
-	{
-		PlumaView *view;
-
-		pluma_tab_set_state (tab, PLUMA_TAB_STATE_NORMAL);
-
-		view = pluma_tab_get_view (tab);
-		gtk_widget_grab_focus (GTK_WIDGET (view));
-	}
-	else
-	{
-		/* This should happen only when printing while showing the print
-		 * preview. In this case let us continue whithout changing
-		 * the state and show the document. See bug #352658 */
-		gtk_widget_show (tab->priv->view_scrolled_window);
-
-		g_return_if_fail (tab->priv->state == PLUMA_TAB_STATE_PRINTING);
-	}
-}
-#endif
 
 static void show_preview_cb(PlumaPrintJob *job, PlumaPrintPreview *preview,
                             PlumaTab *tab) {
@@ -2029,58 +1980,6 @@ static void show_preview_cb(PlumaPrintJob *job, PlumaPrintPreview *preview,
   */
   pluma_tab_set_state(tab, PLUMA_TAB_STATE_SHOWING_PRINT_PREVIEW);
 }
-
-#if 0
-
-static void
-set_print_preview (PlumaTab  *tab,
-		   GtkWidget *print_preview)
-{
-	if (tab->priv->print_preview == print_preview)
-		return;
-
-	if (tab->priv->print_preview != NULL)
-		gtk_widget_destroy (tab->priv->print_preview);
-
-	tab->priv->print_preview = print_preview;
-
-	gtk_box_pack_end (GTK_BOX (tab),
-			  tab->priv->print_preview,
-			  TRUE,
-			  TRUE,
-			  0);
-
-	gtk_widget_grab_focus (tab->priv->print_preview);
-
-	g_signal_connect (tab->priv->print_preview,
-			  "destroy",
-			  G_CALLBACK (print_preview_destroyed),
-			  tab);
-}
-
-static void
-preview_finished_cb (GtkSourcePrintJob *pjob, PlumaTab *tab)
-{
-	MatePrintJob *gjob;
-	GtkWidget *preview = NULL;
-
-	g_return_if_fail (PLUMA_IS_PROGRESS_MESSAGE_AREA (tab->priv->message_area));
-	set_message_area (tab, NULL); /* destroy the message area */
-
-	gjob = gtk_source_print_job_get_print_job (pjob);
-
-	preview = pluma_print_job_preview_new (gjob);
- 	g_object_unref (gjob);
-
-	set_print_preview (tab, preview);
-
-	gtk_widget_show (preview);
-	g_object_unref (pjob);
-
-	pluma_tab_set_state (tab, PLUMA_TAB_STATE_SHOWING_PRINT_PREVIEW);
-}
-
-#endif
 
 static void print_cancelled(GtkWidget *area, gint response_id, PlumaTab *tab) {
   g_return_if_fail(PLUMA_IS_PROGRESS_MESSAGE_AREA(tab->priv->message_area));

@@ -101,14 +101,6 @@ static const PlumaEncoding *get_encoding(PlumaSmartCharsetConverter *smart) {
   if (smart->priv->current_encoding != NULL)
     return (const PlumaEncoding *)smart->priv->current_encoding->data;
 
-#if 0
-	FIXME: uncomment this when using fallback
-	/* If we tried all encodings, we return the first encoding */
-	smart->priv->use_first = TRUE;
-	smart->priv->current_encoding = smart->priv->encodings;
-
-	return (const PlumaEncoding *)smart->priv->current_encoding->data;
-#endif
   return NULL;
 }
 
