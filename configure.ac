@@ -83,6 +83,8 @@ GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Define to the Gettext package name])
 
+AM_CONDITIONAL([USE_NLS], [test "x${USE_NLS}" = "xyes"])
+
 dnl ================================================================
 dnl Use gvfs metadata or the old xml file store.
 dnl ================================================================
@@ -290,14 +292,15 @@ Configure summary:
 	${PACKAGE_STRING}
 	`echo $PACKAGE_STRING | sed "s/./=/g"`
 
-	Source code location:	${srcdir}
-	Compiler:		${CC}
-	Compiler flags:		${CFLAGS}
-	Warning flags:		${WARN_CFLAGS}
-	Spell Plugin enabled:	$enable_enchant
-	Gvfs metadata enabled:	$enable_gvfs_metadata
-	GObject Introspection:	${have_introspection}
-	Tests enabled:		$enable_tests
+	Source code location:	   ${srcdir}
+	Compiler:		   ${CC}
+	Compiler flags:		   ${CFLAGS}
+	Warning flags:		   ${WARN_CFLAGS}
+	Spell Plugin enabled:	   $enable_enchant
+	Gvfs metadata enabled:	   $enable_gvfs_metadata
+	GObject Introspection:	   ${have_introspection}
+	Tests enabled:		   $enable_tests
+        Native Language support:   $USE_NLS
 "
 
 if expr ${PLUMA_MINOR_VERSION} % 2 > /dev/null; then
