@@ -8,8 +8,8 @@ m4_define(pluma_micro_version, 0)
 m4_define(pluma_version, pluma_major_version.pluma_minor_version.pluma_micro_version)
 
 AC_INIT([pluma], [pluma_version],
-    [https://github.com/mate-desktop/pluma/issues],
-    [pluma], [http://mate-desktop.org])
+    [https://github.com/Libre-MATE/pluma/issues],
+    [pluma], [https://github.com/Libre-MATE/pluma])
 
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(pluma/pluma.c)
