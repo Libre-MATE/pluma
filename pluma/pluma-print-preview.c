@@ -585,7 +585,7 @@ static void create_bar(PlumaPrintPreview *preview) {
   gtk_widget_show(GTK_WIDGET(i));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), i, -1);
 
-  g_signal_connect(GTK_TOOLBAR(toolbar), "button-press-event",
+  g_signal_connect(toolbar, "button-press-event",
                    G_CALLBACK(ignore_mouse_buttons), preview);
 }
 
