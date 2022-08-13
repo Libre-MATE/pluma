@@ -40,13 +40,6 @@ Other external plugins are also available.
 
 Pluma is released under the GNU General Public License (GPL) version 2, see the file 'COPYING' for more information.
 
-The official web site is:
-
-    https://mate-desktop.org/
-
-You can download the latest Pluma tarball from:
-
-    https://pub.mate-desktop.org/releases/
 
 ## Build/Installation
 
@@ -74,43 +67,3 @@ To get more information type the command below:
 ```
 $ ./configure --help
 ```
-
-
-## Running Tests
-
-Pluma has several test that can be run after compilation. Run them by issueing "make check". However there are a couple of requirements that need to be satisfied before they will pass.
-
-* You need the gsettings schemas installed for some tests to be able to run.
-* You need to mount sftp://localhost/ with gvfs-mount for one test to pass.
-
-If test fail and you have setup the above correctly then please file a bug report as described below.
-
-## How to report bugs
-
-Bugs should be reported to the MATE bug tracking system:
-
-  https://github.com/mate-desktop/Pluma/issues
-
-You will need to create an account for yourself.
-
-In the bug report please include:
-
-* Information about your system. For instance:
-    - What operating system and version
-    - What version of X
-    - What version of the gtk+, glib and mate libraries
-    - For Linux, what version of the C library
-
-* And anything else you think is relevant. For example:
-
-    - How to reproduce the bug.
-
-    - If the bug was a crash, the exact text that was printed out when the crash occurred.
-
-    - Further information such as stack traces may be useful, but is not necessary. If you do send a stack trace, and the error is an X error, it will be more useful if the stack trace is produced running the test program with the `--sync` command line option.
-
-## Patches
-
-Patches should also be submitted to https://github.com/mate-desktop/pluma, preferably via pull requests.
-
-The Pluma team.
