@@ -9,7 +9,7 @@ AC_INIT([pluma], [pluma_version],
     [https://github.com/Libre-MATE/pluma/issues],
     [pluma], [https://github.com/Libre-MATE/pluma])
 AC_PREREQ(2.63.2)
-
+AC_COPYRIGHT([Copyright (C) 2022 Libre MATE])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(pluma/pluma.c)
 AC_CONFIG_MACRO_DIR([m4])
