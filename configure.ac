@@ -1,7 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.63.2)
-
 m4_define(pluma_major_version, 1)
 m4_define(pluma_minor_version, 26)
 m4_define(pluma_micro_version, 0)
@@ -10,6 +8,7 @@ m4_define(pluma_version, pluma_major_version.pluma_minor_version.pluma_micro_ver
 AC_INIT([pluma], [pluma_version],
     [https://github.com/Libre-MATE/pluma/issues],
     [pluma], [https://github.com/Libre-MATE/pluma])
+AC_PREREQ(2.63.2)
 
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(pluma/pluma.c)
