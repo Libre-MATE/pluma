@@ -28,7 +28,8 @@ AC_COPYRIGHT([Copyright (C) 2022 Libre MATE])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(pluma/pluma.c)
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11 foreign dist-xz no-dist-gzip -Wno-portability silent-rules check-news])
+AM_INIT_AUTOMAKE([1.11 foreign dist-xz no-dist-gzip -Wno-portability check-news])
+AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE
 
 AC_DEFINE(PLUMA_MAJOR_VERSION, pluma_major_version, [Pluma major version])
