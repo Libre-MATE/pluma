@@ -18,11 +18,11 @@ typedef struct {
 } MessageCacheData;
 
 typedef struct {
-  guint row_inserted_id;
-  guint row_deleted_id;
-  guint root_changed_id;
-  guint begin_loading_id;
-  guint end_loading_id;
+  gulong row_inserted_id;
+  gulong row_deleted_id;
+  gulong root_changed_id;
+  gulong begin_loading_id;
+  gulong end_loading_id;
 
   GList *merge_ids;
   GtkActionGroup *merged_actions;
