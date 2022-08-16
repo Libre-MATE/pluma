@@ -1,4 +1,4 @@
 [submodule "pluma/mate-submodules"]
 	path = pluma/mate-submodules
-	url = https://github.com/rbuj/mate-submodules
+	url = https://github.com/Libre-MATE/mate-submodules
 	ignore = untracked
