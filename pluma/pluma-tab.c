@@ -698,7 +698,7 @@ static void document_loading(PlumaDocument *document, goffset size,
   et = g_timer_elapsed(tab->priv->timer, NULL);
 
   /* et : total_time = size : total_size */
-  total_time = (et * total_size) / size;
+  total_time = (et * (gdouble)total_size) / (gdouble)size;
 
   if ((total_time - et) > 3.0) {
     show_loading_message_area(tab);
@@ -895,7 +895,7 @@ static void document_saving(PlumaDocument *document, goffset size,
   et = g_timer_elapsed(tab->priv->timer, NULL);
 
   /* et : total_time = size : total_size */
-  total_time = (et * total_size) / size;
+  total_time = (et * (gdouble)total_size) / (gdouble)size;
 
   if ((total_time - et) > 3.0) {
     show_saving_message_area(tab);
