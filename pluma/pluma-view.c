@@ -993,7 +993,7 @@ static gboolean run_search(PlumaView *view, const gchar *entry_text,
 }
 
 /* Cut and paste from gtkwindow.c */
-static void send_focus_change(GtkWidget *widget, gboolean in) {
+static void send_focus_change(GtkWidget *widget, gint16 in) {
   GdkEvent *fevent = gdk_event_new(GDK_FOCUS_CHANGE);
 
   g_object_ref(widget);
