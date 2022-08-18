@@ -97,7 +97,7 @@ static GHashTable *load_language_mappings_group(GKeyFile *key_file,
   GHashTable *table;
   gchar **keys;
   gsize length = 0;
-  int i;
+  gsize i;
 
   table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 
@@ -493,25 +493,22 @@ static gboolean check_previous(GtkSourceView *view, ModelineOptions *previous,
     case MODELINE_SET_INSERT_SPACES:
       return gtk_source_view_get_insert_spaces_instead_of_tabs(view) ==
              previous->insert_spaces;
-      break;
     case MODELINE_SET_TAB_WIDTH:
       return gtk_source_view_get_tab_width(view) == previous->tab_width;
-      break;
-    case MODELINE_SET_INDENT_WIDTH:
-      return gtk_source_view_get_indent_width(view) == previous->indent_width;
-      break;
+    case MODELINE_SET_INDENT_WIDTH: {
+      gint indent_width = gtk_source_view_get_indent_width(view);
+      if (indent_width < 0) return FALSE;
+      return (guint)indent_width == previous->indent_width;
+    }
     case MODELINE_SET_WRAP_MODE:
       return gtk_text_view_get_wrap_mode(GTK_TEXT_VIEW(view)) ==
              previous->wrap_mode;
-      break;
     case MODELINE_SET_RIGHT_MARGIN_POSITION:
       return gtk_source_view_get_right_margin_position(view) ==
              previous->right_margin_position;
-      break;
     case MODELINE_SET_SHOW_RIGHT_MARGIN:
       return gtk_source_view_get_show_right_margin(view) ==
              previous->display_right_margin;
-      break;
     case MODELINE_SET_LANGUAGE: {
       GtkSourceLanguage *language = gtk_source_buffer_get_language(buffer);
 
@@ -519,10 +516,9 @@ static gboolean check_previous(GtkSourceView *view, ModelineOptions *previous,
              (language != NULL &&
               g_strcmp0(gtk_source_language_get_id(language),
                         previous->language_id) == 0);
-    } break;
+    }
     default:
       return FALSE;
-      break;
   }
 }
 
