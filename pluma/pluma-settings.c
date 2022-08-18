@@ -879,16 +879,29 @@ GSList *pluma_settings_get_list(GSettings *settings, const gchar *key) {
   return list;
 }
 
+/* e_util_slist_to_strv from evolution-data-server */
+static gchar ** slist_to_strv (const GSList *strings) {
+  const GSList *iter;
+  GPtrArray *array;
+
+  array = g_ptr_array_sized_new (g_slist_length ((GSList *) strings) + 1);
+
+  for (iter = strings; iter; iter = iter->next) {
+    const gchar *str = iter->data;
+    if (str) g_ptr_array_add (array, g_strdup (str));
+  }
+
+  /* NULL-terminated */
+  g_ptr_array_add (array, NULL);
+
+  return (gchar **) g_ptr_array_free (array, FALSE);
+}
+
 void pluma_settings_set_list(GSettings *settings, const gchar *key,
                              GSList *list) {
-  GArray *array;
-  GSList *l;
-  array = g_array_new(TRUE, TRUE, sizeof(gchar *));
-  for (l = list; l; l = l->next) {
-    array = g_array_append_val(array, l->data);
-  }
-  g_settings_set_strv(settings, key, (const gchar **)array->data);
-  g_array_free(array, TRUE);
+  gchar **strv = slist_to_strv (list);
+  g_settings_set_strv(settings, key, (const gchar **)strv);
+  g_strfreev (strv);
 }
 
 GSList *pluma_settings_get_writable_vfs_schemes(GSettings *settings) {
