@@ -33,12 +33,15 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n.h>
+#ifdef ENABLE_NLS
+#include <locale.h>
+#endif /* ENABLE_NLS */
+
 #include <errno.h>
 #include <gdk/gdkx.h>
 #include <glib.h>
-#include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <locale.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -444,11 +447,12 @@ int main(int argc, char *argv[]) {
   pluma_debug_init();
   pluma_debug_message(DEBUG_APP, "Startup");
 
+#ifdef ENABLE_NLS
   setlocale(LC_ALL, "");
-
   bindtextdomain(GETTEXT_PACKAGE, PLUMA_LOCALEDIR);
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
+#endif /* ENABLE_NLS */
 
   startup_timestamp = get_startup_timestamp();
 
